@@ -1,12 +1,11 @@
-HMMProjectMom@hotmail.com
+hmmprojectmom@hotmail.com
 Password: HMMProjectPasswordUniversal
 
-HMMProjectChild@hotmail.com
+hmmprojectchild@hotmail.com
 Password: HMMProjectPasswordUniversal
 
-HMMProjectHelper@hotmail.com
+hmmprojecthelper@hotmail.com
 Password: HMMProjectPasswordUniversal
-
 
 HMMProjectNotif@hotmail.com
 Password: HMMProjectPasswordUniversal
