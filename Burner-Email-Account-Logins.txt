@@ -9,4 +9,4 @@ Password: HMMProjectPasswordUniversal
 
 
 HMMProjectNotif@hotmail.com
-Password: HMMProjectPasswordUniversal$0
+Password: HMMProjectPasswordUniversal
