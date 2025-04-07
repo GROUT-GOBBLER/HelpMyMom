@@ -8,4 +8,4 @@ HMMProjectHelper@hotmail.com
 Password: HMMProjectPasswordUniversal
 
 HMMProjectNotif@hotmail.com
-Password: HMMProjectPasswordUniversal
+Password: HMMProjectPasswordUniversal$0
