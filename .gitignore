@@ -673,3 +673,5 @@ temp
 .packages
 /src/Templates/.tempTemplateOutput
 /basketballGAME/basketballAPI/obj
+HelpMyMom-PROJ/HelpMyMom-PROJ/obj/project.assets.json
+HelpMyMom-PROJ/HelpMyMom-PROJ/obj/project.nuget.cache
