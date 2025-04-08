@@ -34,7 +34,6 @@ public partial class SoftwareBirbContext : DbContext
     public virtual DbSet<Ticket> Tickets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=will-software-sql.database.windows.net;Database=SoftwareBirb;User Id=dbadmin;Password=$Egg420gryph;Encrypt=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
