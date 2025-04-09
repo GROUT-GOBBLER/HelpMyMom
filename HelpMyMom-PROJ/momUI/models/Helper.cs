@@ -11,8 +11,6 @@ public partial class Helper
 
     public string? LName { get; set; }
 
-    public string? Username { get; set; }
-
     public string? Email { get; set; }
 
     public string? Specs { get; set; }
