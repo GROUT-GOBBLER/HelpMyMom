@@ -3,7 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using HelpMyMom_PROJ.models;
 using HelpMyMom_PROJ;
@@ -12,7 +14,7 @@ using HelpMyMom_PROJ;
 
 namespace UnitTesting
 {
-    public class UnitTest1// : IAsyncLifetime
+    public class UnitTest1
     {
         private HttpClient _client;
         String chatlogs_url = "/api/ChatLogs";
@@ -28,65 +30,7 @@ namespace UnitTesting
         public UnitTest1() 
         {
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://localhost:5124"); // Replace with your momAPI's URL
-        }
-
-        // Setup method that runs before each test
-        public async Task InitializeAsync()
-        {
-            bool isApiAvailable = false;
-            for (int i = 0; i < 30; i++)
-            {
-                try
-                {
-                    var response = await _client.GetAsync("/swagger/index.html");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        isApiAvailable = true;
-                        break;
-                    }
-                }
-                catch
-                {
-                    // API not yet available, wait 1 second and retry
-                    await Task.Delay(1000);
-                }
-            }
-
-            if (!isApiAvailable)
-            {
-                throw new Exception("momAPI did not start within 30 seconds. Ensure the API is running on http://localhost:5124.");
-            }
-        }
-
-        // Cleanup method (required by IAsyncLifetime, can be empty)
-        public Task DisposeAsync()
-        {
-            return Task.CompletedTask;
-        }
-
-        [Fact]
-        public async Task Test1()
-        {
-            /*
-            var response = await _client.GetAsync("/api/ChatLogs");
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            // Add assertions here
-            var helpmymom = JsonConvert.DeserializeObject<List<object>>(content);
-           
-            Assert.NotNull(helpmymom);
-            */
-            var response = await _client.GetAsync("/WeatherForecast");
-            response.EnsureSuccessStatusCode();
-            // await InitializeAsync();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var weatherForecasts = JsonConvert.DeserializeObject<List<object>>(content);
-            Assert.NotNull(weatherForecasts);
-
-            //Assert.Equal(10, 10);
+            _client.BaseAddress = new Uri("http://localhost:5124"); 
         }
 
         [Fact]
@@ -97,19 +41,143 @@ namespace UnitTesting
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var tickets = JsonConvert.DeserializeObject<List<object>>(content);
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
 
-            Assert.Equal(10, 10);
-            /*
-            Assert.NotNull(tickets);
-            Assert.NotEmpty(tickets);
-            Assert.All(tickets, tckt => Assert.False(tckt.Equals(null)));
-            */
+            //     Assert.NotNull(objectChecking);
+            //    Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+           
+        }
+
+        [Fact]
+        public async Task GetMom()
+        {
+
+            var response = await _client.GetAsync(mothers_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            // Assert.NotNull(objectChecking);
+            //  Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
 
 
         }
 
+        [Fact]
+        public async Task GetHelper()
+        {
 
+            var response = await _client.GetAsync(helpers_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            //   Assert.NotNull(objectChecking);
+            //     Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
+
+        [Fact]
+        public async Task GetChatLogs()
+        {
+
+            var response = await _client.GetAsync(chatlogs_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+           // Assert.NotNull(objectChecking);
+           //  Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
+
+        [Fact]
+        public async Task GetSpecs()
+        {
+
+            var response = await _client.GetAsync(specs_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            //  Assert.NotNull(objectChecking);
+            // Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
+
+        [Fact]
+        public async Task GetReviews()
+        {
+
+            var response = await _client.GetAsync(reviews_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            // Assert.NotNull(objectChecking);
+            // Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
+
+        [Fact]
+        public async Task GetReports()
+        {
+
+            var response = await _client.GetAsync(reports_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            //    Assert.NotNull(objectChecking);
+            //   Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
+
+        [Fact]
+        public async Task GetChildren()
+        {
+
+            var response = await _client.GetAsync(children_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            //   Assert.NotNull(objectChecking);
+            //   Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
+
+        [Fact]
+        public async Task GetRelationships()
+        {
+
+            var response = await _client.GetAsync(relationships_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            // Assert.NotNull(objectChecking);
+            //  Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
+        }
 
     }
 }
