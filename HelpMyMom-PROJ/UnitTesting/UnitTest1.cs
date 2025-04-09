@@ -17,6 +17,8 @@ namespace UnitTesting
     public class UnitTest1
     {
         private HttpClient _client;
+
+        String accounts_url = "/api/Accounts";
         String chatlogs_url = "/api/ChatLogs";
         String children_url = "/api/Children";
         String helpers_url = "/api/Helpers";
@@ -30,7 +32,24 @@ namespace UnitTesting
         public UnitTest1() 
         {
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://localhost:5124"); 
+           // _client.BaseAddress = new Uri("http://localhost:5124");
+            _client.BaseAddress = new Uri("https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net");
+        }
+
+        [Fact]
+        public async Task GetAccounts()
+        {
+
+            var response = await _client.GetAsync(accounts_url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var objectChecking = JsonConvert.DeserializeObject<List<object>>(content);
+
+            //     Assert.NotNull(objectChecking);
+            //    Assert.NotEmpty(objectChecking);
+            Assert.All(objectChecking, thing => Assert.False(thing.Equals(null)));
+
         }
 
         [Fact]
