@@ -11,8 +11,6 @@ public partial class Child
 
     public string? LName { get; set; }
 
-    public string? Username { get; set; }
-
     public string? Email { get; set; }
 
     public virtual ICollection<Relationship> Relationships { get; set; } = new List<Relationship>();

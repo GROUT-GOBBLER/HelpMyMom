@@ -15,6 +15,8 @@ public partial class SoftwareBirbContext : DbContext
     {
     }
 
+    public virtual DbSet<Account> Accounts { get; set; }
+
     public virtual DbSet<ChatLog> ChatLogs { get; set; }
 
     public virtual DbSet<Child> Children { get; set; }
@@ -34,10 +36,26 @@ public partial class SoftwareBirbContext : DbContext
     public virtual DbSet<Ticket> Tickets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=will-software-sql.database.windows.net;Database=SoftwareBirb;User Id=dbadmin;Password=$Egg420gryph;Encrypt=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Account>(entity =>
+        {
+            entity.HasKey(e => e.Username);
+
+            entity.Property(e => e.Username)
+                .HasMaxLength(100)
+                .HasColumnName("username");
+            entity.Property(e => e.ChildId).HasColumnName("childID");
+            entity.Property(e => e.HelperId).HasColumnName("helperID");
+            entity.Property(e => e.MomId).HasColumnName("momID");
+            entity.Property(e => e.Password)
+                .HasMaxLength(100)
+                .HasColumnName("password");
+        });
+
         modelBuilder.Entity<ChatLog>(entity =>
         {
             entity.ToTable("ChatLog");
@@ -79,9 +97,6 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.LName)
                 .HasMaxLength(35)
                 .HasColumnName("lName");
-            entity.Property(e => e.Username)
-                .HasMaxLength(100)
-                .HasColumnName("username");
         });
 
         modelBuilder.Entity<Helper>(entity =>
@@ -110,9 +125,6 @@ public partial class SoftwareBirbContext : DbContext
                 .HasMaxLength(300)
                 .HasColumnName("specs");
             entity.Property(e => e.Tokens).HasColumnName("tokens");
-            entity.Property(e => e.Username)
-                .HasMaxLength(100)
-                .HasColumnName("username");
         });
 
         modelBuilder.Entity<Mother>(entity =>
@@ -130,9 +142,6 @@ public partial class SoftwareBirbContext : DbContext
                 .HasMaxLength(35)
                 .HasColumnName("lName");
             entity.Property(e => e.Tokens).HasColumnName("tokens");
-            entity.Property(e => e.Username)
-                .HasMaxLength(100)
-                .HasColumnName("username");
         });
 
         modelBuilder.Entity<Relationship>(entity =>
