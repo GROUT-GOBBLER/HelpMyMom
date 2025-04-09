@@ -31,6 +31,18 @@ namespace HelpMyMom_PROJ
             app.MapControllers();
 
             app.Run();
+            /*
+             * {
+                "id": 0,
+                "fName": "string",
+                "lName": "string",
+                "username": "string",
+                "email": "string",
+                "relationships": [],
+                 "reports": [],
+                "tickets": []
+                }
+             */
         }
     }
 }
