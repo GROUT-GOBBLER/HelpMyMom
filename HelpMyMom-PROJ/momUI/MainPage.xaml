@@ -40,12 +40,22 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <HorizontalStackLayout>                
+            <HorizontalStackLayout
+                HorizontalOptions="CenterAndExpand">
+                <Entry 
+                    x:Name="MessageTextEntry"
+                    Placeholder="Enter your message."
+                    TextChanged="MessageTextEntry_TextChanged"
+                    ClearButtonVisibility="WhileEditing"
+                    VerticalOptions="End"            
+                    HorizontalOptions="StartAndExpand" />
+                
                 <Button
                     x:Name="GenerateChatMessages"
                     Text="Show all Messages."     
                     SemanticProperties.Hint="See messages"
                     Clicked="GenerateChatMessages_Clicked"
+                    VerticalOptions="End"
                     HorizontalOptions="End" />
             </HorizontalStackLayout>
             

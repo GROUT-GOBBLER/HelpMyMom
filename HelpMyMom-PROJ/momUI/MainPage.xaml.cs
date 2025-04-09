@@ -8,6 +8,7 @@ namespace momUI
     public partial class MainPage : ContentPage
     {
         List<ChatLog> chatMessages;
+        String messageToSend;
 
         public MainPage()
         {
@@ -18,16 +19,45 @@ namespace momUI
 
         async private void GenerateChatMessages_Clicked(object sender, EventArgs e)
         {
-            string URL = $"http://localhost:5124/api/ChatLogs";
+            string URL = "http://localhost:5124/api/ChatLogs";
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync($"{URL}");
+                    // Get entries from chat log table from DB.
+                    HttpResponseMessage response = await client.GetAsync(URL);
                     String json = await response.Content.ReadAsStringAsync();
                     List<ChatLog> chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json);
 
-                    GenerateChatMessages.Text = $"Current chat logs as of {DateTime.Now.ToString()}";
+                    // Create new message.
+                    ChatLog newChatLog = new ChatLog();
+                    int length = chatLogList.Count();
+                        newChatLog.Id = chatLogList[length - 1].Id + 1;
+                        newChatLog.TicketId = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
+                        newChatLog.Time = DateTime.Now;
+                        newChatLog.IsMom = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
+                        newChatLog.Text = messageToSend;
+                        newChatLog.Image = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
+                        newChatLog.Ticket = null; // might NEED TO CHANGE THIS AT SOME POINT!
+
+                    HttpResponseMessage createResponse = await client.PostAsJsonAsync(URL, newChatLog); // post new message.
+                        if(createResponse.IsSuccessStatusCode)
+                        {
+                            GenerateChatMessages.Text = "Message added successfully.";
+                        }
+                        else
+                        {
+                            GenerateChatMessages.Text = "Message was not added.";
+                        }
+
+                    // Refresh entries from chat log table.
+                    response = await client.GetAsync($"{URL}");
+                    json = await response.Content.ReadAsStringAsync();
+                    chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json);
+
+                    // Display new chat log entries.
+                    // WILL NEED TO BE SET ON A TIMER INSTEAD OF PER BUTTON PRESS IN THE FUTURE!
+                    GenerateChatMessages.Text += $"\nCurrent chat logs as of {DateTime.Now.ToString()}";
                     chatMessages = chatLogList;
                     ChatMessageListView.ItemsSource = chatMessages;
                 }
@@ -36,27 +66,12 @@ namespace momUI
                     GenerateChatMessages.Text = $"EXCEPTION OCCURED {ex}";
                 }
             }
+            messageToSend = null;
         }
 
-        //async private void OnCounterClicked(object sender, EventArgs e)
-        //{
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        try
-        //        {
-        //            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}/{1}");
-
-        //            string json = await response2.Content.ReadAsStringAsync();
-
-        //            Spec Specs = JsonConvert.DeserializeObject<Spec>(json);
-
-        //            CounterBtn.Text = $" id: {Specs.Id} String: {Specs.Name}";
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            CounterBtn.Text = $" {ex}";
-        //        }
-        //    }
-        //}
+        private void MessageTextEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            messageToSend = e.NewTextValue;
+        }
     }
 }
