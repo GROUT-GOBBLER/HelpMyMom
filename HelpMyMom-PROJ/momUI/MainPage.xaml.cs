@@ -13,6 +13,8 @@
         {
             count++;
 
+            EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", 1);
+
             if (count == 1)
                 CounterBtn.Text = $"Clicked {count} time";
             else
