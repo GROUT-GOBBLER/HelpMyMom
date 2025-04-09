@@ -23,6 +23,9 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+            <Entry x:Name="PasswordEntry"
+                Placeholder="Enter Passsword"
+             />
 
             <Button
                 x:Name="CounterBtn"
