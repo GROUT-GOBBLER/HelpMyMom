@@ -26,6 +26,12 @@
             <Entry x:Name="PasswordEntry"
                 Placeholder="Enter Passsword"
              />
+            <Button
+                x:Name="CreateAccount"
+                Text="Create Account" 
+                SemanticProperties.Hint="Get"
+                Clicked="CreateAccount_Clicked"
+                HorizontalOptions="Fill" />
 
             <Button
                 x:Name="CounterBtn"
