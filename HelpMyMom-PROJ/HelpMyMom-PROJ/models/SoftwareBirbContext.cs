@@ -152,13 +152,13 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.ChildId).HasColumnName("childId");
             entity.Property(e => e.MomId).HasColumnName("momId");
 
-            entity.HasOne(d => d.Child).WithMany(p => p.Relationships)
-                .HasForeignKey(d => d.ChildId)
-                .HasConstraintName("children1");
+            //entity.HasOne(d => d.Child).WithMany(p => p.Relationships)
+            //    .HasForeignKey(d => d.ChildId)
+            //    .HasConstraintName("children1");
 
-            entity.HasOne(d => d.Mom).WithMany(p => p.Relationships)
-                .HasForeignKey(d => d.MomId)
-                .HasConstraintName("Moms");
+            //entity.HasOne(d => d.Mom).WithMany(p => p.Relationships)
+            //    .HasForeignKey(d => d.MomId)
+            //    .HasConstraintName("Moms");
         });
 
         modelBuilder.Entity<Report>(entity =>
