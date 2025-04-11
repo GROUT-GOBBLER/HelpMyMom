@@ -19,13 +19,13 @@ namespace momUI
 
         async private void GenerateChatMessages_Clicked(object sender, EventArgs e)
         {
-            string URL = "http://localhost:5124/api/ChatLogs";
+            string URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
                     // Get entries from chat log table from DB.
-                    HttpResponseMessage response = await client.GetAsync(URL);
+                    HttpResponseMessage response = await client.GetAsync($"{URL}/{"Chatlogs"}");
                     String json = await response.Content.ReadAsStringAsync();
                     List<ChatLog> chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json);
 
@@ -40,7 +40,7 @@ namespace momUI
                         newChatLog.Image = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
                         newChatLog.Ticket = null; // might NEED TO CHANGE THIS AT SOME POINT!
 
-                    HttpResponseMessage createResponse = await client.PostAsJsonAsync(URL, newChatLog); // post new message.
+                    HttpResponseMessage createResponse = await client.PostAsJsonAsync($"{URL}/{"Chatlogs"}", newChatLog); // post new message.
                         if(createResponse.IsSuccessStatusCode)
                         {
                             GenerateChatMessages.Text = "Message added successfully.";
@@ -51,7 +51,7 @@ namespace momUI
                         }
 
                     // Refresh entries from chat log table.
-                    response = await client.GetAsync($"{URL}");
+                    response = await client.GetAsync($"{URL}/{"Chatlogs"}");
                     json = await response.Content.ReadAsStringAsync();
                     chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json);
 
