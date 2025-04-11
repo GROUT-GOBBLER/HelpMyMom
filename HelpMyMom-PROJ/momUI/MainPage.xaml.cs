@@ -8,7 +8,6 @@ namespace momUI
     {
         //string URL = $"http://localhost:5124/api";
         string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-   
 
         public MainPage()
         {
@@ -34,9 +33,8 @@ namespace momUI
                 {
                     CounterBtn.Text = $" {ex}";
                 }
-                   
 
-
+                EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", 1);
 
             }
         }
@@ -53,28 +51,13 @@ namespace momUI
                     s.Name = "Microsoft Word";
                     HttpResponseMessage response = await client.PostAsJsonAsync($"{URL}/{"Specs"}", s); 
 
-                   
-
                     post.Text = $" success";
-
                 }
                 catch (Exception ex)
                 {
                     post.Text = $" {ex}";
                 }
-
-
-
-
             }
-
-            EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", 1);
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
         }
     }
 
