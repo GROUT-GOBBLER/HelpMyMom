@@ -45,6 +45,12 @@
                  SemanticProperties.Hint="Post"
                 Clicked="post_Clicked"
                 HorizontalOptions="Fill" />
+            <Button
+                x:Name="switchPage"
+                Text="Click me" 
+                SemanticProperties.Hint="Post"
+                Clicked="switchPage_Clicked"
+                HorizontalOptions="Fill" />
 
         </VerticalStackLayout>
     </ScrollView>

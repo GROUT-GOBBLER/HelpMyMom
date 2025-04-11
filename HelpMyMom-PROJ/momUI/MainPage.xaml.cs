@@ -7,7 +7,9 @@ namespace momUI
 {
     public partial class MainPage : ContentPage
     {
-        string URL = $"http://localhost:5124/api";
+        //string URL = $"http://localhost:5124/api";
+        string URL = $" https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+     
         Account account;
         Mother mother;
         Child child;
@@ -200,6 +202,11 @@ namespace momUI
 
 
             }
+        }
+
+        async private void switchPage_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Page2());
         }
     }
 
