@@ -22,7 +22,7 @@ namespace momUI
                 try
                 {
                     HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}/{1}");
-
+                    
                     string json = await response2.Content.ReadAsStringAsync();
 
                     Spec Specs = JsonConvert.DeserializeObject<Spec>(json);
@@ -67,6 +67,13 @@ namespace momUI
 
 
             }
+
+            EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", 1);
+
+            if (count == 1)
+                CounterBtn.Text = $"Clicked {count} time";
+            else
+                CounterBtn.Text = $"Clicked {count} times";
 
         }
     }
