@@ -6,8 +6,8 @@ namespace momUI
 {
     public partial class MainPage : ContentPage
     {
-        string URL = $"http://localhost:5124/api";
-   
+        //string URL = $"http://localhost:5124/api";
+        string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
         public MainPage()
         {
@@ -21,7 +21,7 @@ namespace momUI
                 try
                 {
                     HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}/{1}");
-
+                    
                     string json = await response2.Content.ReadAsStringAsync();
 
                     Spec Specs = JsonConvert.DeserializeObject<Spec>(json);
@@ -33,9 +33,8 @@ namespace momUI
                 {
                     CounterBtn.Text = $" {ex}";
                 }
-                   
 
-
+                EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", 1);
 
             }
         }
@@ -52,21 +51,13 @@ namespace momUI
                     s.Name = "Microsoft Word";
                     HttpResponseMessage response = await client.PostAsJsonAsync($"{URL}/{"Specs"}", s); 
 
-                   
-
                     post.Text = $" success";
-
                 }
                 catch (Exception ex)
                 {
                     post.Text = $" {ex}";
                 }
-
-
-
-
             }
-
         }
     }
 

@@ -26,13 +26,13 @@
 
             <Button
                 x:Name="CounterBtn"
-                Text="Click me" 
+                Text="EMAIL" 
                 SemanticProperties.Hint="Get"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
             <Button
                 x:Name="post"
-                Text="Click me" 
+                Text="POST" 
                  SemanticProperties.Hint="Post"
                 Clicked="post_Clicked"
                 HorizontalOptions="Fill" />
