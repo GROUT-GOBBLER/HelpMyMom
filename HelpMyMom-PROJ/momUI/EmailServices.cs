@@ -6,6 +6,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+// EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", [Ticket]);
+
 namespace momUI
 {
     public static class EmailServices
