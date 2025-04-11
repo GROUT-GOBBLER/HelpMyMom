@@ -23,19 +23,19 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
+            <Entry x:Name="UsernameEntry"
+                 Placeholder="Enter Username"
+            />
+            <Entry x:Name="PasswordEntry"
+                 Placeholder="Enter Password"
+            />
             <Button
-                x:Name="CounterBtn"
-                Text="EMAIL" 
+                x:Name="LoginButton"
+                Text="Login" 
                 SemanticProperties.Hint="Get"
-                Clicked="OnCounterClicked"
+                Clicked="LoginButton_Clicked"
                 HorizontalOptions="Fill" />
-            <Button
-                x:Name="post"
-                Text="POST" 
-                 SemanticProperties.Hint="Post"
-                Clicked="post_Clicked"
-                HorizontalOptions="Fill" />
+          
 
         </VerticalStackLayout>
     </ScrollView>
