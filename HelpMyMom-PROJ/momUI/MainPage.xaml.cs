@@ -18,8 +18,32 @@ namespace momUI
 
        
 
-        private void LoginButton_Clicked(object sender, EventArgs e)
+        async private void LoginButton_Clicked(object sender, EventArgs e)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Accounts"}/{UsernameEntry.Text}");
+
+                    string json = await response2.Content.ReadAsStringAsync();
+
+                    Account a = JsonConvert.DeserializeObject<Account>(json);
+
+
+                    LoginButton.Text = $" id: {a.Username} ChildId: {a.ChildId}, MomId: {a.MomId}, HelperId {a.HelperId}";
+
+                    
+                }
+                catch (Exception ex)
+                {
+                    LoginButton.Text = $" {ex}";
+                }
+
+
+
+
+            }
 
         }
     }
