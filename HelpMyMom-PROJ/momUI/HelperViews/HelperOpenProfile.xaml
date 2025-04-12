@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.HelperViews.HelperOpenProfile"
+             Title="HelperOpenProfile">
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="20,20,20,20"
+            Spacing="20">
+            <Frame HeightRequest="200"
+                   WidthRequest="200"
+                   CornerRadius="100"
+                   HorizontalOptions="Center"
+                   IsClippedToBounds="True"
+                   Padding="0"
+                   BorderColor="Gray"
+                   Margin="0,0,0,0">
+
+                <Image
+                    Aspect="AspectFit"
+                    Source="dotnet_bot.png"
+                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                    HeightRequest="200"
+                    WidthRequest="200"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+            </Frame>
+
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="Username: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="UsernameLabel"
+                        Text="What's up my gaming gamers?"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        FontAttributes="Bold" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <Label
+                x:Name="FirstNameLabel"
+                Text="First Name: "
+                FontSize="50"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+            <Label
+                x:Name="LastNameLabel"
+                Text="Last Name: "
+                FontSize="50"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+            <Label
+                x:Name="DescriptionLabel"
+                Text="Description: "
+                FontSize="50"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+            <Label
+                x:Name="SpecialtiesLabel"
+                Text="Specialties: "
+                FontSize="50"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+            <!-- Temporary Label used for exception handling. -->
+            <Label
+                x:Name="ExceptionDisplayLabel"
+                Text="Any potential exceptions will be displayed here."
+                FontSize="20"
+                VerticalOptions="Start"
+                HorizontalOptions="Start" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

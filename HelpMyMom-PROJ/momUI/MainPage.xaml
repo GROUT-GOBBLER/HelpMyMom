@@ -25,17 +25,11 @@
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
 
             <Button
-                x:Name="CounterBtn"
-                Text="EMAIL" 
-                SemanticProperties.Hint="Get"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
-            <Button
-                x:Name="post"
-                Text="POST" 
-                 SemanticProperties.Hint="Post"
-                Clicked="post_Clicked"
-                HorizontalOptions="Fill" />
+                x:Name="HelperViewButton"
+                Text="HELPER" 
+                SemanticProperties.Hint="Open Helper View."
+                Clicked="HelperViewButton_Clicked"
+                HorizontalOptions="Center" />
 
         </VerticalStackLayout>
     </ScrollView>
