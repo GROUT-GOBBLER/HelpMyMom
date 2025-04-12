@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.ChildMenu"
+             Title="Child Menu">
+    <VerticalStackLayout>
+        <Label 
+            Text="Signed in as [user]"
+            FontSize="20"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <HorizontalStackLayout>
+            <Button
+                x:Name="settingBtn"
+                Text="Settings" 
+                FontSize="30"
+                LineBreakMode="WordWrap"
+                BackgroundColor="Grey"
+                Margin="40,10,0,0"
+                SemanticProperties.Hint="Get"
+                Clicked="NothingClicked"
+                HorizontalOptions="Fill" />
+
+            <Button
+                x:Name="LogOutBtn"
+                Text="Log out" 
+                FontSize="30"
+                LineBreakMode="WordWrap"
+                BackgroundColor="Grey"
+                Margin="50,10,0,0"
+                SemanticProperties.Hint="Get"
+                Clicked="NothingClicked"
+                HorizontalOptions="Fill" />
+        </HorizontalStackLayout>
+
+        <Button
+            x:Name="CreateBtn"
+            Text="Create A Help Ticket" 
+            FontSize="50"
+            Margin="0,40,0,0"
+            LineBreakMode="WordWrap"
+            SemanticProperties.Hint="Get"
+            Clicked="CreateTicketClicked"
+            HorizontalOptions="Fill" />
+
+        <Label 
+            Text=" " 
+            FontSize="70"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Button
+            x:Name="AssignBtn"
+            Text="Assign Helper" 
+            FontSize="50"
+            SemanticProperties.Hint="Get"
+            Clicked="CreateTicketClicked"
+            HorizontalOptions="Fill" />
+
+        <Label 
+            Text=" " 
+            FontSize="70"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Button
+            x:Name="ProgressBtn"
+            Text="Ticket Progress" 
+            FontSize="50"
+            SemanticProperties.Hint="Get"
+            Clicked="CreateTicketClicked"
+            HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>

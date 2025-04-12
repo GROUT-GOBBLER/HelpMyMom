@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace momUI.models;
-
 public partial class Helper
 {
     public int Id { get; set; }
@@ -10,8 +9,6 @@ public partial class Helper
     public string? FName { get; set; }
 
     public string? LName { get; set; }
-
-    public string? Username { get; set; }
 
     public string? Email { get; set; }
 

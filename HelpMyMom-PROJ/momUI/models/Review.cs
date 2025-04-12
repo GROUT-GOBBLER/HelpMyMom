@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace momUI.models;
-
 public partial class Review
 {
     public int Id { get; set; }

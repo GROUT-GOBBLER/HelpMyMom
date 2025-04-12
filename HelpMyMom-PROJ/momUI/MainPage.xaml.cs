@@ -18,47 +18,8 @@ namespace momUI
         {
             using (HttpClient client = new HttpClient())
             {
-                try
-                {
-                    HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}/{1}");
-                    
-                    string json = await response2.Content.ReadAsStringAsync();
-
-                    Spec Specs = JsonConvert.DeserializeObject<Spec>(json);
-
-                    CounterBtn.Text = $" id: {Specs.Id} String: {Specs.Name}";
-
-                }
-                    catch (Exception ex)
-                {
-                    CounterBtn.Text = $" {ex}";
-                }
-
-                EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", 1);
-
-            }
-        }
-
-        async private void post_Clicked(object sender, EventArgs e)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-
-                    Spec s = new Spec();
-                    s.Id = 2;
-                    s.Name = "Microsoft Word";
-                    HttpResponseMessage response = await client.PostAsJsonAsync($"{URL}/{"Specs"}", s); 
-
-                    post.Text = $" success";
-                }
-                catch (Exception ex)
-                {
-                    post.Text = $" {ex}";
-                }
+                await Navigation.PushAsync(new ChildMenu());
             }
         }
     }
-
 }
