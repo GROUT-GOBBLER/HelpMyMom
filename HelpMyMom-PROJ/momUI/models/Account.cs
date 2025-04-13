@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HelpMyMom_PROJ.models;
+namespace momUI.models;
 
 public partial class Account
 {

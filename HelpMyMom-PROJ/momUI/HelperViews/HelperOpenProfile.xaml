@@ -6,26 +6,31 @@
     <ScrollView>
         <VerticalStackLayout
             Margin="20,20,20,20"
-            Spacing="20">
-            <Frame HeightRequest="200"
-                   WidthRequest="200"
-                   CornerRadius="100"
-                   HorizontalOptions="Center"
-                   IsClippedToBounds="True"
-                   Padding="0"
-                   BorderColor="Gray"
-                   Margin="0,0,0,0">
-
+            Spacing="10">
+            <!-- Profile Picture. -->
+            <Frame 
+                HeightRequest="200"
+                WidthRequest="200"
+                CornerRadius="100"
+                HorizontalOptions="Center"
+                IsClippedToBounds="True"
+                Padding="0"
+                BorderColor="Gray"
+                Margin="0,0,0,0">
+                
                 <Image
+                    x:Name="ProfilePictureImage"
                     Aspect="AspectFit"
-                    Source="dotnet_bot.png"
+                    Source="mr_worldwide.jpg"
+                    Scale="1.2"
                     SemanticProperties.Description="Cute dot net bot waving hi to you!"
                     HeightRequest="200"
                     WidthRequest="200"
                     VerticalOptions="Center"
                     HorizontalOptions="Center" />
             </Frame>
-
+            
+            <!-- USERNAME. -->
             <VerticalStackLayout
                 Padding="0"
                 HorizontalOptions="Center"
@@ -44,51 +49,141 @@
                     BackgroundColor="LightGray">
                     <Label 
                         x:Name="UsernameLabel"
-                        Text="What's up my gaming gamers?"
                         FontSize="25"
                         TextColor="Black"
                         HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        FontAttributes="Bold" />
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+            
+            <!-- FIRST NAME. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="First Name: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="FirstNameLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
                 </Frame>
             </VerticalStackLayout>
 
-            <Label
-                x:Name="FirstNameLabel"
-                Text="First Name: "
+            <!-- LAST NAME. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="Last Name: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="LastNameLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+            
+            <!-- DESCRIPTION. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="Description: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="DescriptionLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- SPECS LIST. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="Specialties: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <ListView 
+                        x:Name="SpecialtiesListView"                    
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="LightGray"
+                        VerticalScrollBarVisibility="Never" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label 
+                                        Text="{Binding}" 
+                                        FontSize="25"
+                                        TextColor="Black"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+            </VerticalStackLayout>
+            
+            <!-- EDIT BUTTON. -->
+            <Button 
+                x:Name="ProfileEditButton"
+                Text="EDIT PROFILE" 
                 FontSize="50"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Change the fields in your profile."
+                Clicked="ProfileEditButton_Clicked"
                 VerticalOptions="Center"
-                HorizontalOptions="Center" />
-
-            <Label
-                x:Name="LastNameLabel"
-                Text="Last Name: "
-                FontSize="50"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
-
-            <Label
-                x:Name="DescriptionLabel"
-                Text="Description: "
-                FontSize="50"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
-
-            <Label
-                x:Name="SpecialtiesLabel"
-                Text="Specialties: "
-                FontSize="50"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
-
-            <!-- Temporary Label used for exception handling. -->
-            <Label
-                x:Name="ExceptionDisplayLabel"
-                Text="Any potential exceptions will be displayed here."
-                FontSize="20"
-                VerticalOptions="Start"
-                HorizontalOptions="Start" />
-
+                HorizontalOptions="Center" 
+                Padding="10"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.HelperViews.HelperEditProfile"
+             Title="HelperEditProfile">
+    <VerticalStackLayout
+        Margin="20,20,20,20"
+        Spacing="10">
+        <Label 
+            Text="EDIT Profile!"
+            FontSize="50"
+            FontAttributes="Bold"
+            VerticalOptions="Start" 
+            HorizontalOptions="Start" />
+
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Username: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+            
+            <Entry 
+                x:Name="UsernameEntry" 
+                Placeholder="..." 
+                TextChanged="UsernameEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+            
+            <Button
+                x:Name="UsernameEditButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited user name for profile."
+                Clicked="UsernameEditButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
