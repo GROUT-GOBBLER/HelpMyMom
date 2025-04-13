@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using momUI.models;
 using Newtonsoft.Json;
 namespace momUI
@@ -106,9 +107,9 @@ namespace momUI
 
         }
 
-        private void QuickLogin_Clicked(object sender, EventArgs e)
+        async private void QuickLogin_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new QuickLogin());
         }
     }
 

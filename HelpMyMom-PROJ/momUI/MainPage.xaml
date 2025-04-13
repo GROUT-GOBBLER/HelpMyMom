@@ -11,7 +11,8 @@
      HorizontalOptions="Fill">
      
         <HorizontalStackLayout
-             HorizontalOptions="Fill">
+             HorizontalOptions="Fill"
+            Spacing="160">
             <Button
                 x:Name="AccessibiltySettings"
                 Text="Accessibility" 
@@ -34,7 +35,7 @@
         
 
             <VerticalStackLayout
-                Padding="30,0"
+                Padding="30,80"
                 Spacing="25"
                 VerticalOptions="Center">
             
