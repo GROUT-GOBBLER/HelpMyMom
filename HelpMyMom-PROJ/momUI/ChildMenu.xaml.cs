@@ -12,6 +12,17 @@ public partial class ChildMenu : ContentPage
     {
         await Navigation.PushAsync(new ChildTicketFactory());
     }
+
+    async private void AssignHelperClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new AssignHelperPage());
+    }
+
+    async private void ViewProgressClicked(object sender, EventArgs e)
+    {
+
+    }
+
     private void NothingClicked(object sender, EventArgs e)
     {
 

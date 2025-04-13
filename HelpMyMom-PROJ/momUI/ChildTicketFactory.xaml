@@ -12,19 +12,20 @@
 
         <Label 
             Text="Please expain the issue"
-            Margin="10,20,0,0"
-            FontSize="30"
+            Margin="5,20,0,0"
+            FontSize="35"
             VerticalOptions="Center" 
             HorizontalOptions="Start" />
 
-        <Entry 
-                x:Name="TeamOneEntry"
-                Placeholder="Details"
-                FontSize="30"
-                TextChanged="DetailsEntry_TextChanged"
-                ClearButtonVisibility="WhileEditing"
-                VerticalOptions="Center"            
-                HorizontalOptions="Fill" />
+        <Editor
+            x:Name="DetailsEntry"
+            Placeholder="Details"
+            FontSize="30"
+            IsSpellCheckEnabled="True"
+            TextChanged="DetailsEntry_TextChanged"
+            HeightRequest ="400"
+            VerticalOptions="Center"            
+            HorizontalOptions="Fill" />
 
         <Button
             x:Name="settingBtn"
@@ -32,7 +33,7 @@
             FontSize="30"
             LineBreakMode="WordWrap"
             BackgroundColor="DarkOliveGreen"
-            Margin="10,10,10,0"
+            Margin="10,50,10,0"
             SemanticProperties.Hint="Get"
             Clicked="NothingClicked"
             HorizontalOptions="Fill" />

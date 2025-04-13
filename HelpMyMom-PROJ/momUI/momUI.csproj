@@ -64,6 +64,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AssignHelperPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ChildMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

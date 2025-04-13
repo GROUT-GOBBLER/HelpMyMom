@@ -55,7 +55,7 @@
             Text="Assign Helper" 
             FontSize="50"
             SemanticProperties.Hint="Get"
-            Clicked="CreateTicketClicked"
+            Clicked="AssignHelperClicked"
             HorizontalOptions="Fill" />
 
         <Label 
