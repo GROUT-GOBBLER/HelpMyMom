@@ -14,6 +14,11 @@ namespace momUI
             InitializeComponent();
         }
 
+        async private void GoToMomMenuClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new MomMenu());
+        }
+
         async private void OnCounterClicked(object sender, EventArgs e)
         {
             using (HttpClient client = new HttpClient())

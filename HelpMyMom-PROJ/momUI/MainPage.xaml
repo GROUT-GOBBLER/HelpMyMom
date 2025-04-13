@@ -26,15 +26,21 @@
 
             <Button
                 x:Name="CounterBtn"
-                Text="EMAIL" 
+                Text="EMAIL1" 
                 SemanticProperties.Hint="Get"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
             <Button
                 x:Name="post"
                 Text="POST" 
-                 SemanticProperties.Hint="Post"
+                SemanticProperties.Hint="Post"
                 Clicked="post_Clicked"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="GoToMomMenu"
+                Text="Go to Mom Menu" 
+                SemanticProperties.Hint="Something"
+                Clicked="GoToMomMenuClicked"
                 HorizontalOptions="Fill" />
 
         </VerticalStackLayout>

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.MomMenu">
+
+
+        
+        <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Grid Padding="20">
+                <!-- Define rows for the layout -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <!-- For Current Balance -->
+                    <RowDefinition Height="Auto" />
+                    <!-- For Open Chats and Create Ticket buttons -->
+                    <RowDefinition Height="*" />
+                    <!-- For the main content -->
+                </Grid.RowDefinitions>
+
+                <!-- Current Balance Label -->
+                <Label Grid.Row="0"
+                    Text="{Binding BalanceLabel}" 
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Margin="0,10,0,20"
+                    LineBreakMode="WordWrap" />
+                <!--Text="Current Balance: $X.XX" -->
+            </Grid>
+
+            <Button x:Name="OpenChatBtn"
+                Text="OPEN CHATS"
+                BackgroundColor="Purple"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                WidthRequest="250"
+                HeightRequest="80"
+                CornerRadius="10" 
+                Clicked="OnOpenChatsClicked"
+                LineBreakMode="WordWrap" />
+
+            <Button x:Name="CreateTicketBtn"
+                Text="CREATE A HELP TICKET"
+                BackgroundColor="Purple"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                WidthRequest="250"
+                HeightRequest="80"
+                CornerRadius="10" 
+                Clicked="OnCreateTicketClicked"
+                LineBreakMode="WordWrap" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="EMAIL" 
+                SemanticProperties.Hint="Get"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="post"
+                Text="POST" 
+                    SemanticProperties.Hint="Post"
+                Clicked="post_Clicked"
+                HorizontalOptions="Fill" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
