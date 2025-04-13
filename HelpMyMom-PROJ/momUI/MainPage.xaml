@@ -3,11 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.MainPage">
 
-    <ScrollView>
+
+    <VerticalStackLayout
+     Padding="20,0"
+     Spacing="25"
+     VerticalOptions="Start"
+     HorizontalOptions="Fill">
+     
         <HorizontalStackLayout
-            Padding="30,0"
-            Spacing="25"
-            VerticalOptions="Center">
+             HorizontalOptions="Fill">
             <Button
                 x:Name="AccessibiltySettings"
                 Text="Accessibility" 
@@ -15,6 +19,7 @@
                 Clicked ="AccessibiltySettings_Clicked"
                 VerticalOptions="Center"
                 HorizontalOptions="Start" />
+
             <Button
                 x:Name="QuickLogin"
                 Text="Quick Login" 
@@ -22,51 +27,57 @@
                 Clicked ="QuickLogin_Clicked"
                 VerticalOptions="Center"
                 HorizontalOptions="End" />
-        </HorizontalStackLayout>    
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25"
-            VerticalOptions="Center">
+
+        </HorizontalStackLayout>
+
+        <ScrollView>
+        
+
+            <VerticalStackLayout
+                Padding="30,0"
+                Spacing="25"
+                VerticalOptions="Center">
             
 
 
-            <Label
-                Text="Help My Mom"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" 
-                VerticalOptions="Start"/>
+                <Label
+                    Text="Help My Mom"
+                    Style="{StaticResource Headline}"
+                    SemanticProperties.HeadingLevel="Level1" 
+                    VerticalOptions="Start"/>
 
-            <Label
-                Text="For mothers everywhere"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
-                VerticalOptions="Start"/>
-            <Entry x:Name="UsernameEntry"
-                 Placeholder="Enter Username"
-                 VerticalOptions="Center"
-            />
-            <Entry x:Name="PasswordEntry"
-                 Placeholder="Enter Password"
-                  VerticalOptions="Center"
-            />
-            <Button
-                x:Name="LoginButton"
-                Text="Login" 
-                SemanticProperties.Hint="Get"
-                Clicked="LoginButton_Clicked"
-                VerticalOptions="Center"
-                HorizontalOptions="Fill" />
-            <Button
-                x:Name="SigninButton"
-                Text="Signin" 
-                SemanticProperties.Hint="Get"
-                Clicked="SigninButton_Clicked"
-                VerticalOptions="Center"
-                HorizontalOptions="Fill" />
+                <Label
+                    Text="For mothers everywhere"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.HeadingLevel="Level2"
+                    SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
+                    VerticalOptions="Start"/>
+                <Entry x:Name="UsernameEntry"
+                    Placeholder="Enter Username"
+                    VerticalOptions="Center"
+                />
+                <Entry x:Name="PasswordEntry"
+                    Placeholder="Enter Password"
+                    VerticalOptions="Center"
+                />
+                <Button
+                    x:Name="LoginButton"
+                    Text="Login" 
+                    SemanticProperties.Hint="Get"
+                    Clicked="LoginButton_Clicked"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill" />
+                <Button
+                    x:Name="SigninButton"
+                    Text="Signin" 
+                    SemanticProperties.Hint="Get"
+                    Clicked="SigninButton_Clicked"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Fill" />
           
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
 
 </ContentPage>
