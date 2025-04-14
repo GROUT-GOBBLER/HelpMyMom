@@ -56,18 +56,7 @@
                 Clicked="OnCreateTicketClicked"
                 LineBreakMode="WordWrap" />
 
-            <Button
-                x:Name="CounterBtn"
-                Text="EMAIL" 
-                SemanticProperties.Hint="Get"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
-            <Button
-                x:Name="post"
-                Text="POST" 
-                    SemanticProperties.Hint="Post"
-                Clicked="post_Clicked"
-                HorizontalOptions="Fill" />
+
 
         </VerticalStackLayout>
     </ScrollView>

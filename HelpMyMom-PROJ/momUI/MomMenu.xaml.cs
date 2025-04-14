@@ -66,6 +66,75 @@ namespace momUI
             FetchImportantVariables();
         }
 
+        private async void AddToBalance()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+
+                    HttpResponseMessage response1 = await client.GetAsync(URL + tickets_url);
+                    //response1.EnsureSuccessStatusCode();
+                    String json1 = await response1.Content.ReadAsStringAsync();
+
+                    HttpResponseMessage response2 = await client.GetAsync(URL + mothers_url);
+                    //  response2.EnsureSuccessStatusCode();
+                    String json2 = await response2.Content.ReadAsStringAsync();
+
+                    HttpResponseMessage response3 = await client.GetAsync(URL + relationships_url);
+                    // response3.EnsureSuccessStatusCode();
+                    String json3 = await response3.Content.ReadAsStringAsync();
+
+
+                    List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
+                    List<Mother> mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                    List<Relationship> relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
+
+                    int momIndexInList = 0;
+                    foreach (Mother index in mothersList)
+                    {
+                        if (index.Id == _momID)
+                        {
+                            momIndexInList = index.Id;
+                        }
+                    }
+
+                    double newBalance = (double)_balance; // NOT FINISHED YET
+
+                    Mother updateMom = new Mother
+                    {
+                        Id = mothersList[momIndexInList].Id,
+                        FName = mothersList[momIndexInList].FName,
+                        LName = mothersList[momIndexInList].LName,
+                        Email = mothersList[momIndexInList].Email,
+                        Tokens = newBalance
+                    };
+
+                    HttpResponseMessage changeTokenAmountInMomResponse = await client.PutAsJsonAsync(URL + mothers_url, updateMom);
+
+                    if (changeTokenAmountInMomResponse.IsSuccessStatusCode)
+                    {
+                        // Step 5: Show success pop-up and navigate back
+                        BalanceLabel = $"Current Balance: ${newBalance:F2}";
+                        await DisplayAlert("Success", "Your balance has been successfully updated!", "OK");
+                       //  await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", $"Failed to create ticket: {changeTokenAmountInMomResponse.StatusCode}", "OK");
+                        return;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    // Handle errors (e.g., show a default value or error message)
+                    await DisplayAlert("Error", $"Failed to connect to add  to Balance: {ex.Message}", "OK");
+                }
+            }
+        }
+
 
         private async void FetchImportantVariables()
         {
@@ -83,23 +152,25 @@ namespace momUI
                 try
                 {
                     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-
+                    /*
                     HttpResponseMessage response1 = await client.GetAsync(accounts_url);
                     // DisplayAlert("Testing:", $"{ client.BaseAddress + accounts_url }", "OK");
-                  //  response1.EnsureSuccessStatusCode();
+                    //  response1.EnsureSuccessStatusCode();
+                    */
 
-                    HttpResponseMessage response1 = await client.GetAsync(URL + accounts_url);
+                    HttpResponseMessage response1 = await client.GetAsync(URL + "/Accounts");
                     string json1 = await response1.Content.ReadAsStringAsync();
                     List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1);
 
-
+                    /*
                     HttpResponseMessage response2 = await client.GetAsync(mothers_url);
                     // DisplayAlert("Testing:", $"{ client.BaseAddress + mothers_url }", "OK");
-                 //   response2.EnsureSuccessStatusCode();
+                    //   response2.EnsureSuccessStatusCode();
+                    */
 
-                    HttpResponseMessage response2 = await client.GetAsync(URL + mothers_url);
+                    HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
                     string json2 = await response2.Content.ReadAsStringAsync();
-                    List<Mother> motherList = JsonConvert.DeserializeObject<List<Mother>>(json1);
+                    List<Mother> motherList = JsonConvert.DeserializeObject<List<Mother>>(json2);
 
 
 
@@ -107,18 +178,18 @@ namespace momUI
 
                     foreach (Mother index in motherList)
                     {
-                        DisplayAlert("Testing:", "Got here at least", "OK");
+                       // await DisplayAlert("Testing:", "Got here at least", "OK");
                         if (index.Id == _momID)
                         {
                             _balance = (double)index.Tokens;
 
-                           // float balanceNumber = (float)_balance;
+                            // float balanceNumber = (float)_balance;
 
                             // Update the BalanceText property with the fetched value
                             BalanceLabel = $"Current Balance: ${_balance:F2}";
                             found = true;
                                 
-                                
+                            
                         }
                     }
 
@@ -186,6 +257,7 @@ namespace momUI
             await Navigation.PushAsync(new MomTicketPage(_balance, _momID));
         }
 
+        /*
         async private void OnCounterClicked(object sender, EventArgs e)
         {
             using (HttpClient client = new HttpClient())
@@ -231,6 +303,7 @@ namespace momUI
                 }
             }
         }
+        */
 
         /*
         public class BalanceResponse

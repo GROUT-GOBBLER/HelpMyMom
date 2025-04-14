@@ -18,16 +18,17 @@
                 Clicked="OnBackClicked"
                 Margin="0,0,0,1" />
 
-        <!-- Issue Input -->
+        <!-- Issue Description Box -->
         <Frame Grid.Row="1"
            BorderColor="Black"
            CornerRadius="1"
            Padding="5"
            HasShadow="True">
-            <Editor
+            <Editor x:Name="IssueDescriptionBox"
                 Placeholder="Issue..."
-                HeightRequest="50"
+                HeightRequest="250"
                 Text="{Binding IssueText}"
+                
                 Margin="0,0,0,10" />
         </Frame>
 

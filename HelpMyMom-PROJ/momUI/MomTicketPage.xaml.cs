@@ -14,7 +14,7 @@ namespace momUI
         
         public string IssueText { get; set; }
 
-        string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+       // string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
         String accounts_url = "/Accounts";
         String chatlogs_url = "/ChatLogs";
@@ -42,9 +42,6 @@ namespace momUI
             _currentAccountBalance = (double)currentBalance;
             _momAccountID = momID;
 
-
-
-           
         }
 
         private async void OnBackClicked(object sender, EventArgs e)
@@ -73,11 +70,11 @@ namespace momUI
             }
 
 
-            /*
+            
             // Step 3: Deduct the ticket cost from the balance
             double newBalance = currentBalance - _ticketCost;
-            MockDatabase.UpdateBalance(newBalance);
-            */
+            //MockDatabase.UpdateBalance(newBalance);
+            
 
             using (HttpClient client = new HttpClient())
             {
@@ -100,7 +97,7 @@ namespace momUI
 
                     List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
                     List<Mother> mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-                    List<Relationship> relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json2);
+                    List<Relationship> relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
 
                     int childrenID = 4;
 
@@ -112,6 +109,15 @@ namespace momUI
                     }
 
                     int length1 = ticketsList.Count;
+
+                    int momIndexInList = 0;
+                    foreach(Mother index in mothersList)
+                    {
+                        if (index.Id == _momAccountID)
+                        {
+                            momIndexInList = index.Id;
+                        }
+                    }
 
                     // Step 4: Create the ticket and add it to the database
                     Ticket newTicket = new Ticket
@@ -127,31 +133,42 @@ namespace momUI
                         // CreatedAt = DateTime.Now
                     };
 
-                    HttpResponseMessage createTicketResponse = await client.PostAsJsonAsync(tickets_url, newTicket);
+                    HttpResponseMessage createTicketResponse = await client.PostAsJsonAsync(URL + tickets_url, newTicket);
 
-                    if (createTicketResponse.IsSuccessStatusCode)
+                    Mother updateMom = new Mother
+                    {
+                        Id = mothersList[momIndexInList].Id,
+                        FName = mothersList[momIndexInList].FName,
+                        LName = mothersList[momIndexInList].LName,
+                        Email = mothersList[momIndexInList].Email,
+                        Tokens = newBalance
+                    };
+
+                    HttpResponseMessage changeTokenAmountInMomResponse = await client.PutAsJsonAsync(URL + mothers_url, updateMom);
+
+                    if (createTicketResponse.IsSuccessStatusCode && changeTokenAmountInMomResponse.IsSuccessStatusCode)
                     {
                         // Step 5: Show success pop-up and navigate back
                         await DisplayAlert("Success", "Your ticket has been successfully sent!", "OK");
                         await Navigation.PopAsync();
                     }
+                    else if (!createTicketResponse.IsSuccessStatusCode && !changeTokenAmountInMomResponse.IsSuccessStatusCode)
+                    {
+                        await DisplayAlert("Error", $"Failed to create ticket and update mom's balance: {createTicketResponse.StatusCode} & {changeTokenAmountInMomResponse.StatusCode}", 
+                            "OK");
+                        return;
+                    }
+                    else if (!changeTokenAmountInMomResponse.IsSuccessStatusCode)
+                    {
+                        await DisplayAlert("Error", $"Failed to create update balance: {changeTokenAmountInMomResponse.StatusCode}", "OK");
+                        return;
+                    }
                     else
                     {
-                        await DisplayAlert("Error", $"Failed to create team: {createTicketResponse.StatusCode}", "OK");
+                        await DisplayAlert("Error", $"Failed to create ticket: {createTicketResponse.StatusCode}", "OK");
                         return;
                     }
 
-                    /*
-                    if (!string.IsNullOrEmpty(IssueText))
-                    {
-                        await DisplayAlert("Success", "Ticket submitted!", "OK");
-                        await Navigation.PopAsync();
-                    }
-                    else
-                    {
-                        await DisplayAlert("Error", "Please enter an issue.", "OK");
-                    }
-                    */
 
                 }
                 catch (Exception ex)
