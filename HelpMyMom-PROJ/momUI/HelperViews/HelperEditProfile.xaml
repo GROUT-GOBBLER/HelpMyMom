@@ -94,6 +94,51 @@
                 HorizontalOptions="End"/>
         </HorizontalStackLayout>
         
+        <!-- DATE OF BIRTH -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Date of Birth: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <VerticalStackLayout>
+                <Label
+                    Text="Month: "
+                    FontSize="15"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start" />
+                <Label
+                    Text="Day: "
+                    FontSize="15"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"/>    
+                <Label
+                    Text="Year: "
+                    FontSize="15"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"/>                    
+            </VerticalStackLayout>
+
+            <!--<Entry 
+                x:Name="LastNameEntry" 
+                Placeholder="..." 
+                TextChanged="LastNameEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>-->
+
+            <!--<Button
+                x:Name="LastNameButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited last name for profile."
+                Clicked="LastNameButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>-->
+        </HorizontalStackLayout>
+
         <!-- DESCRIPTION. -->
         <HorizontalStackLayout
             Spacing="10">

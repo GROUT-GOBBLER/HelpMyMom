@@ -1,5 +1,6 @@
 using momUI.models;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace momUI.HelperViews;
 
@@ -146,8 +147,8 @@ public partial class HelperOpenProfile : ContentPage
 		await Navigation.PushAsync(new HelperEditProfile());
     }
 
-    private void ShowReviewsButton_Clicked(object sender, EventArgs e)
+    async private void ShowReviewsButton_Clicked(object sender, EventArgs e)
     {
-
+        await Navigation.PushAsync(new ViewReviews());
     }
 }
