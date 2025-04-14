@@ -35,7 +35,7 @@ public partial class ChildAccountCreation : ContentPage
             child.Email = EmailEntry.Text;
             
 
-            account.MomId = child.Id;
+            account.ChildId = child.Id;
             account.Username = UsernameEntry.Text;
             account.Password = PasswordEntry.Text;
 
