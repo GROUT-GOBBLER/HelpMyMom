@@ -6,7 +6,8 @@ namespace momUI.HelperViews;
 public partial class HelperOpenProfile : ContentPage
 {
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-	String[] helperSPECIALTIES;
+	String MASTERusername = "UncleBensBiggestFan";
+    String[] helperSPECIALTIES;
 
     public HelperOpenProfile()
 	{
@@ -29,41 +30,52 @@ public partial class HelperOpenProfile : ContentPage
                 HttpResponseMessage response3 = await client.GetAsync($"{URL}/{"Specs"}");
 					String json3 = await response3.Content.ReadAsStringAsync();
 					List<Spec> specsList = JsonConvert.DeserializeObject<List<Spec>>(json3); // specsList.
+				HttpResponseMessage response4 = await client.GetAsync($"{URL}/{"Reviews"}");
+					String json4 = await response4.Content.ReadAsStringAsync();
+					List<Review> reviewsList = JsonConvert.DeserializeObject<List<Review>>(json4); // reviewsList.
 
-				/* 
-                 *	The below codes assumes that we are accessing the FIRST account in the account table.
-				 *	ACCOUNT ... username = "DefinetlyNotPartOfTheMafia", helperID = 1.
-				 *	HELPER ... fName = "Rob", lName = "Bankman", specs = "0,1", description = "Young cash getter."
-				 *	SPECS ... 1 = Roku TV, 2 = Microsoft Word.
-				 */
-
-				// Define a bunch of variables to hold all of the values.
-                Account tempAccount = accountsList.First();
-                String accountID = tempAccount.Username;
-                int? helperID = tempAccount.HelperId;
-
+				// Variable initialization.
+                Account tempAccount = new Account();
 				Helper tempHelper = new Helper();
 				String specs = "";
 				String[] specsAsNumbers, specsAsStringsFull;
+				String textForRatingsLabel = "";
+				int reviewAverageValue = 0;
+				int numberOfApplicableReviews = 0;
 
-                // Find our helper.
+                // Find our account.
                 foreach (Account a in accountsList) // Get Helper Id from Accounts table.
                 {
-					if(a.Username == accountID)
+					if(a.Username == MASTERusername)
 					{
 						UsernameLabel.Text = a.Username;
-                        helperID = a.HelperId;
+						tempAccount = a;
 					}
 				}
 
-				foreach(Helper h in helpersList) // Get HELPER object from Helper table.
+				if(tempAccount.HelperId == -1)
 				{
-					if(h.Id == helperID)
+                    await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
+					return;
+                }
+
+				// Find our helper.
+				bool found = false;
+				foreach(Helper h in helpersList)
+				{
+					if(h.Id == tempAccount.HelperId)
 					{
 						tempHelper = h;
+						found = true;
 					}
 				}
 				
+				if(!found)
+				{
+                    await DisplayAlert("AccountNotFoundError", $"ERROR! Helper not found.", "OK");
+					return;
+                }
+
 				specs = tempHelper.Specs;
 
 				// Turn the specs values into their string equivalents.
@@ -83,6 +95,36 @@ public partial class HelperOpenProfile : ContentPage
 					}
 				}
 
+				// Find review score.
+				if(reviewsList.Count() != 0)
+				{
+                    foreach (Review r in reviewsList)
+                    {
+                        if (r.HelperId == tempHelper.Id)
+                        {
+                            reviewAverageValue += (int) r.Stars;
+                            numberOfApplicableReviews++;
+                        }
+                    }
+
+					if (numberOfApplicableReviews > 0)
+					{
+						reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
+						reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
+						textForRatingsLabel = reviewAverageValue + " stars.";
+                    }
+					else
+					{
+                        textForRatingsLabel = "No reviews found.";
+                    }
+                }
+				else
+				{
+					textForRatingsLabel = "No reviews found.";
+				}
+
+
+				
 				// Set objects in the XAML file with the newfound values.
 				FirstNameLabel.Text = tempHelper.FName;
 				LastNameLabel.Text = tempHelper.LName;
@@ -90,6 +132,7 @@ public partial class HelperOpenProfile : ContentPage
 
                 helperSPECIALTIES = specsAsStringsFull;
 				SpecialtiesListView.ItemsSource = helperSPECIALTIES;
+                RatingsLabel.Text = textForRatingsLabel;
             }
             catch (Exception except)
 			{
@@ -101,5 +144,10 @@ public partial class HelperOpenProfile : ContentPage
     async private void ProfileEditButton_Clicked(object sender, EventArgs e)
     {
 		await Navigation.PushAsync(new HelperEditProfile());
+    }
+
+    private void ShowReviewsButton_Clicked(object sender, EventArgs e)
+    {
+
     }
 }
