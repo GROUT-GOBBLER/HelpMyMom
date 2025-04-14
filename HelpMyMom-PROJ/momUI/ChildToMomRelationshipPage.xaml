@@ -2,11 +2,46 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.ChildToMomRelationshipPage"
-             Title="ChildToMomRelationshipPage">
+             Title="Child To Mom Relationship">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Enter your mothers username"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <SearchBar Placeholder="Username" />
+        <Label 
+            Text="First Name:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label 
+             x:Name="FNameLabel"
+            Text=""
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Label 
+           
+            Text="Last Name:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label 
+            x:Name="LNameLabel"
+            Text=""
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Button
+            x:Name="RelationShipButton"
+            Text="Link your account" 
+            SemanticProperties.Hint="Get"
+            Clicked="CreateAccountButton_Clicked"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill" 
+        />
+        <Label 
+            x:Name="ErrorLabel"
+            Text=""
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
     </VerticalStackLayout>
 </ContentPage>
