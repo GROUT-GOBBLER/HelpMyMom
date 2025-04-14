@@ -16,6 +16,4 @@ public partial class ChildTicketFactory : ContentPage
     {
 
     }
-
-
 }
