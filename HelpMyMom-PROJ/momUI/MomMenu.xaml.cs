@@ -56,17 +56,8 @@ namespace momUI
         {
             InitializeComponent();
 
-            // BindingContext = this; // Set the binding context to this page
+            BindingContext = this; // Set the binding context to this page
 
-            /*
-            // Set up a timer to refresh every 30 seconds
-            _timer = new Timer(30000); // 30,000 milliseconds = 30 seconds
-            _timer.Elapsed += async (s, e) => await FetchBalance();
-            _timer.AutoReset = true; // Repeat the timer
-            _timer.Start();
-            */
-
-            // FetchBalance(); // Fetch the balance when the page loads
         }
 
         protected override void OnAppearing()
@@ -91,13 +82,13 @@ namespace momUI
 
                 try
                 {
-                   client.BaseAddress = new Uri("https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api");
-
+                    String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
                     HttpResponseMessage response1 = await client.GetAsync(accounts_url);
                     // DisplayAlert("Testing:", $"{ client.BaseAddress + accounts_url }", "OK");
                   //  response1.EnsureSuccessStatusCode();
 
+                    HttpResponseMessage response1 = await client.GetAsync(URL + accounts_url);
                     string json1 = await response1.Content.ReadAsStringAsync();
                     List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1);
 
@@ -106,6 +97,7 @@ namespace momUI
                     // DisplayAlert("Testing:", $"{ client.BaseAddress + mothers_url }", "OK");
                  //   response2.EnsureSuccessStatusCode();
 
+                    HttpResponseMessage response2 = await client.GetAsync(URL + mothers_url);
                     string json2 = await response2.Content.ReadAsStringAsync();
                     List<Mother> motherList = JsonConvert.DeserializeObject<List<Mother>>(json1);
 
@@ -118,13 +110,12 @@ namespace momUI
                         DisplayAlert("Testing:", "Got here at least", "OK");
                         if (index.Id == _momID)
                         {
-                            DisplayAlert("Testing:", "Got here at least", "OK");
-                            //_balance = (double)index.Tokens;
+                            _balance = (double)index.Tokens;
 
                            // float balanceNumber = (float)_balance;
 
                             // Update the BalanceText property with the fetched value
-                            BalanceLabel = $"Current Balance: ${index.Tokens:F2}";
+                            BalanceLabel = $"Current Balance: ${_balance:F2}";
                             found = true;
                                 
                                 

@@ -16,18 +16,18 @@ namespace momUI
 
         string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-        private String accounts_url = "/Accounts";
-        private String chatlogs_url = "/ChatLogs";
-        private String children_url = "/Children";
-        private String helpers_url = "/Helpers";
-        private String mothers_url = "/Mothers";
-        private String relationships_url = "/Relationships";
-        private String reports_url = "/Reports";
-        private String reviews_url = "/Reviews";
-        private String specs_url = "/Specs";
-        private String tickets_url = "/Tickets";
+        String accounts_url = "/Accounts";
+        String chatlogs_url = "/ChatLogs";
+        String children_url = "/Children";
+        String helpers_url = "/Helpers";
+        String mothers_url = "/Mothers";
+        String relationships_url = "/Relationships";
+        String reports_url = "/Reports";
+        String reviews_url = "/Reviews";
+        String specs_url = "/Specs";
+        String tickets_url = "/Tickets";
 
-        
+
 
         private double _currentAccountBalance;
 
@@ -83,18 +83,18 @@ namespace momUI
             {
                 try
                 {
-                    client.BaseAddress = new Uri(URL);
+                    String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-                    HttpResponseMessage response1 = await client.GetAsync(tickets_url);
-                    response1.EnsureSuccessStatusCode();
+                    HttpResponseMessage response1 = await client.GetAsync(URL + tickets_url);
+                    //response1.EnsureSuccessStatusCode();
                     String json1 = await response1.Content.ReadAsStringAsync();
 
-                    HttpResponseMessage response2 = await client.GetAsync(mothers_url);
-                    response2.EnsureSuccessStatusCode();
+                    HttpResponseMessage response2 = await client.GetAsync(URL + mothers_url);
+                  //  response2.EnsureSuccessStatusCode();
                     String json2 = await response2.Content.ReadAsStringAsync();
 
-                    HttpResponseMessage response3 = await client.GetAsync(relationships_url);
-                    response3.EnsureSuccessStatusCode();
+                    HttpResponseMessage response3 = await client.GetAsync(URL + relationships_url);
+                   // response3.EnsureSuccessStatusCode();
                     String json3 = await response3.Content.ReadAsStringAsync();
 
 
