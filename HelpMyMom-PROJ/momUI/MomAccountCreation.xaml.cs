@@ -1,8 +1,8 @@
-using GoogleGson;
-using Java.Net;
+
 using momUI.models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net.Http.Json;
 
 namespace momUI;
 
@@ -59,8 +59,22 @@ public partial class MomAccountCreation : ContentPage
                 ErrorLabel.Text = "Please enter an email";
                 return;
             }
-            
+            response2 = await client.PostAsJsonAsync($"{URL}/{"Mothers"}", mother);
+            if (!response2.IsSuccessStatusCode)
+            {
+                ErrorLabel.Text = "Error in mother creation";
+                return;
 
+            }
+            response2 = await client.PostAsJsonAsync($"{URL}/{"Accounts"}", account);
+            if (!response2.IsSuccessStatusCode)
+            {
+                ErrorLabel.Text = "Error in account creation";
+                response2 = await client.DeleteAsync($"{URL}/{"Mothers"}/{mother.Id}");
+                return;
+
+            }
+            ErrorLabel.Text = "Success";
 
         }
 
