@@ -14,6 +14,7 @@
             Text="Please expain the issue"
             Margin="5,20,0,0"
             FontSize="35"
+            TextColor="SlateGrey"
             VerticalOptions="Center" 
             HorizontalOptions="Start" />
 

@@ -19,7 +19,7 @@ public partial class ChildMenu : ContentPage
             account = new Child();
             account.FName = "[Object]";
             account.LName = "[object]";
-            account.Id = 1;
+            account.Id = 2;
         }
     }
 

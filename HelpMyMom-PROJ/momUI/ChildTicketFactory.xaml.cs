@@ -124,6 +124,8 @@ public partial class ChildTicketFactory : ContentPage
                         Mother mom = moms.Single(m => m.Id == Int32.Parse(selectedMom[0]));
                         newTicket.MomId = mom.Id;
 
+                        if (mom.Tokens < 20) throw new Exception("That mom does not have enough money");
+
                         newTicket.ChildId = account.Id;
                         newTicket.Status = "NEW";
                         newTicket.Description = details;
@@ -136,12 +138,18 @@ public partial class ChildTicketFactory : ContentPage
                         newTicket.ChatLogs = [];
                         newTicket.Helper = null;
                         newTicket.Review = null;
-                        newTicket.Child = account;
-                        newTicket.Mom = mom;
+                        newTicket.Child = null;
+                        newTicket.Mom = null;
+
+                        //Console.WriteLine("-----------------------------------------------------------------------------------");
+                        //Console.WriteLine(JsonConvert.SerializeObject(newTicket));
+                        //Console.WriteLine("-----------------------------------------------------------------------------------");
+
 
                         HttpResponseMessage response3 = await client.PostAsJsonAsync(URL + "/Tickets", newTicket);
                         if (response3.IsSuccessStatusCode) settingBtn.Text = "good";
                         else settingBtn.Text = "bad";
+                        Thread.Sleep(100);
                     }
 
                     await Navigation.PushAsync(new AssignHelperPage(account, newTicket));

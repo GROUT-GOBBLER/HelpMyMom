@@ -13,6 +13,8 @@ public partial class AssignHelperPage : ContentPage
     List<SearchHelper> allHelpers = new List<SearchHelper>();
     List<Review> allReviews = new List<Review>();
 
+    List<Helper> helpers = new List<Helper>();
+
     Child account;
     Ticket ticket;
 
@@ -28,8 +30,6 @@ public partial class AssignHelperPage : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            List<Helper> helpers = new List<Helper>();
-
             helperList.IsRefreshing = true;
 
             try
@@ -53,11 +53,13 @@ public partial class AssignHelperPage : ContentPage
                         foreach (Helper h in helpers)
                         {
                             SearchHelper sh = new SearchHelper();
+                            sh.Id = h.Id;
                             sh.FName = h.FName;
                             sh.LName = h.LName;
                             sh.Description = h.Description;
                             sh.Specs = h.Specs;
 
+                            Double sum = 0;
                             int count = 0;
                             int calc = 0;
 
@@ -67,14 +69,14 @@ public partial class AssignHelperPage : ContentPage
                                 {
                                     if (v.HelperId == h.Id)
                                     {
-                                        calc += (int)v.Stars;
+                                        sum += (int)v.Stars;
                                         count++;
                                     }
                                 }
                                 if (count > 0)
                                 {
-                                    calc = calc / count;
-                                    calc = (int)((double)calc / 2);
+                                    sum = sum / count;
+                                    calc = (int)Math.Ceiling(sum / 2);
                                 }
                             }
 
@@ -290,15 +292,22 @@ public partial class AssignHelperPage : ContentPage
 
     private async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
     {
-        Helper selected = helperList.SelectedItem as Helper;
+        Thread.Sleep(100);
+        SearchHelper selected = helperList.SelectedItem as SearchHelper;
+
+        Helper finalHelper = helpers.SingleOrDefault(h => h.Id == selected.Id);
+
+        //Console.WriteLine("-----------------------------------------------------------------------------------");
+        //Console.WriteLine(JsonConvert.SerializeObject(finalHelper));
+        //Console.WriteLine("-----------------------------------------------------------------------------------");
 
         if (ticket != null) 
         {
-            await Navigation.PushAsync(new ConfirmHelper(account, ticket));
+            await Navigation.PushAsync(new ConfirmHelper(account, finalHelper, ticket));
         }
         else
         {
-            await Navigation.PushAsync(new ConfirmHelper(account));
+            await Navigation.PushAsync(new ConfirmHelper(account, finalHelper));
         }
     }
 

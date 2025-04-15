@@ -8,6 +8,7 @@ namespace momUI.models
 {
     internal class SearchHelper
     {
+        public int? Id { get; set; }
         public string? FName { get; set; }
 
         public string? LName { get; set; }
@@ -18,7 +19,7 @@ namespace momUI.models
 
         public string? Description { get; set; }
 
-        public string FullDecriprion => $"{Rating.ToString() ?? ""} {Description ?? ""}".Trim();
+        public string FullDescription => $"Rating: {Rating.ToString() ?? ""}. {Description ?? ""}".Trim();
 
         public string? Specs { get; set; }
     }

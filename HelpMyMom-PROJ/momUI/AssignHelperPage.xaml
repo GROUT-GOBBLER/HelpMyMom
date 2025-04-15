@@ -32,12 +32,23 @@
             CancelButtonColor="DarkRed"
             Margin="0,0,10,0"/>
 
-        <ListView x:Name="helperList" HasUnevenRows="True" Margin="10,10,0,10">
+        <ListView x:Name="helperList" ItemSelected="OnItemSelected" RowHeight="90" Margin="10,10,0,10">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:SearchHelper">
-                    <TextCell 
-                       Text="{Binding FullName}"
-                       Detail="{Binding FullDecriprion}" />
+                    <ViewCell>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding FullName}"
+                               FontSize="22"
+                               />
+
+                            <Label Text="{Binding FullDescription}"
+                               LineBreakMode="WordWrap"
+                               TextColor="DarkSlateGray"
+                               FontSize="16"
+                               MaxLines ="2"
+                               />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
