@@ -5,6 +5,7 @@
              Title="Child Menu">
     <VerticalStackLayout>
         <Label 
+            x:Name="loggedIn"
             Text="Signed in as [user]"
             FontSize="20"
             VerticalOptions="Center" 

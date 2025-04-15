@@ -14,7 +14,6 @@ namespace momUI
     public static class EmailServices
     {
         // Valid statuses: new, assigned, in progress, completed, approved 
-        // Ticket is temporary until there is a ticket object
         public static void SendNotifcation(String Target, String status, Ticket ticket)
         {
             string fromEmail = "gingervip66@gmail.com";

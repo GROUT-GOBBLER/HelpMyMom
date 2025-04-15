@@ -23,9 +23,17 @@
             FontSize="30"
             IsSpellCheckEnabled="True"
             TextChanged="DetailsEntry_TextChanged"
-            HeightRequest ="400"
+            HeightRequest ="370"
             VerticalOptions="Center"            
             HorizontalOptions="Fill" />
+
+        <Picker x:Name="momSelect" Title="Select a mom" Margin="0,20,0,0">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>No Moms</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
 
         <Button
             x:Name="settingBtn"
@@ -35,7 +43,7 @@
             BackgroundColor="DarkOliveGreen"
             Margin="10,50,10,0"
             SemanticProperties.Hint="Get"
-            Clicked="NothingClicked"
+            Clicked="createClicked"
             HorizontalOptions="Fill" />
     </VerticalStackLayout>
 </ContentPage>

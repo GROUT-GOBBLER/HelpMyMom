@@ -13,9 +13,15 @@ public partial class AssignHelperPage : ContentPage
     List<SearchHelper> allHelpers = new List<SearchHelper>();
     List<Review> allReviews = new List<Review>();
 
-    public AssignHelperPage()
+    Child account;
+    Ticket ticket;
+
+    public AssignHelperPage(Child acc, Ticket t = null)
 	{
 		InitializeComponent();
+
+        account = acc;
+        if (t != null) ticket = t;
 	}
 
     protected override async void OnAppearing()
@@ -68,7 +74,7 @@ public partial class AssignHelperPage : ContentPage
                                 if (count > 0)
                                 {
                                     calc = calc / count;
-                                    calc = (int)Math.Ceiling((double)calc / 2);
+                                    calc = (int)((double)calc / 2);
                                 }
                             }
 
@@ -282,8 +288,22 @@ public partial class AssignHelperPage : ContentPage
         }
     }
 
+    private async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+    {
+        Helper selected = helperList.SelectedItem as Helper;
+
+        if (ticket != null) 
+        {
+            await Navigation.PushAsync(new ConfirmHelper(account, ticket));
+        }
+        else
+        {
+            await Navigation.PushAsync(new ConfirmHelper(account));
+        }
+    }
+
     private void NothingClicked(object sender, EventArgs e)
     {
-
+        
     }
 }
