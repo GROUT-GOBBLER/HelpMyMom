@@ -104,39 +104,65 @@
                 HorizontalOptions="Start"/>
 
             <VerticalStackLayout>
-                <Label
-                    Text="Month: "
-                    FontSize="15"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start" />
-                <Label
-                    Text="Day: "
-                    FontSize="15"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"/>    
-                <Label
-                    Text="Year: "
-                    FontSize="15"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"/>                    
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Month: "
+                        FontSize="15"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start" />
+
+                    <Entry 
+                        x:Name="DateOfBirthMONTHEntry"
+                        Placeholder="..."
+                        TextChanged="DateOfBirthMONTHEntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Day: "
+                        FontSize="15"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+
+                    <Entry 
+                        x:Name="DateOfBirthDAYEntry"
+                        Placeholder="..."
+                        TextChanged="DateOfBirthDAYEntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Year: "
+                        FontSize="15"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+
+                    <Entry 
+                        x:Name="DateOfBirthYEAREntry"
+                        Placeholder="..."
+                        TextChanged="DateOfBirthYEAREntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
             </VerticalStackLayout>
 
-            <!--<Entry 
-                x:Name="LastNameEntry" 
-                Placeholder="..." 
-                TextChanged="LastNameEntry_TextChanged"
-                ClearButtonVisibility="WhileEditing"
-                WidthRequest="200"
-                VerticalOptions="Center"
-                HorizontalOptions="End"/>-->
-
-            <!--<Button
-                x:Name="LastNameButton"
+            <Button
+                x:Name="DateOfBirthButton"
                 Text="Submit."
-                SemanticProperties.Hint="Submit edited last name for profile."
-                Clicked="LastNameButton_Clicked"
+                SemanticProperties.Hint="Submit edited date of birth for profile."
+                Clicked="DateOfBirthButton_Clicked"
                 VerticalOptions="Center"
-                HorizontalOptions="End"/>-->
+                HorizontalOptions="End"/>
         </HorizontalStackLayout>
 
         <!-- DESCRIPTION. -->
@@ -162,6 +188,33 @@
                 Text="Submit."
                 SemanticProperties.Hint="Submit edited description for profile."
                 Clicked="DescriptionButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+        
+        <!-- SPECS LIST. -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Specialties: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <Entry 
+                x:Name="SpecsEntry" 
+                Placeholder="..." 
+                TextChanged="SpecsEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+            <Button
+                x:Name="SpecsButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited specialties list for profile."
+                Clicked="SpecsButton_Clicked"
                 VerticalOptions="Center"
                 HorizontalOptions="End"/>
         </HorizontalStackLayout>
