@@ -12,36 +12,23 @@
                 Text="Chat Testing!!"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
-
             <ListView x:Name="ChatMessageListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="1"
-                                       Text="{Binding Time}"
-                                       FontAttributes="Bold" />
-                                <Label Grid.Row="1"
-                                       Grid.Column="1"
-                                       Text="{Binding Text}"
-                                       FontAttributes="Italic"
-                                       VerticalOptions="End" />
-                            </Grid>
+                            <Label
+                                Text="{Binding}"
+                                FontSize="15"
+                                TextColor="Black"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                Padding="10" />
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
             <HorizontalStackLayout
-                HorizontalOptions="CenterAndExpand">
+                HorizontalOptions="Center">
                 <Entry 
                     x:Name="MessageTextEntry"
                     Placeholder="Enter your message."
@@ -52,11 +39,20 @@
 
                 <Button
                     x:Name="GenerateChatMessages"
-                    Text="Show all Messages."     
-                    SemanticProperties.Hint="See messages"
+                    Text="Send message."     
+                    SemanticProperties.Hint="Send the typed message."
                     Clicked="GenerateChatMessages_Clicked"
                     VerticalOptions="End"
                     HorizontalOptions="End" />
+
+                <Button 
+                    x:Name="RefreshChatMessages"
+                    Text="Refresh All Chat Messages."
+                    SemanticProperties.Hint="Reload the page and show all of the chat messages."
+                    Clicked="RefreshChatMessages_Clicked"
+                    VerticalOptions="End"
+                    HorizontalOptions="End"
+                    />
             </HorizontalStackLayout>            
 
         </VerticalStackLayout>
