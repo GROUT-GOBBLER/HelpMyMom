@@ -43,6 +43,7 @@ public partial class ViewReviews : ContentPage
                     }
 
                 AllReviewsListView.ItemsSource = listOfAllReviews;
+                DisplayAlert("Notif", $"There are {listOfAllReviews.Count()} reviews in the list.", "OK.");
             }
             catch (Exception e)
             {

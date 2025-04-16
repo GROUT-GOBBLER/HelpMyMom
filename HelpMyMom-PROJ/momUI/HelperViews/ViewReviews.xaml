@@ -3,43 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.HelperViews.ViewReviews"
              Title="ViewReviews">
-    <VerticalStackLayout
-        Margin="20,20,20,20">
-        <Label 
-            Text="Reviews."
-            FontSize="50"
-            FontAttributes="Bold"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
-        <ListView 
-            x:Name="AllReviewsListView"        
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            VerticalScrollBarVisibility="Default" >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid 
-                            Padding="10" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Label Grid.Column="1"
-                                   Text="{Binding numberOfStars}"
-                                   FontSize="25"
-                                   FontAttributes="Bold" />
-                            <Label Grid.Row="1"
-                                   Grid.Column="1"
-                                   Text="{Binding reviewTextContent}"
-                                   FontSize="15"
-                                   LineBreakMode="WordWrap"
-                                   FontAttributes="Italic"
-                                   VerticalOptions="End" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+    <ScrollView
+        VerticalScrollBarVisibility="Always"
+        Margin="20">
+        <VerticalStackLayout
+            Margin="20,20,20,20">
+            <Label 
+                Text="Reviews."
+                FontSize="50"
+                FontAttributes="Bold"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <ListView 
+                x:Name="AllReviewsListView"        
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                VerticalScrollBarVisibility="Never" 
+                HasUnevenRows="True" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid 
+                                Padding="10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="1"
+                                       Text="{Binding numberOfStars}"
+                                       FontSize="25"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       Text="{Binding reviewTextContent}"
+                                       FontSize="15"
+                                       FontAttributes="Italic"                                           
+                                       VerticalOptions="End" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
+    
+    
+    
