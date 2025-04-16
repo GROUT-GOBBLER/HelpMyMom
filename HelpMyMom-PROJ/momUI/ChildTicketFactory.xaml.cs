@@ -158,7 +158,7 @@ public partial class ChildTicketFactory : ContentPage
                             Console.WriteLine(JsonConvert.SerializeObject(mom));
                             Console.WriteLine("-----------------------------------------------------------------------------------");
 
-                            HttpResponseMessage response4 = await client.PostAsJsonAsync($"{URL}/Mothers/{mom.Id}", mom);
+                            HttpResponseMessage response4 = await client.PutAsJsonAsync($"{URL}/Mothers/{mom.Id}", mom);
                             if (response4.IsSuccessStatusCode)
                             {
                                 settingBtn.Text = "good";
@@ -168,7 +168,7 @@ public partial class ChildTicketFactory : ContentPage
                         else settingBtn.Text = "bad";
                     }
 
-                    //await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
+                    await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
                 }
             }
             catch (Exception ex)
