@@ -58,7 +58,7 @@
                 BackgroundColor="DarkOliveGreen"
                 Margin="10,50,10,0"
                 SemanticProperties.Hint="Get"
-                Clicked="NothingClicked"
+                Clicked="finishedClicked"
                 HorizontalOptions="Fill" />
 
             <Label 

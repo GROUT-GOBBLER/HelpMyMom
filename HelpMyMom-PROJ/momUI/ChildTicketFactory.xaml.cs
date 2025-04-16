@@ -124,7 +124,7 @@ public partial class ChildTicketFactory : ContentPage
                         Mother mom = moms.Single(m => m.Id == Int32.Parse(selectedMom[0]));
                         newTicket.MomId = mom.Id;
 
-                        if (mom.Tokens < 20) throw new Exception("That mom does not have enough money");
+                        if (mom.Tokens < 19.99) throw new Exception("That mom does not have enough money");
 
                         newTicket.ChildId = account.Id;
                         newTicket.Status = "NEW";
@@ -141,18 +141,34 @@ public partial class ChildTicketFactory : ContentPage
                         newTicket.Child = null;
                         newTicket.Mom = null;
 
-                        //Console.WriteLine("-----------------------------------------------------------------------------------");
-                        //Console.WriteLine(JsonConvert.SerializeObject(newTicket));
-                        //Console.WriteLine("-----------------------------------------------------------------------------------");
+                        mom.Relationships = [];
+                        mom.Reports = [];
+                        mom.Reviews = [];
+                        mom.Tickets = [];
 
 
                         HttpResponseMessage response3 = await client.PostAsJsonAsync(URL + "/Tickets", newTicket);
-                        if (response3.IsSuccessStatusCode) settingBtn.Text = "good";
+                        if (response3.IsSuccessStatusCode)
+                        {
+                            double newToken = (double)mom.Tokens - 19.99;
+
+                            mom.Tokens = Math.Round(newToken, 2);
+
+                            Console.WriteLine("-----------------------------------------------------------------------------------");
+                            Console.WriteLine(JsonConvert.SerializeObject(mom));
+                            Console.WriteLine("-----------------------------------------------------------------------------------");
+
+                            HttpResponseMessage response4 = await client.PostAsJsonAsync($"{URL}/Mothers/{mom.Id}", mom);
+                            if (response4.IsSuccessStatusCode)
+                            {
+                                settingBtn.Text = "good";
+                            }
+                            else settingBtn.Text = "bad money";
+                        }
                         else settingBtn.Text = "bad";
-                        Thread.Sleep(100);
                     }
 
-                    await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
+                    //await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
                 }
             }
             catch (Exception ex)
