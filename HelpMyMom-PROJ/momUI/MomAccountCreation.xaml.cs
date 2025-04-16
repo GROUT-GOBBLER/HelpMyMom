@@ -75,7 +75,7 @@ public partial class MomAccountCreation : ContentPage
 
             }
             ErrorLabel.Text = "Success";
-
+            await Navigation.PushAsync(new MomToChildReltionshipPage(mother));
         }
 
     }

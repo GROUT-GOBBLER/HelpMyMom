@@ -75,6 +75,7 @@ public partial class ChildAccountCreation : ContentPage
 
             }
             ErrorLabel.Text = "Success";
+            await Navigation.PushAsync(new ChildToMomRelationshipPage(child));
 
         }
 

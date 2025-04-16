@@ -64,6 +64,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="MomToChildRelationshipPage.xaml.cs">
+	    <DependentUpon>MomToChildRelationshipPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="ChildAccountCreation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -74,6 +80,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MomAccountCreation.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomToChildRelationshipPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="QuickLogin.xaml">
