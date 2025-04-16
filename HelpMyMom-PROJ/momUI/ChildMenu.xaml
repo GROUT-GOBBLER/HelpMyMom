@@ -47,7 +47,7 @@
 
         <Label 
             Text=" " 
-            FontSize="70"
+            FontSize="40"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
@@ -56,12 +56,12 @@
             Text="Assign Helper" 
             FontSize="50"
             SemanticProperties.Hint="Get"
-            Clicked="AssignHelperClicked"
+            Clicked="ViewProgressClicked"
             HorizontalOptions="Fill" />
 
         <Label 
             Text=" " 
-            FontSize="70"
+            FontSize="40"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
@@ -70,7 +70,21 @@
             Text="Ticket Progress" 
             FontSize="50"
             SemanticProperties.Hint="Get"
-            Clicked="CreateTicketClicked"
+            Clicked="ViewProgressClicked"
+            HorizontalOptions="Fill" />
+
+        <Label 
+            Text=" " 
+            FontSize="40"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Button
+            x:Name="AccountBtn"
+            Text="Account" 
+            FontSize="50"
+            SemanticProperties.Hint="Get"
+            Clicked="ViewProgressClicked"
             HorizontalOptions="Fill" />
     </VerticalStackLayout>
 </ContentPage>

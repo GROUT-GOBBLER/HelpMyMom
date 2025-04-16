@@ -48,6 +48,8 @@ public partial class UnassignedTickets : ContentPage
 
                             t.Id = -1;
                             t.Description = "You have no unassigned tickets";
+
+                            tickets.Add(t);
                         }
                     }
                 }
@@ -69,6 +71,7 @@ public partial class UnassignedTickets : ContentPage
         {
             Ticket selected = ticketList.SelectedItem as Ticket;
             selected.HelperId = helper.Id;
+            selected.Status = "ASSIGNED";
 
             try
             {

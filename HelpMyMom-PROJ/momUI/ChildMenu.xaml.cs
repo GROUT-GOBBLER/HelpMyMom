@@ -40,7 +40,7 @@ public partial class ChildMenu : ContentPage
 
     async private void ViewProgressClicked(object sender, EventArgs e)
     {
-
+        await Navigation.PushAsync(new TicketProgress(account));
     }
 
     private void NothingClicked(object sender, EventArgs e)

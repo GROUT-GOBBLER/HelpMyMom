@@ -163,9 +163,9 @@ public partial class ChildTicketFactory : ContentPage
                             {
                                 settingBtn.Text = "good";
                             }
-                            else settingBtn.Text = "bad money";
+                            else settingBtn.Text = "bad money request";
                         }
-                        else settingBtn.Text = "bad";
+                        else settingBtn.Text = "bad request";
                     }
 
                     await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
