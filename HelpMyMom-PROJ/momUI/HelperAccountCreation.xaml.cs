@@ -55,14 +55,23 @@ public partial class HelperAccountCreation : ContentPage
             int m = Convert.ToInt32(d_o_b[1]);
             int y = Convert.ToInt32(d_o_b[0]);
             DateOnly DateOfBirth = new DateOnly(y,m,d);
-            
+            DateOnly Current = new DateOnly();
+            Current = DateOnly.FromDateTime(DateTime.Now);
+            if (Current.Year - DateOfBirth.Year < 16)
+            {
+                ErrorLabel.Text = "You must be at least 16 to apply to be a helper";
+                return;
+            }
 
-
-
-
+          
             helper.Dob = DateOfBirth;
+            if(descriptionEditor.Text.Length > 800)
+            {
+                ErrorLabel.Text = "Your description is too long";
+                return;
+            }
 
-
+            helper.Description = descriptionEditor.Text;
             account.HelperId = helper.Id;
             account.Username = UsernameEntry.Text;
             account.Password = PasswordEntry.Text;
@@ -87,6 +96,7 @@ public partial class HelperAccountCreation : ContentPage
                 ErrorLabel.Text = "Please enter an email";
                 return;
             }
+
             response2 = await client.PostAsJsonAsync($"{URL}/{"Helpers"}", helper);
             if (!response2.IsSuccessStatusCode)
             {
@@ -107,4 +117,18 @@ public partial class HelperAccountCreation : ContentPage
         }
 
     }
+    /* private void descriptionEditor_TextChanged(object sender, TextChangedEventArgs e)
+     {
+
+     }
+
+     private void descriptionEditor_Completed(object sender, EventArgs e)
+     {
+
+     }
+     TextChanged="descriptionEditor_TextChanged"
+     Completed="descriptionEditor_Completed"
+
+
+     */
 }

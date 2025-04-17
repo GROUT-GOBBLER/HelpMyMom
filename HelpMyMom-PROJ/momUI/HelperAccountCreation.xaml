@@ -64,11 +64,21 @@
                 Text="Date of Birth yyyy/mm/dd"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
-                />
+             />
 
             <Entry x:Name="DOBEntry"
                 Placeholder="Enter DOB"
                 VerticalOptions="Center"
+             />
+            <Label 
+                Text="description"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+            <Editor x:Name="descriptionEditor"
+                Placeholder="Enter your response here"
+                HeightRequest="250"
+
              />
             <Button
                 x:Name="CreateAccountButton"
