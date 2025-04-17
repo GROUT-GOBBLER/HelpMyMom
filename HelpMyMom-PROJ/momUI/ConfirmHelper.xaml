@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.ConfirmHelper"
              Title="Confirm Helper">
-    <ScrollView Margin="20">
+    <ScrollView Margin="10">
         <VerticalStackLayout>
             <Label 
                 x:Name="Name"

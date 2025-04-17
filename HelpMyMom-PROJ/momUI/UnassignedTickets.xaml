@@ -11,17 +11,31 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <ListView x:Name="ticketList" ItemSelected="OnItemSelected" RowHeight="90" Margin="10,10,0,10">
+        <ListView x:Name="ticketList" HasUnevenRows="True" Margin="10,10,0,10">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:Ticket">
+                <DataTemplate x:DataType="models:SearchTicket">
                     <ViewCell>
                         <StackLayout Padding="10">
-                            <Label Text="{Binding Description}"
-                               LineBreakMode="WordWrap"
-                               TextColor="Black"
-                               FontSize="16"
-                               MaxLines ="3"
-                               />
+                            <Label Text="{Binding MomName}"
+                       LineBreakMode="WordWrap"
+                       TextColor="Black"
+                       FontSize="24"
+                    />
+                            <Label Text="{Binding HelperName}"
+                       LineBreakMode="WordWrap"
+                       TextColor="Black"
+                       FontSize="24"
+                    />
+                            <Label Text="{Binding Status}"
+                       TextColor="SlateGray"
+                       FontSize="18"
+                    />
+                            <Label Text="{Binding Details}"
+                       LineBreakMode="WordWrap"
+                       TextColor="DarkSlateGray"
+                       FontSize="18"
+                       MaxLines ="4"
+                    />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

@@ -43,6 +43,11 @@ public partial class ChildMenu : ContentPage
         await Navigation.PushAsync(new TicketProgress(account));
     }
 
+    async private void AccManagementClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ChildAccountSettings(account));
+    }
+
     private void NothingClicked(object sender, EventArgs e)
     {
 

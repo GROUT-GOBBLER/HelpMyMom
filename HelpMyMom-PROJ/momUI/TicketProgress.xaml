@@ -7,7 +7,7 @@
     <VerticalStackLayout>
         <Label x:Name = "TopText" 
             Text="List of Tickets"
-            FontSize="30"
+            FontSize="40"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 

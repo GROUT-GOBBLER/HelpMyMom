@@ -56,7 +56,7 @@
             Text="Assign Helper" 
             FontSize="50"
             SemanticProperties.Hint="Get"
-            Clicked="ViewProgressClicked"
+            Clicked="AssignHelperClicked"
             HorizontalOptions="Fill" />
 
         <Label 
@@ -84,7 +84,7 @@
             Text="Account" 
             FontSize="50"
             SemanticProperties.Hint="Get"
-            Clicked="ViewProgressClicked"
+            Clicked="AccManagementClicked"
             HorizontalOptions="Fill" />
     </VerticalStackLayout>
 </ContentPage>

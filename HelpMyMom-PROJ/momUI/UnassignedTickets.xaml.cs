@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 public partial class UnassignedTickets : ContentPage
 {
     List<Ticket> tickets = new List<Ticket>();
+    List<SearchTicket> childTickets = new List<SearchTicket>();
     Child account;
 	Helper helper;
 
@@ -24,8 +25,9 @@ public partial class UnassignedTickets : ContentPage
 	{
 		using (HttpClient client = new HttpClient())
 		{
-			try
-			{
+            try
+            {
+                ticketList.IsRefreshing = true;
                 HttpResponseMessage ticketResponse = await client.GetAsync(URL + "/Tickets");
 
                 if (ticketResponse.IsSuccessStatusCode)
@@ -40,17 +42,55 @@ public partial class UnassignedTickets : ContentPage
 
                         if (tickets.Count > 0)
                         {
-                            ticketList.ItemsSource = tickets;
+                            foreach (Ticket t in tickets)
+                            {
+                                SearchTicket st = new SearchTicket();
+
+                                st.Id = t.Id;
+                                st.Details = t.Description;
+                                st.Status = t.Status;
+
+                                HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers/" + t.MomId);
+                                if (momResponse.IsSuccessStatusCode)
+                                {
+                                    string json2 = await momResponse.Content.ReadAsStringAsync();
+                                    Mother m = JsonConvert.DeserializeObject<Mother>(json2);
+
+                                    if (m != null) st.MomName = $"{m.FName} {m.LName}";
+                                    else st.MomName = "None";
+                                }
+                                else st.MomName = "None";
+
+                                if (t.HelperId != null)
+                                {
+                                    HttpResponseMessage helperResponse = await client.GetAsync(URL + "/Helpers/" + t.HelperId);
+                                    if (momResponse.IsSuccessStatusCode)
+                                    {
+                                        string json3 = await helperResponse.Content.ReadAsStringAsync();
+                                        Helper h = JsonConvert.DeserializeObject<Helper>(json3);
+
+                                        if (h != null) st.HelperName = $"{h.FName} {h.LName}";
+                                        else st.HelperName = "None";
+                                    }
+                                }
+                                else st.HelperName = "None";
+
+                                childTickets.Add(st);
+                            }
                         }
                         else
                         {
-                            Ticket t = new Ticket();
+                            SearchTicket t = new SearchTicket();
 
                             t.Id = -1;
-                            t.Description = "You have no unassigned tickets";
+                            t.Details = "You have no tickets";
+                            t.MomName = "n/a";
+                            t.HelperName = "n/a";
 
-                            tickets.Add(t);
+                            childTickets.Add(t);
                         }
+
+                        ticketList.ItemsSource = childTickets;
                     }
                 }
             }
@@ -61,6 +101,10 @@ public partial class UnassignedTickets : ContentPage
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
                 Console.WriteLine("-------------------------------------------------------------\n");
+            }
+            finally
+            {
+                ticketList.IsRefreshing = false;
             }
         }
 	}
