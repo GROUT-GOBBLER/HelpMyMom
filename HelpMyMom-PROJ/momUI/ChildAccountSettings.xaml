@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.ChildAccountSettings"
+             Title="Child Account Settings">
+    <ScrollView Margin="5">
+        <VerticalStackLayout>
+            <Label 
+                Text="Account Settings"
+                FontSize="40"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Label x:Name="NameText"
+                Text="Change Name"
+                Margin="10,10,10,0"
+                FontSize="30"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+            
+            <Entry
+                x:Name="fName"
+                Margin="10,0,10,0"
+                MaxLength="30"
+                Placeholder="First name"
+                FontSize="20"
+                TextChanged="FirstEntry_TextChanged"
+                />
+            
+            <Entry
+                x:Name="lName"
+                Margin="10,0,10,0"
+                MaxLength="30"
+                Placeholder="Last name"
+                FontSize="20"
+                TextChanged="LastEntry_TextChanged"
+                />
+
+            <Button
+                x:Name="changeNameBtn"
+                Text="Confirm Name" 
+                FontSize="30"
+                LineBreakMode="WordWrap"
+                BackgroundColor="Gold"
+                TextColor="Black"
+                Margin="10,20,10,0"
+                SemanticProperties.Hint="Get"
+                Clicked="ChangeNameClicked"
+                HorizontalOptions="Fill" />
+
+            <Label x:Name="AddMom"
+                Text="Add A Mom"
+                Margin="10,40,10,0"
+                FontSize="30"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Entry
+                x:Name="MomUsername"
+                Margin="10,0,10,0"
+                MaxLength="30"
+                Placeholder="Mom's Username"
+                FontSize="20"
+                TextChanged="MomEntry_TextChanged"
+                />
+
+            <Button
+                x:Name="AddMomBtn"
+                Text="Add Mom" 
+                FontSize="30"
+                LineBreakMode="WordWrap"
+                BackgroundColor="DarkGreen"
+                TextColor="LightGreen"
+                Margin="10,20,10,0"
+                SemanticProperties.Hint="Get"
+                Clicked="AddMomClicked"
+                HorizontalOptions="Fill" />
+
+            <Label x:Name="RemoveMom"
+                Text="Remove A Mom"
+                Margin="10,40,10,0"
+                FontSize="30"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Picker x:Name="momSelect" Title="Select a mom" Margin="5,10,5,0">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>No Moms</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Button
+                x:Name="RemovedMomBtn"
+                Text="Remove Mom" 
+                FontSize="30"
+                LineBreakMode="WordWrap"
+                BackgroundColor="DarkRed"
+                TextColor="Pink"
+                Margin="10,20,10,0"
+                SemanticProperties.Hint="Get"
+                Clicked="RemoveMomClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

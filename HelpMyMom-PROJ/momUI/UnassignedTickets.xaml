@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.UnassignedTickets"
+             xmlns:models="clr-namespace:momUI.models"
+             Title="Unassigned Tickets">
+    <VerticalStackLayout>
+        <Label x:Name="TopText"
+            Text="Select a ticket"
+            FontSize="30"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <ListView x:Name="ticketList" HasUnevenRows="True" Margin="10,10,0,10">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:SearchTicket">
+                    <ViewCell>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding MomName}"
+                       LineBreakMode="WordWrap"
+                       TextColor="Black"
+                       FontSize="24"
+                    />
+                            <Label Text="{Binding HelperName}"
+                       LineBreakMode="WordWrap"
+                       TextColor="Black"
+                       FontSize="24"
+                    />
+                            <Label Text="{Binding Status}"
+                       TextColor="SlateGray"
+                       FontSize="18"
+                    />
+                            <Label Text="{Binding Details}"
+                       LineBreakMode="WordWrap"
+                       TextColor="DarkSlateGray"
+                       FontSize="18"
+                       MaxLines ="4"
+                    />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+</ContentPage>
