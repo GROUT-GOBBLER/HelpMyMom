@@ -111,6 +111,8 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="HelperViews\ViewReviews.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AssignHelperPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
