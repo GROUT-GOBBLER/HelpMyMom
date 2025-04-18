@@ -20,6 +20,7 @@ public partial class ChildMenu : ContentPage
             account.FName = "[Object]";
             account.LName = "[object]";
             account.Id = 2;
+            account.Email = "hmmprojectchild@hotmail.com";
         }
     }
 

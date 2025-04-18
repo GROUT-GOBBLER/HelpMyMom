@@ -73,7 +73,7 @@
                 TextColor="LightGreen"
                 Margin="10,20,10,0"
                 SemanticProperties.Hint="Get"
-                Clicked="ChangeNameClicked"
+                Clicked="AddMomClicked"
                 HorizontalOptions="Fill" />
 
             <Label x:Name="RemoveMom"
@@ -100,7 +100,7 @@
                 TextColor="Pink"
                 Margin="10,20,10,0"
                 SemanticProperties.Hint="Get"
-                Clicked="ChangeNameClicked"
+                Clicked="RemoveMomClicked"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>

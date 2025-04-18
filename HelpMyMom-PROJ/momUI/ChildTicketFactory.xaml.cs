@@ -146,7 +146,6 @@ public partial class ChildTicketFactory : ContentPage
                         mom.Reviews = [];
                         mom.Tickets = [];
 
-
                         HttpResponseMessage response3 = await client.PostAsJsonAsync(URL + "/Tickets", newTicket);
                         if (response3.IsSuccessStatusCode)
                         {
