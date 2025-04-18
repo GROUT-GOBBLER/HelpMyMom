@@ -130,14 +130,11 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="UnassignedTickets.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <Compile Update="MomToChildRelationshipPage.xaml.cs">
 	    <DependentUpon>MomToChildRelationshipPage.xaml</DependentUpon>
 	  </Compile>
-	</ItemGroup>
-
-    <!-- MIGHT NEED TO MERGE THESE TWO ITEM GROUPS! -->
-    
-	<ItemGroup>
 	  <MauiXaml Update="ChildAccountCreation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
