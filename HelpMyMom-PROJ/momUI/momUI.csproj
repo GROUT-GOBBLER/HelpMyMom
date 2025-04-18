@@ -95,6 +95,8 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MomMenu.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="HelperViews\HelperAvailableTickets.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
