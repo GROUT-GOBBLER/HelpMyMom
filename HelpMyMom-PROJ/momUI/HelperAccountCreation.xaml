@@ -65,11 +65,63 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
              />
+            <DatePicker 
+                x:Name="DatePicker"
+                MinimumDate = "{Binding MinDate}"
+                MaximumDate = "{Binding MaxDate}"
+                Date = "{Binding SelectedDate}"  />
 
-            <Entry x:Name="DOBEntry"
+            <!-- <Entry x:Name="DOBEntry"
                 Placeholder="Enter DOB"
                 VerticalOptions="Center"
-             />
+             />  -->
+            <Label 
+                Text="specifications"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+            <SearchBar x:Name = "Search"
+                 Placeholder="Username" 
+                 SearchButtonPressed="Search_SearchButtonPressed"/>
+            <HorizontalStackLayout>
+                <ListView 
+                    x:Name="SearchResultList"
+                    ItemSelected="SearchResultList_ItemSelected"
+                    Loaded="SearchResults_Loaded">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                   
+                                    <Label Grid.Row="1"
+                                        Grid.Column="1"
+                                        Text="{Binding}"
+                                        FontAttributes="Italic"
+                                        VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+
+                </ListView>
+                <ListView 
+                    x:Name="SelectedSpecs"
+                    ItemSelected="SelectedSpecs_ItemSelected">
+
+                </ListView>
+
+
+
+            </HorizontalStackLayout>
             <Label 
                 Text="description"
                 VerticalOptions="Center" 

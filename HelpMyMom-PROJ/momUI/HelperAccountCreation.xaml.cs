@@ -1,3 +1,4 @@
+
 using momUI.models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
@@ -9,7 +10,15 @@ public partial class HelperAccountCreation : ContentPage
 	public HelperAccountCreation()
 	{
 		InitializeComponent();
-	}
+        DateOnly Current = new DateOnly();
+        Current = DateOnly.FromDateTime(DateTime.Now);
+        
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+    }
+
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     async private void CreateAccountButton_Clicked(object sender, EventArgs e)
@@ -33,7 +42,7 @@ public partial class HelperAccountCreation : ContentPage
             helper.FName = FirstNameEntry.Text;
             helper.LName = LastNameEntry.Text;
             helper.Email = EmailEntry.Text;
-            String dob = DOBEntry.Text;
+           /* String dob = "2000/1/1"; //DOBEntry.Text;
             if (!dob.Contains("/"))
             {
                 ErrorLabel.Text = "Needs / between yyyy/mm/dd";
@@ -49,21 +58,22 @@ public partial class HelperAccountCreation : ContentPage
             {
                 ErrorLabel.Text = "Needs / between yyyy/mm/dd";
                 return;
-            }
+            }*/
 
-            int d = Convert.ToInt32(d_o_b[2]);
-            int m = Convert.ToInt32(d_o_b[1]);
-            int y = Convert.ToInt32(d_o_b[0]);
-            DateOnly DateOfBirth = new DateOnly(y,m,d);
+            // int d = Convert.ToInt32(d_o_b[2]);
+            //  int m = Convert.ToInt32(d_o_b[1]);
+            //  int y = Convert.ToInt32(d_o_b[0]);
+            //DateOnly DateOfBirth = new DateOnly(y,m,d);
+            DateOnly DateOfBirth = DateOnly.FromDateTime(DatePicker.Date);
             DateOnly Current = new DateOnly();
-            Current = DateOnly.FromDateTime(DateTime.Now);
-            if (Current.Year - DateOfBirth.Year < 16)
-            {
-                ErrorLabel.Text = "You must be at least 16 to apply to be a helper";
-                return;
-            }
+             Current = DateOnly.FromDateTime(DateTime.Now);
+             if (Current.Year - DateOfBirth.Year < 16)
+             {
+                  ErrorLabel.Text = "You must be at least 16 to apply to be a helper";
+                  return;
+             }
 
-          
+
             helper.Dob = DateOfBirth;
             if(descriptionEditor.Text.Length > 800)
             {
@@ -117,18 +127,57 @@ public partial class HelperAccountCreation : ContentPage
         }
 
     }
+    List<Spec> GlobalSpecList;
+    async private void SearchResults_Loaded(object sender, EventArgs e)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}");
+            String json = await response2.Content.ReadAsStringAsync();
+
+            List<Spec> specList = JsonConvert.DeserializeObject<List<Spec>>(json);
+            if(specList == null)
+            {
+                ErrorLabel.Text = "Error in Spec";
+                return;
+            }
+           
+            GlobalSpecList = specList;
+            
+           
+            SearchResultList.ItemsSource = specList;
+        }
+       
+    }
+
+    private void Search_SearchButtonPressed(object sender, EventArgs e)
+    {
+
+    }
+
+    private void SearchResultList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+
+    }
+
+   
+
+    private void SelectedSpecs_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+
+    }
     /* private void descriptionEditor_TextChanged(object sender, TextChangedEventArgs e)
-     {
+{
 
-     }
+}
 
-     private void descriptionEditor_Completed(object sender, EventArgs e)
-     {
+private void descriptionEditor_Completed(object sender, EventArgs e)
+{
 
-     }
-     TextChanged="descriptionEditor_TextChanged"
-     Completed="descriptionEditor_Completed"
+}
+TextChanged="descriptionEditor_TextChanged"
+Completed="descriptionEditor_Completed"
 
 
-     */
+*/
 }
