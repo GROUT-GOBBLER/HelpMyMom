@@ -2,14 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.MainPage">
-
-
+    
     <VerticalStackLayout
-     Padding="20,0"
-     Spacing="25"
-     VerticalOptions="Start"
-     HorizontalOptions="Fill">
-     
+        Padding="20,0"
+        Spacing="25"
+        VerticalOptions="Start"
+        HorizontalOptions="Fill">
         <HorizontalStackLayout
              HorizontalOptions="Fill"
             Spacing="160">
@@ -26,13 +24,10 @@
                 Text="Quick Login" 
                 SemanticProperties.Hint="Get"
                 Clicked ="QuickLogin_Clicked"
-                VerticalOptions="Center"
-                HorizontalOptions="End" />
-
+                VerticalOptions="Center" />
         </HorizontalStackLayout>
 
         <ScrollView>
-        
 
             <VerticalStackLayout
                 Padding="30,80"
@@ -51,14 +46,15 @@
                     SemanticProperties.HeadingLevel="Level2"
                     SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
                     VerticalOptions="Start"/>
+                
                 <Entry x:Name="UsernameEntry"
                     Placeholder="Enter Username"
-                    VerticalOptions="Center"
-                />
+                    VerticalOptions="Center" />
+                
                 <Entry x:Name="PasswordEntry"
                     Placeholder="Enter Password"
-                    VerticalOptions="Center"
-                />
+                    VerticalOptions="Center" />
+                
                 <Button
                     x:Name="LoginButton"
                     Text="Login" 
@@ -66,6 +62,7 @@
                     Clicked="LoginButton_Clicked"
                     VerticalOptions="Center"
                     HorizontalOptions="Fill" />
+
                 <Button
                     x:Name="SigninButton"
                     Text="Signin" 
@@ -73,8 +70,6 @@
                     Clicked="SigninButton_Clicked"
                     VerticalOptions="Center"
                     HorizontalOptions="Fill" />
-          
-
             </VerticalStackLayout>
         </ScrollView>
     </VerticalStackLayout>
