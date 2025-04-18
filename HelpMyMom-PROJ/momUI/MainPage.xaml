@@ -39,8 +39,6 @@
                 Spacing="25"
                 VerticalOptions="Center">
             
-
-
                 <Label
                     Text="Help My Mom"
                     Style="{StaticResource Headline}"

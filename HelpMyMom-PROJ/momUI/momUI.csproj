@@ -32,7 +32,7 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">34.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
@@ -64,6 +64,37 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="MomChatLogs.xaml.cs">
+	    <DependentUpon>MomChatLogs.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MomReviewPage.xaml.cs">
+	    <DependentUpon>MomReviewPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MomTicketPage.xaml.cs">
+	    <DependentUpon>MomTicketPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MomChatsPage.xaml.cs">
+	    <DependentUpon>MomChatsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MomMenu.xaml.cs">
+	    <DependentUpon>MomMenu.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="MomChatLogs.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomReviewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomTicketPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomChatsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomMenu.xaml">
 	  <MauiXaml Update="HelperViews\HelperAvailableTickets.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

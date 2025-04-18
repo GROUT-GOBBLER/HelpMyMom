@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.MomTicketPage"
+             Title="Create Ticket">
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Back Button -->
+        <Button Grid.Row="0"
+                Text="BACK"
+                HorizontalOptions="Start"
+                Clicked="OnBackClicked"
+                Margin="0,0,0,1" />
+
+        <!-- Issue Description Box -->
+        <Frame Grid.Row="1"
+           BorderColor="Black"
+           CornerRadius="0"
+           Padding="5"
+           HasShadow="True">
+            <Editor x:Name="IssueDescriptionBox"
+                Placeholder="Issue..."
+                HeightRequest="250"
+                Text="{Binding IssueText}"
+                
+                Margin="0,0,0,10" />
+        </Frame>
+
+        <!-- Submit Button -->
+        <Button x:Name="SubmitTicketButton"
+                Grid.Row="2"
+                Text="SUBMIT"
+                BackgroundColor="Purple"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                Clicked="OnSubmitClicked" />
+    </Grid>
+</ContentPage>
