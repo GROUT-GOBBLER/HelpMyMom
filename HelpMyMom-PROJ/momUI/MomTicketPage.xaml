@@ -21,7 +21,7 @@
         <!-- Issue Description Box -->
         <Frame Grid.Row="1"
            BorderColor="Black"
-           CornerRadius="1"
+           CornerRadius="0"
            Padding="5"
            HasShadow="True">
             <Editor x:Name="IssueDescriptionBox"

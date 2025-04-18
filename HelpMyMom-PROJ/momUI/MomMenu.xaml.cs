@@ -25,22 +25,7 @@ namespace momUI
                 OnPropertyChanged(nameof(BalanceLabel)); // Notify the UI of the change
             }
         }
-        
-
-
-        String accounts_url = "/Accounts";
-        String chatlogs_url = "/ChatLogs";
-        String children_url = "/Children";
-        String helpers_url = "/Helpers";
-        String mothers_url = "/Mothers";
-        String relationships_url = "/Relationships";
-        String reports_url = "/Reports";
-        String reviews_url = "/Reviews";
-        String specs_url = "/Specs";
-        String tickets_url = "/Tickets";
-
-
-
+       
         private double? _balance = 0.00;
 
         private int _momID;
@@ -51,13 +36,12 @@ namespace momUI
         private int _ticketsID;
 
 
+        public string balanceAddText { get; set; }
 
         public MomMenu()
         {
             InitializeComponent();
-
             BindingContext = this; // Set the binding context to this page
-
         }
 
         protected override void OnAppearing()
@@ -66,7 +50,7 @@ namespace momUI
             FetchImportantVariables();
         }
 
-        private async void AddToBalance()
+        private async void ModifyBalance()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -74,16 +58,12 @@ namespace momUI
                 {
                     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-                    HttpResponseMessage response1 = await client.GetAsync(URL + tickets_url);
-                    //response1.EnsureSuccessStatusCode();
+                    HttpResponseMessage response1 = await client.GetAsync(URL + "/Tickets");
+                    HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
+                    HttpResponseMessage response3 = await client.GetAsync(URL + "/Relationships");
+
                     String json1 = await response1.Content.ReadAsStringAsync();
-
-                    HttpResponseMessage response2 = await client.GetAsync(URL + mothers_url);
-                    //  response2.EnsureSuccessStatusCode();
                     String json2 = await response2.Content.ReadAsStringAsync();
-
-                    HttpResponseMessage response3 = await client.GetAsync(URL + relationships_url);
-                    // response3.EnsureSuccessStatusCode();
                     String json3 = await response3.Content.ReadAsStringAsync();
 
 
@@ -92,6 +72,7 @@ namespace momUI
                     List<Relationship> relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
 
                     int momIndexInList = 0;
+
                     foreach (Mother index in mothersList)
                     {
                         if (index.Id == _momID)
@@ -100,7 +81,7 @@ namespace momUI
                         }
                     }
 
-                    double newBalance = (double)_balance; // NOT FINISHED YET
+                    double newBalance = (double)_balance;
 
                     Mother updateMom = new Mother
                     {
@@ -111,14 +92,14 @@ namespace momUI
                         Tokens = newBalance
                     };
 
-                    HttpResponseMessage changeTokenAmountInMomResponse = await client.PutAsJsonAsync(URL + mothers_url, updateMom);
+                    HttpResponseMessage changeTokenAmountInMomResponse = await client.PutAsJsonAsync($"{URL}/{"Mothers"}/{momIndexInList}", updateMom);
 
                     if (changeTokenAmountInMomResponse.IsSuccessStatusCode)
                     {
                         // Step 5: Show success pop-up and navigate back
                         BalanceLabel = $"Current Balance: ${newBalance:F2}";
                         await DisplayAlert("Success", "Your balance has been successfully updated!", "OK");
-                       //  await Navigation.PopAsync();
+                        return;
                     }
                     else
                     {
@@ -132,6 +113,43 @@ namespace momUI
                     // Handle errors (e.g., show a default value or error message)
                     await DisplayAlert("Error", $"Failed to connect to add  to Balance: {ex.Message}", "OK");
                 }
+            }
+        }
+
+        private void OnAddBalanceClicked(object sender, EventArgs e)
+        {
+            // Show the popup
+            AddBalancePopup.IsVisible = true;
+            BalanceEntry.Text = string.Empty; // Clear the entry field
+        }
+
+        private void OnBackClicked(object sender, EventArgs e)
+        {
+            // Show the popup
+            AddBalancePopup.IsVisible = false;
+            BalanceEntry.Text = string.Empty; // Clear the entry field
+        }
+
+        private async void OnSubmitBalanceClicked(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(BalanceEntry.Text, out decimal amount))
+            {
+                if (amount < 0)
+                {
+                    // Treat negative numbers as 0
+                    amount = 0;
+                } 
+                // Round 2 decimal places
+                amount = Math.Round(amount, 2);
+                // Update balance
+                _balance += (double)amount;
+                // Hide the popup
+                AddBalancePopup.IsVisible = false;
+                ModifyBalance();
+            }
+            else
+            {
+                await DisplayAlert("Invalid Input", "Please enter a valid number.", "OK");
             }
         }
 
@@ -152,54 +170,37 @@ namespace momUI
                 try
                 {
                     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-                    /*
-                    HttpResponseMessage response1 = await client.GetAsync(accounts_url);
-                    // DisplayAlert("Testing:", $"{ client.BaseAddress + accounts_url }", "OK");
-                    //  response1.EnsureSuccessStatusCode();
-                    */
 
                     HttpResponseMessage response1 = await client.GetAsync(URL + "/Accounts");
                     string json1 = await response1.Content.ReadAsStringAsync();
                     List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1);
 
-                    /*
-                    HttpResponseMessage response2 = await client.GetAsync(mothers_url);
-                    // DisplayAlert("Testing:", $"{ client.BaseAddress + mothers_url }", "OK");
-                    //   response2.EnsureSuccessStatusCode();
-                    */
-
                     HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
                     string json2 = await response2.Content.ReadAsStringAsync();
                     List<Mother> motherList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-
-
 
                     Boolean found = false;
 
                     foreach (Mother index in motherList)
                     {
-                       // await DisplayAlert("Testing:", "Got here at least", "OK");
+                       
                         if (index.Id == _momID)
                         {
                             _balance = (double)index.Tokens;
-
-                            // float balanceNumber = (float)_balance;
+                            MomNameHeader.Text = $"{index.FName} {index.LName}";
 
                             // Update the BalanceText property with the fetched value
-                            BalanceLabel = $"Current Balance: ${_balance:F2}";
-                            found = true;
+                           BalanceLabel = $"Current Balance: ${_balance:F2}";
+                           found = true;
                                 
                             
                         }
                     }
-
                     if (found == false)
                     {
                         // Handle errors (e.g., show a default value or error message)
                         BalanceLabel = $"Current Balance: N/A (Could Not Find An Account with that username)";
                     }
-                    
-                    
                 }
                 catch (Exception ex)
                 {
@@ -244,16 +245,11 @@ namespace momUI
 
         async private void OnOpenChatsClicked(object sender, EventArgs e)
         {
-            // Add functionality for Open Chats button
-            // DisplayAlert("Open Chats", "Open Chats button clicked", "OK");
-            await Navigation.PushAsync(new MomChatsPage());
+            await Navigation.PushAsync(new MomChatsPage(_momID));
         }
 
         async private void OnCreateTicketClicked(object sender, EventArgs e)
         {
-            // Add functionality for Create a Help Ticket button
-            // DisplayAlert("Create Ticket", "Create a Help Ticket button clicked", "OK");
-
             await Navigation.PushAsync(new MomTicketPage(_balance, _momID));
         }
 
@@ -305,12 +301,6 @@ namespace momUI
         }
         */
 
-        /*
-        public class BalanceResponse
-        {
-            public double Balance { get; set; }
-        }
-        */
 
     }
 

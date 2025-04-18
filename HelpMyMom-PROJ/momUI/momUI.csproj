@@ -64,6 +64,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="MomChatLogs.xaml.cs">
+	    <DependentUpon>MomChatLogs.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MomReviewPage.xaml.cs">
+	    <DependentUpon>MomReviewPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="MomTicketPage.xaml.cs">
 	    <DependentUpon>MomTicketPage.xaml</DependentUpon>
 	  </Compile>
@@ -76,6 +82,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="MomChatLogs.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomReviewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MomTicketPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
