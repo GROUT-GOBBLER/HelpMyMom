@@ -27,24 +27,31 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Column="1"
-                                       Text="{Binding sender}"
-                                       FontSize="25"
-                                       FontAttributes="Bold" />
-                                <Label Grid.Row="1"
-                                       Grid.Column="1"
-                                       Text="{Binding messageTextContent}"
-                                       FontSize="15"
-                                       FontAttributes="Italic"                                           
-                                       VerticalOptions="End" />
+                                <Label 
+                                    Grid.Row="0"
+                                    Text="{Binding sender}"
+                                    FontSize="25"
+                                    FontAttributes="Bold" />
+                                <Label 
+                                    Grid.Row="1"
+                                    Text="{Binding timeOfSent}"                                       
+                                    FontSize="15"                                    
+                                    FontAttributes="None" />
+                                <Label 
+                                    Grid.Row="2"
+                                    Text="{Binding messageTextContent}"
+                                    FontSize="15"
+                                    FontAttributes="Italic"                                           
+                                    VerticalOptions="End" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-            <HorizontalStackLayout
+            <VerticalStackLayout
                 HorizontalOptions="Center">
                 <Entry 
                     x:Name="MessageTextEntry"
@@ -61,15 +68,7 @@
                     Clicked="SendChatMessage_Clicked"
                     VerticalOptions="End"
                     HorizontalOptions="End" />
-
-                <Button 
-                    x:Name="RefreshChatMessages"
-                    Text="Refresh All Chat Messages."
-                    SemanticProperties.Hint="Reload the page and show all of the chat messages."
-                    Clicked="RefreshChatMessages_Clicked"
-                    VerticalOptions="End"
-                    HorizontalOptions="End" />
-            </HorizontalStackLayout>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
