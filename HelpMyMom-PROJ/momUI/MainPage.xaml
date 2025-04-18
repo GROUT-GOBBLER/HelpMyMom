@@ -2,31 +2,48 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.MainPage">
-
-    <ScrollView>
+    <ScrollView
+        VerticalScrollBarVisibility="Always"
+        Margin="20" >
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-
             <Label
                 Text="Chat Testing!!"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
-            <ListView x:Name="ChatMessageListView">
+
+            <ListView 
+                x:Name="ChatMessageListView"  
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                VerticalScrollBarVisibility="Never" 
+                HasUnevenRows="True" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label
-                                Text="{Binding}"
-                                FontSize="15"
-                                TextColor="Black"
-                                HorizontalOptions="Start"
-                                VerticalOptions="Center"
-                                Padding="10" />
+                            <Grid 
+                                Padding="10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="1"
+                                       Text="{Binding sender}"
+                                       FontSize="25"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       Text="{Binding messageTextContent}"
+                                       FontSize="15"
+                                       FontAttributes="Italic"                                           
+                                       VerticalOptions="End" />
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
             <HorizontalStackLayout
                 HorizontalOptions="Center">
                 <Entry 
@@ -34,14 +51,14 @@
                     Placeholder="Enter your message."
                     TextChanged="MessageTextEntry_TextChanged"
                     ClearButtonVisibility="WhileEditing"
-                    VerticalOptions="End"            
-                    HorizontalOptions="StartAndExpand" />
+                    VerticalOptions="End"        
+                    HorizontalOptions="Start" />
 
                 <Button
-                    x:Name="GenerateChatMessages"
+                    x:Name="SendChatMessage"
                     Text="Send message."     
                     SemanticProperties.Hint="Send the typed message."
-                    Clicked="GenerateChatMessages_Clicked"
+                    Clicked="SendChatMessage_Clicked"
                     VerticalOptions="End"
                     HorizontalOptions="End" />
 
@@ -51,11 +68,8 @@
                     SemanticProperties.Hint="Reload the page and show all of the chat messages."
                     Clicked="RefreshChatMessages_Clicked"
                     VerticalOptions="End"
-                    HorizontalOptions="End"
-                    />
-            </HorizontalStackLayout>            
-
+                    HorizontalOptions="End" />
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
