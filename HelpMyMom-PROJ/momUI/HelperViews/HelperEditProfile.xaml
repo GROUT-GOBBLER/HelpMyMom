@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.HelperViews.HelperEditProfile"
+             Title="HelperEditProfile">
+    <VerticalStackLayout
+        Margin="20,20,20,20"
+        Spacing="10">
+        <Label 
+            Text="EDIT Profile!"
+            FontSize="50"
+            FontAttributes="Bold"
+            VerticalOptions="Start" 
+            HorizontalOptions="Start" />
+        
+        <!-- USER NAME. -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Username: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+            
+            <Entry 
+                x:Name="UsernameEntry" 
+                Placeholder="..." 
+                TextChanged="UsernameEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+            
+            <Button
+                x:Name="UsernameEditButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited user name for profile."
+                Clicked="UsernameEditButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+
+        <!-- FIRST NAME. -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="First name: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <Entry 
+                x:Name="FirstNameEntry" 
+                Placeholder="..." 
+                TextChanged="FirstNameEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+            <Button
+                x:Name="FirstNameButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited first name for profile."
+                Clicked="FirstNameButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+
+        <!-- LAST NAME. -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Last name: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <Entry 
+                x:Name="LastNameEntry" 
+                Placeholder="..." 
+                TextChanged="LastNameEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+            <Button
+                x:Name="LastNameButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited last name for profile."
+                Clicked="LastNameButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+        
+        <!-- DATE OF BIRTH -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Date of Birth: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <VerticalStackLayout>
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Month: "
+                        FontSize="15"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start" />
+
+                    <Entry 
+                        x:Name="DateOfBirthMONTHEntry"
+                        Placeholder="..."
+                        TextChanged="DateOfBirthMONTHEntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Day: "
+                        FontSize="15"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+
+                    <Entry 
+                        x:Name="DateOfBirthDAYEntry"
+                        Placeholder="..."
+                        TextChanged="DateOfBirthDAYEntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Year: "
+                        FontSize="15"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+
+                    <Entry 
+                        x:Name="DateOfBirthYEAREntry"
+                        Placeholder="..."
+                        TextChanged="DateOfBirthYEAREntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <Button
+                x:Name="DateOfBirthButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited date of birth for profile."
+                Clicked="DateOfBirthButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+
+        <!-- DESCRIPTION. -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Description: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <Entry 
+                x:Name="DescriptionEntry" 
+                Placeholder="..." 
+                TextChanged="DescriptionEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+            <Button
+                x:Name="DescriptionButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited description for profile."
+                Clicked="DescriptionButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+        
+        <!-- SPECS LIST. -->
+        <HorizontalStackLayout
+            Spacing="10">
+            <Label 
+                Text="Specialties: "
+                FontSize="25"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <Entry 
+                x:Name="SpecsEntry" 
+                Placeholder="..." 
+                TextChanged="SpecsEntry_TextChanged"
+                ClearButtonVisibility="WhileEditing"
+                WidthRequest="200"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+            <Button
+                x:Name="SpecsButton"
+                Text="Submit."
+                SemanticProperties.Hint="Submit edited specialties list for profile."
+                Clicked="SpecsButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

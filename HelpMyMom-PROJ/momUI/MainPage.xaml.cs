@@ -14,7 +14,6 @@ namespace momUI
         {
             InitializeComponent();
         }
-
        
         async private void LoginButton_Clicked(object sender, EventArgs e)
         {
@@ -104,7 +103,6 @@ namespace momUI
 
         private void AccessibiltySettings_Clicked(object sender, EventArgs e)
         {
-
         }
 
         async private void QuickLogin_Clicked(object sender, EventArgs e)

@@ -64,6 +64,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="HelperViews\HelperAvailableTickets.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\HelperCurrentChats.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\HelperEditProfile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\HelperOpenProfile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\HelperView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\ViewReviews.xaml">
 	  <MauiXaml Update="AssignHelperPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
