@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.ChildAccountCreation"
+             Title="ChildAccountCreation">
+    <VerticalStackLayout
+     Padding="30,80"
+     Spacing="25">
+        <Label 
+             Text="Username:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+        />
+
+        <Entry x:Name="UsernameEntry"
+            Placeholder="Enter Username"
+            VerticalOptions="Center"
+        />
+        <Label 
+             Text="Password:"
+             VerticalOptions="Center" 
+             HorizontalOptions="Center" 
+        />
+
+        <Entry x:Name="PasswordEntry"
+            Placeholder="Enter Password"
+            VerticalOptions="Center"
+        />
+        <Label 
+            Text="Email:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+        />
+
+        <Entry x:Name="EmailEntry"
+             Placeholder="Enter Email"
+             VerticalOptions="Center"
+        />
+
+        <Label 
+            Text="First Name:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+        />
+
+        <Entry x:Name="FirstNameEntry"
+            Placeholder="first name"
+            VerticalOptions="Center"
+        />
+
+        <Label 
+            Text="Last Name:"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+        />
+
+        <Entry x:Name="LastNameEntry"
+            Placeholder="last name"
+            VerticalOptions="Center"
+        />
+        <Button
+            x:Name="CreateAccountButton"
+            Text="Create Account" 
+            SemanticProperties.Hint="Get"
+            Clicked="CreateAccountButton_Clicked"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill" 
+        />
+        <Label 
+             x:Name="ErrorLabel"
+             Text=""
+             VerticalOptions="Center" 
+             HorizontalOptions="Center" 
+        />
+
+    </VerticalStackLayout>
+</ContentPage>
