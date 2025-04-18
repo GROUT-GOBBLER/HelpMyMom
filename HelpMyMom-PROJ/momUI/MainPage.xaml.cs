@@ -112,5 +112,4 @@ namespace momUI
             await Navigation.PushAsync(new QuickLogin());
         }
     }
-
 }

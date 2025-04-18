@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace momUI.models;
-
 public partial class Helper
 {
     public int Id { get; set; }
