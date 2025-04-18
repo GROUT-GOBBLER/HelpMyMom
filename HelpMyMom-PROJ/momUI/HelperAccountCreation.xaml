@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.HelperAccountCreation"
+             Title="HelperAccountCreation">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,80"
+            Spacing="25">
+            <Label 
+                Text="Username:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+
+            <Entry x:Name="UsernameEntry"
+                Placeholder="Enter Username"
+                VerticalOptions="Center"
+            />
+            <Label 
+                Text="Password:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+
+            <Entry x:Name="PasswordEntry"
+                Placeholder="Enter Password"
+                VerticalOptions="Center"
+            />
+          
+            <Label 
+                Text="Email:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+
+            <Entry x:Name="EmailEntry"
+                Placeholder="Enter Email"
+                VerticalOptions="Center"
+            />
+
+            <Label 
+                Text="First Name:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+
+            <Entry x:Name="FirstNameEntry"
+                Placeholder="first name"
+                VerticalOptions="Center"
+            />
+
+            <Label 
+                Text="Last Name:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+
+            <Entry x:Name="LastNameEntry"
+                Placeholder="last name"
+                VerticalOptions="Center"
+            />
+            <Label 
+                Text="Date of Birth yyyy/mm/dd"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+             />
+            <DatePicker 
+                x:Name="DatePicker"
+                MinimumDate = "{Binding MinDate}"
+                MaximumDate = "{Binding MaxDate}"
+                Date = "{Binding SelectedDate}"  />
+
+            <!-- <Entry x:Name="DOBEntry"
+                Placeholder="Enter DOB"
+                VerticalOptions="Center"
+             />  -->
+            <Label 
+                Text="specifications"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+            <SearchBar x:Name = "Search"
+                 Placeholder="Username" 
+                 SearchButtonPressed="Search_SearchButtonPressed"/>
+            <HorizontalStackLayout>
+                <ListView 
+                    x:Name="SearchResultList"
+                    ItemSelected="SearchResultList_ItemSelected"
+                    Loaded="SearchResults_Loaded">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                   
+                                    <Label Grid.Row="1"
+                                        Grid.Column="1"
+                                        Text="{Binding}"
+                                        FontAttributes="Italic"
+                                        VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+
+                </ListView>
+                <ListView 
+                    x:Name="SelectedSpecs"
+                    ItemSelected="SelectedSpecs_ItemSelected">
+
+                </ListView>
+
+
+
+            </HorizontalStackLayout>
+            <Label 
+                Text="description"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+            <Editor x:Name="descriptionEditor"
+                Placeholder="Enter your response here"
+                HeightRequest="250"
+
+             />
+            <Button
+                x:Name="CreateAccountButton"
+                Text="Create Account" 
+                SemanticProperties.Hint="Get"
+                Clicked="CreateAccountButton_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill" 
+            />
+            <Label 
+                x:Name="ErrorLabel"
+                Text=""
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+            />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

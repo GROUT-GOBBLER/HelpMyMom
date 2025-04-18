@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.SignUpPage"
+             Title="SignUpPage">
+    <VerticalStackLayout Spacing="25"
+        Padding="40,150">
+
+        <Button
+            x:Name="Mom"
+            Text="Mom Account" 
+            SemanticProperties.Hint="Get"
+            Padding="30,20"
+           
+            Clicked="Mom_Clicked"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill" />
+        <Button
+            x:Name="Child"
+            Text="Child Account" 
+            SemanticProperties.Hint="Get"
+            Padding="30,20"
+            Clicked="Child_Clicked"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill" />
+        <Button
+            x:Name="Helper"
+            Text="Helper Account" 
+            SemanticProperties.Hint="Get"
+            Padding="30,20"
+            Clicked="Helper_Clicked"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>
