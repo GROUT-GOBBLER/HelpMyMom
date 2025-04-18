@@ -53,13 +53,18 @@
 
             <VerticalStackLayout
                 HorizontalOptions="Center">
-                <Entry 
+                <Editor 
                     x:Name="MessageTextEntry"
                     Placeholder="Enter your message."
                     TextChanged="MessageTextEntry_TextChanged"
-                    ClearButtonVisibility="WhileEditing"
-                    VerticalOptions="End"        
-                    HorizontalOptions="Start" />
+                    IsSpellCheckEnabled="True"
+                    AutoSize="TextChanges"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Start"
+                    MinimumWidthRequest="350"
+                    MaxLength="2000"
+                    VerticalOptions="Fill"        
+                    HorizontalOptions="Fill" />
 
                 <Button
                     x:Name="SendChatMessage"

@@ -205,10 +205,10 @@ namespace momUI
                     newChatLog.Id = chatLogList[length - 1].Id + 1;
                     newChatLog.TicketId = ticketID;
                     newChatLog.Time = DateTime.Now;
-                    newChatLog.IsMom = "true      "; // WILL NEED TO CHANGE THIS AT SOME POINT!
+                    newChatLog.IsMom = "false      "; // FOR HELPER. BOHAN, YOU NEED TO CHANGE THIS TO TRUE BECAUSE YOU'RE DOING THE MOM!
                     newChatLog.Text = messageToSend;
-                    newChatLog.Image = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
-                    newChatLog.Ticket = null; // might NEED TO CHANGE THIS AT SOME POINT!
+                    newChatLog.Image = null; 
+                    newChatLog.Ticket = null; 
 
                     HttpResponseMessage createResponse = await client.PostAsJsonAsync($"{URL}/{"Chatlogs"}", newChatLog); // post new message.
 
