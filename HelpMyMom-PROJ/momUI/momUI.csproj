@@ -64,37 +64,37 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="MomChatLogs.xaml.cs">
+	  <Compile Update="MomViews\MomChatLogs.xaml.cs">
 	    <DependentUpon>MomChatLogs.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="MomReviewPage.xaml.cs">
+	  <Compile Update="MomViews\MomReviewPage.xaml.cs">
 	    <DependentUpon>MomReviewPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="MomTicketPage.xaml.cs">
+	  <Compile Update="MomViews\MomTicketPage.xaml.cs">
 	    <DependentUpon>MomTicketPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="MomChatsPage.xaml.cs">
+	  <Compile Update="MomViews\MomChatsPage.xaml.cs">
 	    <DependentUpon>MomChatsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="MomMenu.xaml.cs">
+	  <Compile Update="MomViews\MomMenu.xaml.cs">
 	    <DependentUpon>MomMenu.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="MomChatLogs.xaml">
+	  <MauiXaml Update="MomViews\MomChatLogs.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomReviewPage.xaml">
+	  <MauiXaml Update="MomViews\MomReviewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomTicketPage.xaml">
+	  <MauiXaml Update="MomViews\MomTicketPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomChatsPage.xaml">
+	  <MauiXaml Update="MomViews\MomChatsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomMenu.xaml">
+	  <MauiXaml Update="MomViews\MomMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="HelperViews\HelperAvailableTickets.xaml">
@@ -115,49 +115,49 @@
 	  <MauiXaml Update="HelperViews\ViewReviews.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AssignHelperPage.xaml">
+	  <MauiXaml Update="ChildViews\AssignHelperPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ChildAccountSettings.xaml">
+	  <MauiXaml Update="ChildViews\ChildAccountSettings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ChildMenu.xaml">
+	  <MauiXaml Update="ChildViews\ChildMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ChildTicketFactory.xaml">
+	  <MauiXaml Update="ChildViews\ChildTicketFactory.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ConfirmHelper.xaml">
+	  <MauiXaml Update="ChildViews\ConfirmHelper.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="TicketProgress.xaml">
+	  <MauiXaml Update="ChildViews\TicketProgress.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="UnassignedTickets.xaml">
+	  <MauiXaml Update="ChildViews\UnassignedTickets.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <Compile Update="MomToChildRelationshipPage.xaml.cs">
+	  <Compile Update="AccountCreationAndLogin\MomToChildRelationshipPage.xaml.cs">
 	    <DependentUpon>MomToChildRelationshipPage.xaml</DependentUpon>
 	  </Compile>
-	  <MauiXaml Update="ChildAccountCreation.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\ChildAccountCreation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ChildToMomRelationshipPage.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\ChildToMomRelationshipPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="HelperAccountCreation.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\HelperAccountCreation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomAccountCreation.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\MomAccountCreation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomToChildRelationshipPage.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\MomToChildRelationshipPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="QuickLogin.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\QuickLogin.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="SignUpPage.xaml">
+	  <MauiXaml Update="AccountCreationAndLogin\SignUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
