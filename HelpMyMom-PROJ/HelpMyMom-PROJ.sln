@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "momAPI", "HelpMyMom-PROJ\mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "momUI", "momUI\momUI.csproj", "{C6E968D0-3082-48AF-902E-C5B12D42A9BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{81AEAFAD-FD3F-45A3-B4E5-86618435BF79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,9 @@ Global
 		{C6E968D0-3082-48AF-902E-C5B12D42A9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6E968D0-3082-48AF-902E-C5B12D42A9BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C6E968D0-3082-48AF-902E-C5B12D42A9BD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{81AEAFAD-FD3F-45A3-B4E5-86618435BF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AEAFAD-FD3F-45A3-B4E5-86618435BF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AEAFAD-FD3F-45A3-B4E5-86618435BF79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

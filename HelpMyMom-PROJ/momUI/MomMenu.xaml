@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.MomMenu">
+
+
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1">
+        <VerticalStackLayout
+                Padding="30,0"
+                Spacing="25">
+
+            <Label x:Name="MomNameHeader"
+                    Text="First Name Last Name" 
+                    FontSize="26"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,0"
+                    LineBreakMode="WordWrap" />
+
+            <Grid Padding="20">
+                <!-- Define rows for the layout -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <!-- For Current Balance -->
+                    <RowDefinition Height="Auto" />
+                    <!-- For Open Chats and Create Ticket buttons -->
+                    <RowDefinition Height="*" />
+                    <!-- For the main content -->
+                </Grid.RowDefinitions>
+
+                <HorizontalStackLayout>
+                    <!-- Current Balance Label -->
+                    <Label
+                            Grid.Row="0"
+                            Text="{Binding BalanceLabel}" 
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            Margin="-30,10,0,20"
+                            LineBreakMode="WordWrap" />
+
+                    <Button x:Name="AddBalanceBtn"
+                            Text="Add Additional Tokens To Balance"
+                            BackgroundColor="Black"
+                            TextColor="White"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            WidthRequest="160"
+                            HeightRequest="80"
+                            CornerRadius="10" 
+                            Clicked="OnAddBalanceClicked"
+                            LineBreakMode="WordWrap" 
+                            Margin="25,-20,0,0"/>
+                </HorizontalStackLayout>
+            </Grid>
+
+                <Button x:Name="OpenChatBtn"
+                    Text="OPEN CHATS"
+                    BackgroundColor="Purple"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    WidthRequest="250"
+                    HeightRequest="80"
+                    CornerRadius="10" 
+                    Clicked="OnOpenChatsClicked"
+                    LineBreakMode="WordWrap" />
+
+                <Button x:Name="CreateTicketBtn"
+                    Text="CREATE A HELP TICKET"
+                    BackgroundColor="Purple"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    WidthRequest="250"
+                    HeightRequest="80"
+                    CornerRadius="10" 
+                    Clicked="OnCreateTicketClicked"
+                    LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+    </ScrollView>
+
+    <!-- Popup ContentView -->
+    <ContentView x:Name="AddBalancePopup"
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            BackgroundColor="#80000000"
+            IsVisible="False">
+        <Frame BackgroundColor="White"
+                   CornerRadius="10"
+                   Padding="20"
+                   WidthRequest="400"
+                   HeightRequest="300"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+            <VerticalStackLayout Spacing="15">
+                    <Label Text="Enter how much you wish to add to your balance"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        LineBreakMode="WordWrap" />
+
+                    <Entry x:Name="BalanceEntry"
+                        Placeholder="Enter a value... (negative numbers will be treated as 0)"
+                        Keyboard="Numeric"
+                        HorizontalTextAlignment="Center" />
+
+                    <HorizontalStackLayout 
+                        Padding="30,0"
+                        Spacing="25">
+
+                        <Button x:Name="GoBack"
+                           Text="CANCEL"
+                           BackgroundColor="Purple"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           CornerRadius="10"
+                           HorizontalOptions="Center"
+                           LineBreakMode="WordWrap"
+                           Clicked="OnBackClicked"
+                           Margin="20,0,0,10" />
+                        
+                        <Button x:Name="SubmitBalanceAmount"
+                            Text="CONFIRM"
+                            BackgroundColor="Purple"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HorizontalOptions="Center"
+                            LineBreakMode="WordWrap"
+                            Clicked="OnSubmitBalanceClicked" 
+                            Margin="20,0,0,10" />
+
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+        </Frame>
+    </ContentView>
+
+
+
+    </AbsoluteLayout>
+
+</ContentPage>

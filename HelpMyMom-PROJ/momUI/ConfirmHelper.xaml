@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.ConfirmHelper"
+             Title="Confirm Helper">
+    <ScrollView Margin="10">
+        <VerticalStackLayout>
+            <Label 
+                x:Name="Name"
+                Text="First Last"
+                Margin="10,20,0,0"
+                FontSize="40"
+                TextColor="Black"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Label 
+                x:Name="Email"
+                Text="email@email"
+                Margin="10,0,0,0"
+                FontSize="20"
+                TextColor="SlateGray"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Label 
+                x:Name="Rating"
+                Text="Rating: x"
+                Margin="10,0,0,0"
+                FontSize="20"
+                TextColor="DarkSlateGray"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Label 
+                x:Name="Description"
+                Text="Helper Details"
+                Margin="0,20,0,0"
+                FontSize="20"
+                TextColor="Black"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+            
+            <Label 
+                x:Name="TextSpecs"
+                Text="Helper specs"
+                Margin="0,5,0,0"
+                FontSize="20"
+                TextColor="Black"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Button
+                x:Name="confirmBtn"
+                Text="Confirm" 
+                FontSize="30"
+                LineBreakMode="WordWrap"
+                BackgroundColor="DarkOliveGreen"
+                Margin="10,50,10,0"
+                SemanticProperties.Hint="Get"
+                Clicked="finishedClicked"
+                HorizontalOptions="Fill" />
+
+            <Label 
+                Text="Reviews"
+                Margin="0,5,0,0"
+                FontSize="40"
+                TextColor="Black"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
