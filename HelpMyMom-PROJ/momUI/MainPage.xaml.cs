@@ -56,7 +56,7 @@ namespace momUI
                         Child child = JsonConvert.DeserializeObject<Child>(json);
 
                         LoginButton.Text = $" child {child.FName} {child.LName} ";
-                        await Navigation.PushAsync(new ChildMenu());
+                        await Navigation.PushAsync(new ChildMenu(child));
                         return;
                     }
                     else if (account.HelperId != null)

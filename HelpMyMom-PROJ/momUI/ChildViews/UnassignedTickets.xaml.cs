@@ -83,7 +83,7 @@ public partial class UnassignedTickets : ContentPage
                             SearchTicket t = new SearchTicket();
 
                             t.Id = -1;
-                            t.Details = "You have no tickets";
+                            t.Details = "You have no unassigned tickets";
                             t.MomName = "n/a";
                             t.HelperName = "n/a";
 
@@ -113,25 +113,31 @@ public partial class UnassignedTickets : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            Ticket selected = ticketList.SelectedItem as Ticket;
-            selected.HelperId = helper.Id;
-            selected.Status = "ASSIGNED";
+            SearchTicket s = ticketList.SelectedItem as SearchTicket;
 
-            try
+            Ticket selected = tickets.SingleOrDefault(t => t.Id == s.Id);
+
+            if (selected != null)
             {
-                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{selected.Id}", selected);
-                if (response3.IsSuccessStatusCode) TopText.Text = "Success";
-                else TopText.Text = "Error";
+                selected.HelperId = helper.Id;
+                selected.Status = "ASSIGNED";
 
-                Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
-            }
-            catch (Exception ex)
-            {
-                TopText.Text = ex.Message;
+                try
+                {
+                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{selected.Id}", selected);
+                    if (response3.IsSuccessStatusCode) TopText.Text = "Success";
+                    else TopText.Text = "Error";
 
-                Console.WriteLine("\n-------------------------------------------------------------");
-                Console.WriteLine(ex.ToString());
-                Console.WriteLine("-------------------------------------------------------------\n");
+                    Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
+                }
+                catch (Exception ex)
+                {
+                    TopText.Text = ex.Message;
+
+                    Console.WriteLine("\n-------------------------------------------------------------");
+                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine("-------------------------------------------------------------\n");
+                }
             }
         }
     }

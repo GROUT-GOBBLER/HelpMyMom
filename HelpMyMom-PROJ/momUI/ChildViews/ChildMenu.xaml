@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.ChildMenu"
              Title="Child Menu">
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="10">
         <Label 
             x:Name="loggedIn"
             Text="Signed in as [user]"
@@ -31,7 +31,7 @@
                 BackgroundColor="Grey"
                 Margin="50,10,0,0"
                 SemanticProperties.Hint="Get"
-                Clicked="NothingClicked"
+                Clicked="SignOutClicked"
                 HorizontalOptions="Fill" />
         </HorizontalStackLayout>
 

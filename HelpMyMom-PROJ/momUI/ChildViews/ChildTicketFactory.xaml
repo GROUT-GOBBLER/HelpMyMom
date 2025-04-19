@@ -41,9 +41,8 @@
             Text="Submit" 
             FontSize="30"
             LineBreakMode="WordWrap"
-            BackgroundColor="DarkOliveGreen"
+            BackgroundColor="DarkGreen"
             Margin="10,50,10,0"
-            SemanticProperties.Hint="Get"
             Clicked="createClicked"
             HorizontalOptions="Fill" />
     </VerticalStackLayout>

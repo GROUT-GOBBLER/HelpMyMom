@@ -17,8 +17,8 @@ public partial class ChildMenu : ContentPage
         else
         {
             account = new Child();
-            account.FName = "[Object]";
-            account.LName = "[object]";
+            account.FName = "You shouldn't";
+            account.LName = "be here";
             account.Id = 2;
             account.Email = "hmmprojectchild@hotmail.com";
         }
@@ -47,6 +47,11 @@ public partial class ChildMenu : ContentPage
     async private void AccManagementClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new ChildAccountSettings(account));
+    }
+
+    private void SignOutClicked(object sender, EventArgs e)
+    {
+        Application.Current.MainPage = new NavigationPage(new MainPage());
     }
 
     private void NothingClicked(object sender, EventArgs e)
