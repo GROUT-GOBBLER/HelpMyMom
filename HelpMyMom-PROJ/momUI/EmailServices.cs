@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using momUI.models;
 
-// EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", [Ticket]);
+// EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", [user's acc], "completed", [Ticket]);
 
 namespace momUI
 {
