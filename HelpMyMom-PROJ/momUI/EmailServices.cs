@@ -14,14 +14,14 @@ namespace momUI
     public static class EmailServices
     {
         // Valid statuses: new, assigned, in progress, completed, approved 
-        public static void SendNotifcation(String Target, String status, Ticket ticket)
+        public static void SendNotifcation(String Target, Account acc, String status, Ticket ticket)
         {
             string fromEmail = "gingervip66@gmail.com";
             string password = "udyw uyyi lsne kjrt";
 
             string[] msgBody = new string[]
             {
-                "Hello [USER]!",
+                $"Hello {acc.Username}!",
                 $"Your ticket (#{ticket.Id}) have now been updated to the {status} status, log into the app for additional details.",
                 "Thank you for your time, Help My Mom App"
             };
