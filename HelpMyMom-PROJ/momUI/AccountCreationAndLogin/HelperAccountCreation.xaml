@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.HelperAccountCreation"
+             xmlns:models="clr-namespace:momUI.models"
              Title="HelperAccountCreation">
     <ScrollView>
         <VerticalStackLayout
@@ -76,43 +77,37 @@
                 VerticalOptions="Center"
              />  -->
             <Label 
-                Text="specifications"
+                Text="specailties"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
             />
             <SearchBar x:Name = "Search"
-                 Placeholder="Username" 
+                 Placeholder="enter your specailties" 
                  SearchButtonPressed="Search_SearchButtonPressed"/>
             <HorizontalStackLayout>
                 <ListView 
                     x:Name="SearchResultList"
                     ItemSelected="SearchResultList_ItemSelected"
-                    Loaded="SearchResults_Loaded">
+                    Loaded="SearchResults_Loaded"
+                    HasUnevenRows="True"
+                    HorizontalOptions="Start">
                     <ListView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="models:Spec">
                             <ViewCell>
-                                <Grid Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                   
-                                    <Label Grid.Row="1"
-                                        Grid.Column="1"
-                                        Text="{Binding}"
-                                        FontAttributes="Italic"
-                                        VerticalOptions="End" />
-                                </Grid>
+                                <HorizontalStackLayout>
+                                    <Label 
+                                       Text="{Binding Name}"
+                                        TextColor="Black"
+                                       FontSize="15"
+                                     />
+                                </HorizontalStackLayout>
+
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-
-
                 </ListView>
+                
+                
                 <ListView 
                     x:Name="SelectedSpecs"
                     ItemSelected="SelectedSpecs_ItemSelected">

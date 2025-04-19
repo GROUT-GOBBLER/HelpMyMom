@@ -17,6 +17,7 @@ namespace momUI
        
         async private void LoginButton_Clicked(object sender, EventArgs e)
         {
+            LoginButton.IsEnabled = false;
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -28,20 +29,22 @@ namespace momUI
                     Account account = JsonConvert.DeserializeObject<Account>(json);
 
 
-                    LoginButton.Text = $" id: {account.Username} ChildId: { account.ChildId}, MomId: {account.MomId}, HelperId {account.HelperId}";
+                   // LoginButton.Text = $" id: {account.Username} ChildId: { account.ChildId}, MomId: {account.MomId}, HelperId {account.HelperId}";
 
                     //post.Text = $" {PasswordEntry.Text} ";
                     //return;
 
                     if (account == null)
                     {
-                        LoginButton.Text = $" No account";
+                        ErrorLabel.Text = $" No account";
+                        LoginButton.IsEnabled = true;
                         return;
                     }
 
                     if (account.Password != PasswordEntry.Text)
                     {
-                        LoginButton.Text = $" invalid password";
+                        ErrorLabel.Text = $" invalid password";
+                        LoginButton.IsEnabled = true;
                         return;
                     }
                     if (account.ChildId != null)
@@ -49,14 +52,16 @@ namespace momUI
                         response2 = await client.GetAsync($"{URL}/{"Children"}/{account.ChildId}");
                         if (!response2.IsSuccessStatusCode)
                         {
-                            LoginButton.Text = $" {response2} ";
+                             ErrorLabel.Text = $" Something happed to the connection ";
+                            LoginButton.IsEnabled = true;
                             return;
                         }
                         json = await response2.Content.ReadAsStringAsync();
                         Child child = JsonConvert.DeserializeObject<Child>(json);
 
-                        LoginButton.Text = $" child {child.FName} {child.LName} ";
+                       // LoginButton.Text = $" child {child.FName} {child.LName} ";
                         await Navigation.PushAsync(new ChildMenu());
+                        LoginButton.IsEnabled = true;
                         return;
                     }
                     else if (account.HelperId != null)
@@ -65,8 +70,14 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Helper helper = JsonConvert.DeserializeObject<Helper>(json);
+                        if (helper.Banned == 1.0)
+                        {
+                            LoginButton.Text = $"This account is banned";
+                            return;
+                        }
                         
                         await Navigation.PushAsync(new HelperView());
+                        LoginButton.IsEnabled = true;
                         return;
                     }
                     else if (account.MomId != null)
@@ -75,13 +86,15 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
+
                         await Navigation.PushAsync(new MomMenu());
+                        LoginButton.IsEnabled = true;
                         //  LoginButton.Text = $" mother {mother.FName} {mother.LName} ";
                         return;
                     }
 
 
-                    LoginButton.Text = $"Some sort of error happened with the account creation";
+                    ErrorLabel.Text = $"Some sort of error happened with the account creation";
 
 
 
@@ -96,21 +109,29 @@ namespace momUI
 
 
             }
-
+            LoginButton.IsEnabled = true;
         }
 
         async private void SigninButton_Clicked(object sender, EventArgs e)
         {
+            SigninButton.IsEnabled = false;
             await Navigation.PushAsync(new SignUpPage());
+            SigninButton.IsEnabled = true;
         }
 
         private void AccessibiltySettings_Clicked(object sender, EventArgs e)
         {
+            AccessibiltySettings.IsEnabled = false;
+
+
+            AccessibiltySettings.IsEnabled = true;
         }
 
         async private void QuickLogin_Clicked(object sender, EventArgs e)
         {
+            QuickLogin.IsEnabled = false;
             await Navigation.PushAsync(new QuickLogin());
+            QuickLogin.IsEnabled = true;
         }
     }
 }

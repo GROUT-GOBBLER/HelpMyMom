@@ -17,6 +17,41 @@ public partial class HelperAccountCreation : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        SearchResultList.IsRefreshing = true;
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+
+
+                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}");
+                String json = await response2.Content.ReadAsStringAsync();
+
+                List<Spec> specList = JsonConvert.DeserializeObject<List<Spec>>(json);
+                ErrorLabel.Text = "Here";
+                if (specList == null || specList.Count < 1)
+                {
+                    ErrorLabel.Text = "Error in Spec";
+                    SearchResultList.IsRefreshing = false;
+                    return;
+                }
+
+                GlobalSpecList = specList.ToList();
+
+                ErrorLabel.Text = "Here";
+                SearchResultList.ItemsSource = specList;
+                ErrorLabel.Text = "Here";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                SearchResultList.IsRefreshing = false;
+            }
+        }
+       
     }
 
 
@@ -130,24 +165,7 @@ public partial class HelperAccountCreation : ContentPage
     List<Spec> GlobalSpecList;
     async private void SearchResults_Loaded(object sender, EventArgs e)
     {
-        using (HttpClient client = new HttpClient())
-        {
-            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Specs"}");
-            String json = await response2.Content.ReadAsStringAsync();
-
-            List<Spec> specList = JsonConvert.DeserializeObject<List<Spec>>(json);
-            if(specList == null)
-            {
-                ErrorLabel.Text = "Error in Spec";
-                return;
-            }
-           
-            GlobalSpecList = specList;
-            
-           
-            SearchResultList.ItemsSource = specList;
-        }
-       
+      
     }
 
     private void Search_SearchButtonPressed(object sender, EventArgs e)

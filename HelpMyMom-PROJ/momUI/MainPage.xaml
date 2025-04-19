@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="momUI.MainPage">
+             x:Class="momUI.MainPage"
+             Title="">
     
     <VerticalStackLayout
         Padding="20,0"
@@ -54,7 +55,9 @@
                 <Entry x:Name="PasswordEntry"
                     Placeholder="Enter Password"
                     VerticalOptions="Center" />
-                
+                <Label x:Name="ErrorLabel"
+                       Text=""
+                       />
                 <Button
                     x:Name="LoginButton"
                     Text="Login" 
@@ -65,11 +68,12 @@
 
                 <Button
                     x:Name="SigninButton"
-                    Text="Signin" 
+                    Text="Sign Up" 
                     SemanticProperties.Hint="Get"
                     Clicked="SigninButton_Clicked"
                     VerticalOptions="Center"
                     HorizontalOptions="Fill" />
+               
             </VerticalStackLayout>
         </ScrollView>
     </VerticalStackLayout>
