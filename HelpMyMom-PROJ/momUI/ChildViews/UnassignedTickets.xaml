@@ -12,7 +12,7 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
-            <ListView x:Name="ticketList" ItemSelected="OnItemSelected" HasUnevenRows="True" Margin="10,10,0,10">
+            <ListView x:Name="ticketList" ItemSelected="OnItemSelected" HasUnevenRows="True" Margin="5,10,0,10">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:SearchTicket">
                         <ViewCell>
