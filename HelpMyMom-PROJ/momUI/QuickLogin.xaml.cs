@@ -21,6 +21,7 @@ public partial class QuickLogin : ContentPage
 
             string json = await response2.Content.ReadAsStringAsync();
             Helper helper = JsonConvert.DeserializeObject<Helper>(json);
+            await Navigation.PushAsync(new HelperView());
         }
 
     }
@@ -33,6 +34,7 @@ public partial class QuickLogin : ContentPage
 
             string json = await response2.Content.ReadAsStringAsync();
             Child child = JsonConvert.DeserializeObject<Child>(json);
+            await Navigation.PushAsync(new ChildMenu());
         }
 
     }
@@ -45,6 +47,7 @@ public partial class QuickLogin : ContentPage
 
             string json = await response2.Content.ReadAsStringAsync();
             Mother mom = JsonConvert.DeserializeObject<Mother>(json);
+            await Navigation.PushAsync(new MomMenu());
         }
 
     }

@@ -56,6 +56,7 @@ namespace momUI
                         Child child = JsonConvert.DeserializeObject<Child>(json);
 
                         LoginButton.Text = $" child {child.FName} {child.LName} ";
+                        await Navigation.PushAsync(new ChildMenu());
                         return;
                     }
                     else if (account.HelperId != null)
@@ -64,7 +65,7 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Helper helper = JsonConvert.DeserializeObject<Helper>(json);
-                        LoginButton.Text = $" helper {helper.FName} {helper.LName} ";
+                        await Navigation.PushAsync(new HelperView());
                         return;
                     }
                     else if (account.MomId != null)
@@ -73,7 +74,8 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
-                        LoginButton.Text = $" mother {mother.FName} {mother.LName} ";
+                        await Navigation.PushAsync(new MomMenu());
+                        //  LoginButton.Text = $" mother {mother.FName} {mother.LName} ";
                         return;
                     }
 
