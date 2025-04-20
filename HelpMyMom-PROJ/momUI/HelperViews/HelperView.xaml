@@ -9,8 +9,9 @@
             Padding="10">
         
             <Label 
+                x:Name="CurrentBalanceLabel"
                 Text="Current Balance: $X.XX"
-                FontSize="50"
+                FontSize="30"
                 Margin="20"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />

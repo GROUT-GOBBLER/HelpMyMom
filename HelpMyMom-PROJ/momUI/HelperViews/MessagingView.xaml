@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.HelperViews.MessagingView"
+             Title="MessagingView">
+    <ScrollView
+        VerticalScrollBarVisibility="Always"
+        Margin="20" >
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Label
+                Text="Chat Testing!!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <ListView 
+                x:Name="ChatMessageListView"  
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                VerticalScrollBarVisibility="Never" 
+                HasUnevenRows="True" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid 
+                                Padding="10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label 
+                                    Grid.Row="0"
+                                    Text="{Binding sender}"
+                                    FontSize="25"
+                                    FontAttributes="Bold" />
+                                <Label 
+                                    Grid.Row="1"
+                                    Text="{Binding timeOfSent}"                                       
+                                    FontSize="15"                                    
+                                    FontAttributes="None" />
+                                <Label 
+                                    Grid.Row="2"
+                                    Text="{Binding messageTextContent}"
+                                    FontSize="15"
+                                    FontAttributes="Italic"                                           
+                                    VerticalOptions="End" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <VerticalStackLayout
+                HorizontalOptions="Center">
+                <Editor 
+                    x:Name="MessageTextEntry"
+                    Placeholder="Enter your message."
+                    TextChanged="MessageTextEntry_TextChanged"
+                    IsSpellCheckEnabled="True"
+                    AutoSize="TextChanges"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Start"
+                    MinimumWidthRequest="350"
+                    MaxLength="2000"
+                    VerticalOptions="Fill"        
+                    HorizontalOptions="Fill" />
+
+                <Button
+                    x:Name="SendChatMessage"
+                    Text="Send message."     
+                    SemanticProperties.Hint="Send the typed message."
+                    Clicked="SendChatMessage_Clicked"
+                    VerticalOptions="End"
+                    HorizontalOptions="End" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

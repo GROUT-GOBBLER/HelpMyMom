@@ -9,7 +9,7 @@ public partial class HelperEditProfile : ContentPage
 {
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     String MASTERusername = "UncleBensBiggestFan";
-    String newUsername = null, newFirstName = null, newLastName = null, newDescription = null, newSpecsList = null, newDay, newMonth, newYear;
+    String newUsername = "", newFirstName = "", newLastName = "", newDescription = "", newSpecsList = "", newDay = "", newMonth = "", newYear = "";
 
 	public HelperEditProfile()
 	{
@@ -30,11 +30,11 @@ public partial class HelperEditProfile : ContentPage
             {
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
                     String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
+                    List<Helper>? listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
 
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Accounts"}"); // HELPER.
                     String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
+                    List<Account>? listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
 
                 if(response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
                 {
@@ -42,16 +42,20 @@ public partial class HelperEditProfile : ContentPage
                     int? helperID = -1;
                     Account tempAccount = new Account();
 
-                    foreach (Account a in listAccounts)
-                    {
-                        if(a.Username == accountUsername)
+                    if(listAccounts != null) { 
+                        foreach (Account a in listAccounts)
                         {
-                            helperID = a.HelperId;
-                            tempAccount = a;
+                            if(a.Username == accountUsername)
+                            {
+                                helperID = a.HelperId;
+                                tempAccount = a;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoAccountsFound", "ERROR! Failed to find any accounts.", "OK"); }
 
-                    if(helperID == -1)
+                    if (helperID == -1)
                     {
                         await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
                         return;
@@ -89,7 +93,8 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newUsername = null;
+        newUsername = "";
+        UsernameEntry.Text = null;
     }
 
     // FIRST NAME.
@@ -106,24 +111,29 @@ public partial class HelperEditProfile : ContentPage
             {
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}"); // ACCOUNT.
                     String json2 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
+                    List<Account>? listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
                     String json1 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
+                    List<Helper>? listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
 
                 if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
                 {
                     String accountUsername = MASTERusername;
 
                     int? helperID = -1;
-                    foreach (Account a in listAccounts) // find account.
+                    if (listAccounts != null)
                     {
-                        if(a.Username == accountUsername)
+                        foreach (Account a in listAccounts)
                         {
-                            helperID = a.HelperId;
+                            if (a.Username == accountUsername)
+                            {
+                                helperID = a.HelperId;
+                                break;
+                            }
                         }
                     }
-                    
+                    else { await DisplayAlert("NoAccountsFound", "ERROR! Failed to find any accounts.", "OK"); }
+
                     if (helperID == -1)
                     {
                         await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
@@ -132,14 +142,19 @@ public partial class HelperEditProfile : ContentPage
 
                     bool found = false;
                     Helper tempHelper = new Helper();
-                    foreach (Helper h in listHelpers) // find helper.
+                    if (listHelpers != null)
                     {
-                        if(h.Id == helperID)
+                        foreach (Helper h in listHelpers) // find helper.
                         {
-                            tempHelper = h;
-                            found = true;
+                            if (h.Id == helperID)
+                            {
+                                tempHelper = h;
+                                found = true;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoHelpersFound", "ERROR! Failed to find any helpers.", "OK"); }
 
                     if (!found)
                     {
@@ -171,7 +186,8 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newFirstName = null;
+        newFirstName = "";
+        FirstNameEntry.Text = null;
     }
 
     // LAST NAME.
@@ -188,23 +204,28 @@ public partial class HelperEditProfile : ContentPage
             {
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}"); // ACCOUNT.
                 String json2 = await response1.Content.ReadAsStringAsync();
-                List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
+                List<Account>? listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
                 String json1 = await response2.Content.ReadAsStringAsync();
-                List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
+                List<Helper>? listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
 
                 if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
                 {
                     String accountUsername = MASTERusername;
 
                     int? helperID = -1;
-                    foreach (Account a in listAccounts) // find account.
+                    if (listAccounts != null)
                     {
-                        if (a.Username == accountUsername)
+                        foreach (Account a in listAccounts)
                         {
-                            helperID = a.HelperId;
+                            if (a.Username == accountUsername)
+                            {
+                                helperID = a.HelperId;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoAccountsFound", "ERROR! Failed to find any accounts.", "OK"); }
 
                     if (helperID == -1)
                     {
@@ -214,14 +235,19 @@ public partial class HelperEditProfile : ContentPage
 
                     bool found = false;
                     Helper tempHelper = new Helper();
-                    foreach (Helper h in listHelpers) // find helper.
+                    if (listHelpers != null)
                     {
-                        if (h.Id == helperID)
+                        foreach (Helper h in listHelpers) // find helper.
                         {
-                            tempHelper = h;
-                            found = true;
+                            if (h.Id == helperID)
+                            {
+                                tempHelper = h;
+                                found = true;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoHelpersFound", "ERROR! Failed to find any helpers.", "OK"); }
 
                     if (!found)
                     {
@@ -253,7 +279,8 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newLastName = null;
+        newLastName = "";
+        LastNameEntry.Text = null;
     }
     
     // DATE OF BIRTH.
@@ -280,10 +307,10 @@ public partial class HelperEditProfile : ContentPage
             {
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
                     String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json1); // listAccounts.
+                    List<Account>? listAccounts = JsonConvert.DeserializeObject<List<Account>>(json1); // listAccounts.
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
                     String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json2); // listHelpers.
+                    List<Helper>? listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json2); // listHelpers.
 
                 if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
                 {
@@ -292,31 +319,39 @@ public partial class HelperEditProfile : ContentPage
                     DateOnly fullDateOfBirth = new DateOnly();
 
                     int? helperID = -1;
-                    foreach(Account a in listAccounts) // get helper ID from account.
+                    if (listAccounts != null)
                     {
-                        if(a.Username == accountUsername)
+                        foreach (Account a in listAccounts)
                         {
-                            helperID = a.HelperId;
-                            break;
+                            if (a.Username == accountUsername)
+                            {
+                                helperID = a.HelperId;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoAccountsFound", "ERROR! Failed to find any accounts.", "OK"); }
 
-                    if(helperID == -1)
+                    if (helperID == -1)
                     {
                         await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
                         return;
                     }
 
                     bool found = false;
-                    foreach(Helper h in listHelpers) // get helper object from helper ID.
+                    if (listHelpers != null)
                     {
-                        if(h.Id == helperID)
+                        foreach (Helper h in listHelpers) // find helper.
                         {
-                            tempHelper = h;
-                            found = true;
-                            break;
+                            if (h.Id == helperID)
+                            {
+                                tempHelper = h;
+                                found = true;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoHelpersFound", "ERROR! Failed to find any helpers.", "OK"); }
 
                     if (!found)
                     {
@@ -349,9 +384,13 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newDay = null;
-        newMonth = null;
-        newYear = null;
+        newDay = "";
+        newMonth = "";
+        newYear = "";
+
+        DateOfBirthMONTHEntry.Text = null;
+        DateOfBirthDAYEntry.Text = null;
+        DateOfBirthYEAREntry.Text = null;
     }
 
     // SPECS.
@@ -368,10 +407,10 @@ public partial class HelperEditProfile : ContentPage
             {
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
                     String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json1); // listAccounts.
+                    List<Account>? listAccounts = JsonConvert.DeserializeObject<List<Account>>(json1); // listAccounts.
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
                     String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json2); // listHelpers.
+                    List<Helper>? listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json2); // listHelpers.
 
                 if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
                 {
@@ -379,14 +418,18 @@ public partial class HelperEditProfile : ContentPage
                     Helper tempHelper = new Helper();
 
                     int? helperID = -1;
-                    foreach (Account a in listAccounts) // find helper ID from Account.
+                    if (listAccounts != null)
                     {
-                        if (a.Username == accountUsername)
+                        foreach (Account a in listAccounts)
                         {
-                            helperID = a.HelperId;
-                            break;
+                            if (a.Username == accountUsername)
+                            {
+                                helperID = a.HelperId;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoAccountsFound", "ERROR! Failed to find any accounts.", "OK"); }
 
                     if (helperID == -1)
                     {
@@ -395,15 +438,19 @@ public partial class HelperEditProfile : ContentPage
                     }
 
                     bool found = false;
-                    foreach (Helper h in listHelpers) // find Helper object from Helper ID.
+                    if (listHelpers != null)
                     {
-                        if (h.Id == helperID)
+                        foreach (Helper h in listHelpers) // find helper.
                         {
-                            found = true;
-                            tempHelper = h;
-                            break;
+                            if (h.Id == helperID)
+                            {
+                                tempHelper = h;
+                                found = true;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoHelpersFound", "ERROR! Failed to find any helpers.", "OK"); }
 
                     if (!found)
                     {
@@ -434,7 +481,8 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newSpecsList = null;
+        newSpecsList = "";
+        SpecsEntry.Text = null;
     }
 
     // DESCRIPTION.
@@ -451,23 +499,27 @@ public partial class HelperEditProfile : ContentPage
             {
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}"); // ACCOUNT.
                     String json2 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
+                    List<Account>? listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
                     String json1 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
+                    List<Helper>? listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
 
                 if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
                 {
                     String accountUsername = MASTERusername;
 
                     int? helperID = -1;
-                    foreach (Account a in listAccounts) // find account.
-                    {
-                        if (a.Username == accountUsername)
+                    if(listAccounts != null) { 
+                        foreach (Account a in listAccounts) // find account.
                         {
-                            helperID = a.HelperId;
+                            if (a.Username == accountUsername)
+                            {
+                                helperID = a.HelperId;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoAccountsFound", "ERROR! Failed to find any accounts.", "OK"); }
 
                     if (helperID == -1)
                     {
@@ -477,18 +529,22 @@ public partial class HelperEditProfile : ContentPage
 
                     bool found = false;
                     Helper tempHelper = new Helper();
-                    foreach (Helper h in listHelpers) // find helper.
-                    {
-                        if (h.Id == helperID)
+                    if(listHelpers != null) { 
+                        foreach (Helper h in listHelpers) // find helper.
                         {
-                            tempHelper = h;
-                            found = true;
+                            if (h.Id == helperID)
+                            {
+                                tempHelper = h;
+                                found = true;
+                                break;
+                            }
                         }
                     }
+                    else { await DisplayAlert("NoHelpersFound", "ERROR! Failed to find any helpers.", "OK"); }
 
                     if (!found)
                     {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Helper not found.", "OK");
+                        await DisplayAlert("HelperNotFoundError", "ERROR! Helper not found.", "OK");
                         return;
                     }
 
@@ -516,6 +572,7 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newDescription = null;
+        newDescription = "";
+        DescriptionEntry.Text = null;
     }
 }
