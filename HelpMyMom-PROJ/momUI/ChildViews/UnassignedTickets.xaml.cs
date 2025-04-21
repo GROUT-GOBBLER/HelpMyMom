@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 public partial class UnassignedTickets : ContentPage
 {
-    List<Ticket> tickets = new List<Ticket>();
+    List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
     Child account;
 	Helper helper;
@@ -54,7 +54,7 @@ public partial class UnassignedTickets : ContentPage
                                 if (momResponse.IsSuccessStatusCode)
                                 {
                                     string json2 = await momResponse.Content.ReadAsStringAsync();
-                                    Mother m = JsonConvert.DeserializeObject<Mother>(json2);
+                                    Mother? m = JsonConvert.DeserializeObject<Mother>(json2);
 
                                     if (m != null) st.MomName = $"{m.FName} {m.LName}";
                                     else st.MomName = "None";
@@ -67,7 +67,7 @@ public partial class UnassignedTickets : ContentPage
                                     if (momResponse.IsSuccessStatusCode)
                                     {
                                         string json3 = await helperResponse.Content.ReadAsStringAsync();
-                                        Helper h = JsonConvert.DeserializeObject<Helper>(json3);
+                                        Helper? h = JsonConvert.DeserializeObject<Helper>(json3);
 
                                         if (h != null) st.HelperName = $"{h.FName} {h.LName}";
                                         else st.HelperName = "None";
@@ -113,9 +113,9 @@ public partial class UnassignedTickets : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            SearchTicket s = ticketList.SelectedItem as SearchTicket;
+            SearchTicket? s = ticketList.SelectedItem as SearchTicket;
 
-            Ticket selected = tickets.SingleOrDefault(t => t.Id == s.Id);
+            Ticket? selected = tickets.SingleOrDefault(t => t.Id == s.Id);
 
             if (selected != null)
             {
@@ -128,7 +128,7 @@ public partial class UnassignedTickets : ContentPage
                     if (response3.IsSuccessStatusCode) TopText.Text = "Success";
                     else TopText.Text = "Error";
 
-                    Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
+                    if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
                 }
                 catch (Exception ex)
                 {

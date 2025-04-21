@@ -8,7 +8,7 @@ public partial class TicketProgress : ContentPage
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     
     Child account;
-    List<Ticket> tickets = new List<Ticket>();
+    List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
 
     public TicketProgress(Child acc)
@@ -51,7 +51,7 @@ public partial class TicketProgress : ContentPage
                                 if (momResponse.IsSuccessStatusCode)
                                 {
                                     string json2 = await momResponse.Content.ReadAsStringAsync();
-                                    Mother m = JsonConvert.DeserializeObject<Mother>(json2);
+                                    Mother? m = JsonConvert.DeserializeObject<Mother>(json2);
 
                                     if (m != null) st.MomName = $"{m.FName} {m.LName}";
                                     else st.MomName = "None";
@@ -64,7 +64,7 @@ public partial class TicketProgress : ContentPage
                                     if (momResponse.IsSuccessStatusCode)
                                     {
                                         string json3 = await helperResponse.Content.ReadAsStringAsync();
-                                        Helper h = JsonConvert.DeserializeObject<Helper>(json3);
+                                        Helper? h = JsonConvert.DeserializeObject<Helper>(json3);
 
                                         if (h != null) st.HelperName = $"{h.FName} {h.LName}";
                                         else st.HelperName = "None";

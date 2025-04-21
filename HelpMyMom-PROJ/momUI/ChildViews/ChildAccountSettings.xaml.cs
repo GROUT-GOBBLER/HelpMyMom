@@ -7,16 +7,16 @@ namespace momUI;
 public partial class ChildAccountSettings : ContentPage
 {
 	Child account;
-	List<Account> allAccounts;
-	List<Mother> allMoms;
-	List<Mother> linkedMoms;
-    List<Relationship> relationships = new List<Relationship>();
-    List<Relationship> linkedR = new List<Relationship>();
+	List<Account>? allAccounts;
+	List<Mother>? allMoms;
+	List<Mother>? linkedMoms;
+    List<Relationship>? relationships = new List<Relationship>();
+    List<Relationship>? linkedR = new List<Relationship>();
     List<string> momsString = new List<string>();
 
-    string newFirst;
-    string newLast;
-    string newMomUser;
+    string newFirst = "";
+    string newLast = "";
+    string newMomUser = "";
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 	
@@ -54,35 +54,40 @@ public partial class ChildAccountSettings : ContentPage
 					{
 						allAccounts.RemoveAll(acc => acc.MomId == null);
 
-                        linkedR = relationships.ToList();
-                        linkedR.RemoveAll(r => r.ChildId != account.Id);
-
-                        var relatedMomIds = linkedR
-                            .Where(r => r.MomId.HasValue)
-                            .Select(r => r.MomId.Value)
-                            .ToHashSet();
-
-                        linkedMoms = allMoms.ToList();
-                        linkedMoms.RemoveAll(m => !relatedMomIds.Contains(m.Id));
-
-                        if (linkedMoms.Count < 1 || linkedMoms == null)
+                        if (relationships != null)
                         {
-                            throw new Exception("You have no mom :(");
-                        }
-                        else
-                        {
-                            foreach (Mother m in linkedMoms)
+                            linkedR = relationships.ToList();
+
+                            linkedR.RemoveAll(r => r.ChildId != account.Id);
+
+
+                            var relatedMomIds = linkedR
+                                .Where(r => r.MomId.HasValue)
+                                .Select(r => r.MomId.Value)
+                                .ToHashSet();
+
+                            linkedMoms = allMoms.ToList();
+                            linkedMoms.RemoveAll(m => !relatedMomIds.Contains(m.Id));
+
+                            if (linkedMoms.Count < 1 || linkedMoms == null)
                             {
-                                momsString.Add($"{m.Id} {m.FName} {m.LName}");
+                                throw new Exception("You have no mom :(");
                             }
+                            else
+                            {
+                                foreach (Mother m in linkedMoms)
+                                {
+                                    momsString.Add($"{m.Id} {m.FName} {m.LName}");
+                                }
 
-                            momSelect.ItemsSource = momsString;
+                                momSelect.ItemsSource = momsString;
 
-                            Thread.Sleep(100);
+                                Thread.Sleep(100);
 
-                            changeNameBtn.IsEnabled = true;
-                            AddMomBtn.IsEnabled = true;
-                            RemoveMom.IsEnabled = true;
+                                changeNameBtn.IsEnabled = true;
+                                AddMomBtn.IsEnabled = true;
+                                RemoveMom.IsEnabled = true;
+                            }
                         }
                     }
 					else
@@ -173,6 +178,7 @@ public partial class ChildAccountSettings : ContentPage
                             Relationship relationship = new Relationship();
 
                             int newID = 0;
+                      
                             foreach (Relationship r in relationships)
                             {
                                 if (r.Id > newID) newID = r.Id;
@@ -246,7 +252,7 @@ public partial class ChildAccountSettings : ContentPage
                         RemovedMomBtn.Text = "Mom Removed";
                         Thread.Sleep(100);
 
-                        Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
+                        if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
                     }
                     else
                     {

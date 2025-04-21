@@ -51,7 +51,7 @@ public partial class ChildMenu : ContentPage
 
     private void SignOutClicked(object sender, EventArgs e)
     {
-        Application.Current.MainPage = new NavigationPage(new MainPage());
+        if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new MainPage());
     }
 
     private void NothingClicked(object sender, EventArgs e)

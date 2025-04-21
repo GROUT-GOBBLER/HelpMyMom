@@ -7,12 +7,12 @@ using System.Net.Http.Json;
 public partial class ConfirmHelper : ContentPage
 {
     Child account;
-    Ticket ticket;
+    Ticket? ticket = null;
     Helper helper;
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-    public ConfirmHelper(Child acc, Helper h, Ticket t = null)
+    public ConfirmHelper(Child acc, Helper h, Ticket? t = null)
 	{
 		InitializeComponent();
 
@@ -39,7 +39,7 @@ public partial class ConfirmHelper : ContentPage
                     int calc = 0;
 
                     string json2 = await reviewResponse.Content.ReadAsStringAsync();
-                    List<Review> allReviews = JsonConvert.DeserializeObject<List<Review>>(json2);
+                    List<Review>? allReviews = JsonConvert.DeserializeObject<List<Review>>(json2);
 
                     Double sum = 0;
                     int count = 0;
@@ -68,7 +68,7 @@ public partial class ConfirmHelper : ContentPage
                 {
                     // get specs
                     string json = await specResponse.Content.ReadAsStringAsync();
-                    List<Spec> allSpecs = JsonConvert.DeserializeObject<List<Spec>>(json);
+                    List<Spec>? allSpecs = JsonConvert.DeserializeObject<List<Spec>>(json);
 
                     var specIds = helper.Specs
                         .Split(',', StringSplitOptions.RemoveEmptyEntries)

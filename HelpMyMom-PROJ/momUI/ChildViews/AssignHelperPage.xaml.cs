@@ -147,6 +147,7 @@ public partial class AssignHelperPage : ContentPage
             {
                 searchedHelpers = allHelpers.ToList();
             }
+
             int selectedSpec = -1;
 
             helperList.IsRefreshing = true;
@@ -223,7 +224,12 @@ public partial class AssignHelperPage : ContentPage
 
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
-        List<SearchHelper> searchedHelpers = allHelpers.ToList();
+        List<SearchHelper> searchedHelpers = new List<SearchHelper>();
+        if (allHelpers != null)
+        {
+            searchedHelpers = allHelpers.ToList();
+        }
+
         int selectedSpec = -1;
 
         helperList.IsRefreshing = true;
@@ -308,13 +314,16 @@ public partial class AssignHelperPage : ContentPage
         //Console.WriteLine(JsonConvert.SerializeObject(finalHelper));
         //Console.WriteLine("-----------------------------------------------------------------------------------");
 
-        if (ticket != null) 
+        if (finalHelper != null)
         {
-            await Navigation.PushAsync(new ConfirmHelper(account, finalHelper, ticket));
-        }
-        else
-        {
-            await Navigation.PushAsync(new ConfirmHelper(account, finalHelper));
+            if (ticket != null)
+            {
+                await Navigation.PushAsync(new ConfirmHelper(account, finalHelper, ticket));
+            }
+            else
+            {
+                await Navigation.PushAsync(new ConfirmHelper(account, finalHelper));
+            }
         }
     }
 

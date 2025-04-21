@@ -9,9 +9,9 @@ namespace momUI;
 public partial class ChildTicketFactory : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-    List<Mother> moms = new List<Mother>();
+    List<Mother>? moms = new List<Mother>();
     List<string> momsString = new List<string>();
-    string details;
+    string details = "";
 
     Child account;
 	public ChildTicketFactory(Child acc)
@@ -26,7 +26,7 @@ public partial class ChildTicketFactory : ContentPage
         {
             try
             {
-                List<Relationship> relationships = new List<Relationship>();
+                List<Relationship>? relationships = new List<Relationship>();
 
                 HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers");
                 HttpResponseMessage relationResponse = await client.GetAsync(URL + "/Relationships");
@@ -90,7 +90,7 @@ public partial class ChildTicketFactory : ContentPage
     private async void createClicked(object sender, EventArgs e)
     {
         Ticket newTicket = new Ticket();
-        List<Ticket> tickets = new List<Ticket>();
+        List<Ticket>? tickets = new List<Ticket>();
 
         using (HttpClient client = new HttpClient())
         {
