@@ -94,6 +94,9 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.LName)
                 .HasMaxLength(35)
                 .HasColumnName("lName");
+            entity.Property(e => e.Notifs)
+                .HasMaxLength(50)
+                .HasColumnName("notifs");
         });
 
         modelBuilder.Entity<Helper>(entity =>
@@ -146,7 +149,7 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.ChildId).HasColumnName("childId");
             entity.Property(e => e.MomId).HasColumnName("momId");
 
-/*            entity.HasOne(d => d.Child).WithMany(p => p.Relationships)
+ /*           entity.HasOne(d => d.Child).WithMany(p => p.Relationships)
                 .HasForeignKey(d => d.ChildId)
                 .HasConstraintName("children1");
 

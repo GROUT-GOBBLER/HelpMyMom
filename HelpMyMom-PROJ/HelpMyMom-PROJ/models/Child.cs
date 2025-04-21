@@ -13,6 +13,8 @@ public partial class Child
 
     public string? Email { get; set; }
 
+    public string? Notifs { get; set; }
+
     public virtual ICollection<Relationship> Relationships { get; set; } = new List<Relationship>();
 
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
