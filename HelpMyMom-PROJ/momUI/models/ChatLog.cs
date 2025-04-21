@@ -15,7 +15,5 @@ public partial class ChatLog
 
     public string? Text { get; set; }
 
-    public byte[]? Image { get; set; }
-
     public virtual Ticket? Ticket { get; set; }
 }

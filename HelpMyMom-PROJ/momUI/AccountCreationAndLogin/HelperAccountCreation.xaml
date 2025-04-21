@@ -67,10 +67,7 @@
                 HorizontalOptions="Center" 
              />
             <DatePicker 
-                x:Name="DatePicker"
-                MinimumDate = "{Binding MinDate}"
-                MaximumDate = "{Binding MaxDate}"
-                Date = "{Binding SelectedDate}"  />
+                x:Name="DatePicker" />
 
             <!-- <Entry x:Name="DOBEntry"
                 Placeholder="Enter DOB"
@@ -84,39 +81,65 @@
             <SearchBar x:Name = "Search"
                  Placeholder="enter your specailties" 
                  SearchButtonPressed="Search_SearchButtonPressed"/>
-            <HorizontalStackLayout>
-                <ListView 
+            
+             <ListView 
                     x:Name="SearchResultList"
                     ItemSelected="SearchResultList_ItemSelected"
                     Loaded="SearchResults_Loaded"
                     HasUnevenRows="True"
-                    HorizontalOptions="Start">
+                    HorizontalOptions="Start"
+                    RowHeight="90"
+                    Margin="5,10,5,10">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:Spec">
                             <ViewCell>
-                                <HorizontalStackLayout>
+                                <StackLayout>
                                     <Label 
                                        Text="{Binding Name}"
                                         TextColor="Black"
-                                       FontSize="15"
+                                       FontSize="22"
                                      />
-                                </HorizontalStackLayout>
+                                </StackLayout>
 
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
-                
-                
-                <ListView 
-                    x:Name="SelectedSpecs"
-                    ItemSelected="SelectedSpecs_ItemSelected">
+             </ListView>
+             <Label 
+                Text="selected specailties"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+             />
 
-                </ListView>
+            <ListView 
+                x:Name="SelectedList"
+                ItemSelected="SelectedList_ItemSelected"
+                HasUnevenRows="True"
+                HorizontalOptions="Start"
+                RowHeight="90"
+                Margin="5,10,5,10">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Spec">
+                        <ViewCell>
+                            <StackLayout>
+                                <Label 
+                                    Text="{Binding Name}"
+                                    TextColor="Black"
+                                    FontSize="22"
+                                />
+                            </StackLayout>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
 
 
-            </HorizontalStackLayout>
+
+
+
+
             <Label 
                 Text="description"
                 VerticalOptions="Center" 

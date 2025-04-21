@@ -1,23 +1,31 @@
 
 using momUI.models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 
 namespace momUI;
 
+
 public partial class HelperAccountCreation : ContentPage
 {
-	public HelperAccountCreation()
+
+    string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+    List<Spec> GlobalSpecList;
+    ObservableCollection<Spec> SelectedSpecList = new ObservableCollection<Spec>();
+    public HelperAccountCreation()
 	{
 		InitializeComponent();
         DateOnly Current = new DateOnly();
         Current = DateOnly.FromDateTime(DateTime.Now);
         
     }
+    
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        SearchResultList.IsRefreshing = true;
+        //SearchResultList.IsRefreshing = true;
         using (HttpClient client = new HttpClient())
         {
             try
@@ -28,7 +36,7 @@ public partial class HelperAccountCreation : ContentPage
                 String json = await response2.Content.ReadAsStringAsync();
 
                 List<Spec> specList = JsonConvert.DeserializeObject<List<Spec>>(json);
-                ErrorLabel.Text = "Here";
+                
                 if (specList == null || specList.Count < 1)
                 {
                     ErrorLabel.Text = "Error in Spec";
@@ -38,24 +46,28 @@ public partial class HelperAccountCreation : ContentPage
 
                 GlobalSpecList = specList.ToList();
 
-                ErrorLabel.Text = "Here";
-                SearchResultList.ItemsSource = specList;
-                ErrorLabel.Text = "Here";
+                SearchResultList.ItemsSource = GlobalSpecList;
+                
+                SelectedList.ItemsSource = SelectedSpecList;
+
+               // SearchResultList.IsRefreshing = false;
             }
             catch (Exception ex)
             {
-
+                ErrorLabel.Text = "Error";
             }
             finally
             {
+                SearchResultList.IsRefreshing = true;
                 SearchResultList.IsRefreshing = false;
             }
+
+            
         }
        
     }
 
 
-    string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     async private void CreateAccountButton_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
@@ -77,23 +89,30 @@ public partial class HelperAccountCreation : ContentPage
             helper.FName = FirstNameEntry.Text;
             helper.LName = LastNameEntry.Text;
             helper.Email = EmailEntry.Text;
-           /* String dob = "2000/1/1"; //DOBEntry.Text;
-            if (!dob.Contains("/"))
+            String specString = "";
+            foreach (Spec item in SelectedSpecList)
             {
-                ErrorLabel.Text = "Needs / between yyyy/mm/dd";
-                return;
+                specString += item.Id + ", ";
             }
-            String[] d_o_b = dob.Split('/');
-            if (d_o_b.Length != 3)
-            {
-                ErrorLabel.Text = "Needs / between yyyy/mm/dd";
-                return;
-            }
-            if (d_o_b[0].Length != 4)
-            {
-                ErrorLabel.Text = "Needs / between yyyy/mm/dd";
-                return;
-            }*/
+            specString.Remove(specString.Length -2);
+            helper.Specs = specString;
+            /* String dob = "2000/1/1"; //DOBEntry.Text;
+             if (!dob.Contains("/"))
+             {
+                 ErrorLabel.Text = "Needs / between yyyy/mm/dd";
+                 return;
+             }
+             String[] d_o_b = dob.Split('/');
+             if (d_o_b.Length != 3)
+             {
+                 ErrorLabel.Text = "Needs / between yyyy/mm/dd";
+                 return;
+             }
+             if (d_o_b[0].Length != 4)
+             {
+                 ErrorLabel.Text = "Needs / between yyyy/mm/dd";
+                 return;
+             }*/
 
             // int d = Convert.ToInt32(d_o_b[2]);
             //  int m = Convert.ToInt32(d_o_b[1]);
@@ -162,7 +181,7 @@ public partial class HelperAccountCreation : ContentPage
         }
 
     }
-    List<Spec> GlobalSpecList;
+  
     async private void SearchResults_Loaded(object sender, EventArgs e)
     {
       
@@ -175,14 +194,22 @@ public partial class HelperAccountCreation : ContentPage
 
     private void SearchResultList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
+        SelectedList.BeginRefresh();
+        Spec s = e.SelectedItem as Spec;
+        ErrorLabel.Text = s.Name;
+        SelectedSpecList.Add(s);
+ 
+
+        SelectedList.EndRefresh();
 
     }
 
-   
 
-    private void SelectedSpecs_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private void SelectedList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-
+        Spec s = e.SelectedItem as Spec;
+        SelectedSpecList.Remove(s);
+        
     }
     /* private void descriptionEditor_TextChanged(object sender, TextChangedEventArgs e)
 {
