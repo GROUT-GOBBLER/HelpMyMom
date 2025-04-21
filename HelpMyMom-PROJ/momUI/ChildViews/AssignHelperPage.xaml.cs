@@ -9,21 +9,24 @@ public partial class AssignHelperPage : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     List<string> specs = new List<string>();
-    List<Spec> allSpecs = new List<Spec>();
-    List<SearchHelper> allHelpers = new List<SearchHelper>();
-    List<Review> allReviews = new List<Review>();
-
-    List<Helper> helpers = new List<Helper>();
+    List<Spec>? allSpecs = new List<Spec>();
+    List<SearchHelper>? allHelpers = new List<SearchHelper>();
+    List<Review>? allReviews = new List<Review>();
+    List<Helper>? helpers = new List<Helper>();
 
     Child account;
-    Ticket ticket;
+    Ticket? ticket = null;
 
-    public AssignHelperPage(Child acc, Ticket t = null)
+    public AssignHelperPage(Child acc, Ticket? t = null)
 	{
 		InitializeComponent();
 
         account = acc;
-        if (t != null) ticket = t;
+
+        if (t != null)
+        {
+            ticket = t;
+        }
 	}
 
     protected override async void OnAppearing()
@@ -45,7 +48,7 @@ public partial class AssignHelperPage : ContentPage
                     helpers = JsonConvert.DeserializeObject<List<Helper>>(json);
                     allReviews = JsonConvert.DeserializeObject<List<Review>>(json2);
 
-                    if (helpers.Count > 0 && helpers != null)
+                    if (helpers?.Count > 0 && helpers != null)
                     {
                         helpers.RemoveAll(h => h.FName == null || h.LName == null);
                         helpers.RemoveAll(h => h.Banned == 1);
@@ -82,7 +85,7 @@ public partial class AssignHelperPage : ContentPage
 
                             sh.Rating = calc;
 
-                            allHelpers.Add(sh);
+                            allHelpers?.Add(sh);
                         }
                     }
                     else
@@ -92,7 +95,7 @@ public partial class AssignHelperPage : ContentPage
                         h.LName = "Helpers";
                         h.Description = "Something went wrong";
 
-                        allHelpers.Add(h);
+                        allHelpers?.Add(h);
                     }
 
                     helperList.ItemsSource = allHelpers;
@@ -106,7 +109,7 @@ public partial class AssignHelperPage : ContentPage
 
                     allSpecs = JsonConvert.DeserializeObject<List<Spec>>(json);
 
-                    if (allSpecs.Count < 1 || allSpecs == null)
+                    if (allSpecs?.Count < 1 || allSpecs == null)
                     {
                         specs.Add("no specs found");
                     }
@@ -135,18 +138,22 @@ public partial class AssignHelperPage : ContentPage
         }
     }
 
-    private async void Reload_Clicked(object sender, EventArgs e)
+    private void Reload_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
         {
-            List<SearchHelper> searchedHelpers = allHelpers.ToList();
+            List<SearchHelper> searchedHelpers = new List<SearchHelper>();
+            if (allHelpers != null)
+            {
+                searchedHelpers = allHelpers.ToList();
+            }
             int selectedSpec = -1;
 
             helperList.IsRefreshing = true;
 
             try
             {
-                if (searchedHelpers.Count > 0 || searchedHelpers != null)
+                if (searchedHelpers?.Count > 0 || searchedHelpers != null)
                 {
                     searchedHelpers.RemoveAll(h => h.FName == null || h.LName == null);
 
@@ -176,7 +183,7 @@ public partial class AssignHelperPage : ContentPage
                     // Only apply filter if a valid spec was found
                     if (selectedSpec != -1)
                     {
-                        searchedHelpers.RemoveAll(h =>
+                        searchedHelpers?.RemoveAll(h =>
                         {
                             if (string.IsNullOrEmpty(h.Specs)) return true;
 
@@ -188,7 +195,7 @@ public partial class AssignHelperPage : ContentPage
                     }
                 }
 
-                if (searchedHelpers.Count < 1)
+                if (searchedHelpers?.Count < 1)
                 {
                     SearchHelper h = new SearchHelper();
                     h.FName = "No";
@@ -214,7 +221,7 @@ public partial class AssignHelperPage : ContentPage
         }
     }
 
-    private async void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+    private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
         List<SearchHelper> searchedHelpers = allHelpers.ToList();
         int selectedSpec = -1;
@@ -253,7 +260,7 @@ public partial class AssignHelperPage : ContentPage
                 // Only apply filter if a valid spec was found
                 if (selectedSpec != -1)
                 {
-                    searchedHelpers.RemoveAll(h =>
+                    searchedHelpers?.RemoveAll(h =>
                     {
                         if (string.IsNullOrEmpty(h.Specs)) return true;
 
@@ -265,7 +272,7 @@ public partial class AssignHelperPage : ContentPage
                 }
             }
 
-            if (searchedHelpers.Count < 1)
+            if (searchedHelpers?.Count < 1)
             {
                 SearchHelper h = new SearchHelper();
                 h.FName = "No";
@@ -293,9 +300,9 @@ public partial class AssignHelperPage : ContentPage
     private async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
     {
         Thread.Sleep(100);
-        SearchHelper selected = helperList.SelectedItem as SearchHelper;
+        SearchHelper? selected = helperList.SelectedItem as SearchHelper;
 
-        Helper finalHelper = helpers.SingleOrDefault(h => h.Id == selected.Id);
+        Helper? finalHelper = helpers?.SingleOrDefault(h => h.Id == selected?.Id);
 
         //Console.WriteLine("-----------------------------------------------------------------------------------");
         //Console.WriteLine(JsonConvert.SerializeObject(finalHelper));

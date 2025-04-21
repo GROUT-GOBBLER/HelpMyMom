@@ -14,7 +14,7 @@ public partial class HelperAccountCreation : ContentPage
         Current = DateOnly.FromDateTime(DateTime.Now);
         
     }
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
     }

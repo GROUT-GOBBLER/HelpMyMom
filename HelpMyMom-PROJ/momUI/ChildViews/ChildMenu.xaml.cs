@@ -6,7 +6,7 @@ public partial class ChildMenu : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     Child account;
-    public ChildMenu(Child acc = null)
+    public ChildMenu(Child acc)
 	{
 		InitializeComponent();
 
@@ -24,7 +24,7 @@ public partial class ChildMenu : ContentPage
         }
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         loggedIn.Text = $"Logged in as {account.FName} {account.LName}";
     }
