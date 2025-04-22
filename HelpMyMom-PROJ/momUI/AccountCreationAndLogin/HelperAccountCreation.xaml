@@ -9,6 +9,7 @@
             Padding="30,80"
             Spacing="25">
             <Label 
+                x:Name="UserL"
                 Text="Username:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -19,6 +20,7 @@
                 VerticalOptions="Center"
             />
             <Label 
+                x:Name="PasswordL"
                 Text="Password:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -30,6 +32,7 @@
             />
           
             <Label 
+                  x:Name="EmailL"
                 Text="Email:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -41,6 +44,7 @@
             />
 
             <Label 
+                  x:Name="FNameL"
                 Text="First Name:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -52,6 +56,7 @@
             />
 
             <Label 
+                  x:Name="LNameL"
                 Text="Last Name:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -62,6 +67,7 @@
                 VerticalOptions="Center"
             />
             <Label 
+                  x:Name="DOBL"
                 Text="Date of Birth yyyy/mm/dd"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -74,18 +80,17 @@
                 VerticalOptions="Center"
              />  -->
             <Label 
+                  x:Name="specailL"
                 Text="specailties"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
             />
-            <SearchBar x:Name = "Search"
-                 Placeholder="enter your specailties" 
-                 SearchButtonPressed="Search_SearchButtonPressed"/>
+ 
             
              <ListView 
                     x:Name="SearchResultList"
                     ItemSelected="SearchResultList_ItemSelected"
-                    Loaded="SearchResults_Loaded"
+                
                     HasUnevenRows="True"
                     HorizontalOptions="Start"
                     RowHeight="90"
@@ -106,6 +111,7 @@
                     </ListView.ItemTemplate>
              </ListView>
              <Label 
+                   x:Name="SelSpecailL"
                 Text="selected specailties"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
@@ -141,6 +147,7 @@
 
 
             <Label 
+                x:Name="DescL"
                 Text="description"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 

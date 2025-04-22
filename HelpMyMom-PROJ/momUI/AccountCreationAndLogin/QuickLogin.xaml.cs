@@ -12,6 +12,10 @@ public partial class QuickLogin : ContentPage
 	{
 		InitializeComponent();
 	}
+    protected override async void OnAppearing()
+    {
+        Accessibility a = Accessibility.getAccessibilitySettings();
+    }
 
     async private void Helper_Clicked(object sender, EventArgs e)
     {

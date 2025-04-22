@@ -16,8 +16,20 @@ public partial class MomToChildReltionshipPage : ContentPage
 		InitializeComponent();
         mother = m;
 	}
+    protected override async void OnAppearing()
+    {
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        FNameLabel.FontSize = a.fontsize;
+        LNameLabel.FontSize = a.fontsize;
+        ErrorLabel.FontSize = a.fontsize;
+        FNameL.FontSize = a.fontsize;
+        LNameL.FontSize = a.fontsize;
+        Search.FontSize = a.fontsize;
+        RelationShipButton.FontSize = a.fontsize;
 
-   async private void RelationShipButton_Clicked(object sender, EventArgs e)
+    }
+
+    async private void RelationShipButton_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
         {

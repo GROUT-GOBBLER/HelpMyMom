@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.ChildAccountCreation"
              Title="ChildAccountCreation">
+    <ScrollView>
     <VerticalStackLayout
      Padding="30,80"
      Spacing="25">
         <Label 
+            x:Name="UserL"
              Text="Username:"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
@@ -17,6 +19,7 @@
             VerticalOptions="Center"
         />
         <Label 
+              x:Name="PasswordL"
              Text="Password:"
              VerticalOptions="Center" 
              HorizontalOptions="Center" 
@@ -27,17 +30,20 @@
             VerticalOptions="Center"
         />
         <Label 
+              x:Name="EmailL"
             Text="Email:"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
         />
 
         <Entry x:Name="EmailEntry"
+               
              Placeholder="Enter Email"
              VerticalOptions="Center"
         />
 
         <Label 
+              x:Name="FNAMEL"
             Text="First Name:"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
@@ -49,6 +55,7 @@
         />
 
         <Label 
+            x:Name="LNAMEL"
             Text="Last Name:"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
@@ -74,4 +81,5 @@
         />
 
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

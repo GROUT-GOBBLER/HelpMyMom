@@ -267,7 +267,7 @@ namespace momUI
                     newChatLog.Time = DateTime.Now;
                     newChatLog.IsMom = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
                     newChatLog.Text = messageToSend;
-                    newChatLog.Image = null; // WILL NEED TO CHANGE THIS AT SOME POINT!
+                 
                     newChatLog.Ticket = null; // might NEED TO CHANGE THIS AT SOME POINT!
 
                     HttpResponseMessage createResponse = await client.PostAsJsonAsync($"{URL}/{"Chatlogs"}", newChatLog); // post new message.

@@ -14,7 +14,20 @@ namespace momUI
         {
             InitializeComponent();
         }
-       
+        protected override async void OnAppearing()
+        {
+            Accessibility a = Accessibility.getAccessibilitySettings();
+            AccessibiltySettings.FontSize = a.fontsize;
+            QuickLogin.FontSize = a.fontsize;
+            head.FontSize = a.fontsize + 20;
+            subHead.FontSize = a.fontsize + 10;  
+            UsernameEntry.FontSize = a.fontsize;
+            PasswordEntry.FontSize = a.fontsize;
+            LoginButton.FontSize = a.fontsize;
+            SigninButton.FontSize = a.fontsize;
+        }
+
+
         async private void LoginButton_Clicked(object sender, EventArgs e)
         {
             LoginButton.IsEnabled = false;
@@ -119,10 +132,10 @@ namespace momUI
             SigninButton.IsEnabled = true;
         }
 
-        private void AccessibiltySettings_Clicked(object sender, EventArgs e)
+      async  private void AccessibiltySettings_Clicked(object sender, EventArgs e)
         {
             AccessibiltySettings.IsEnabled = false;
-
+            await Navigation.PushAsync(new Accessibility_Settings());
 
             AccessibiltySettings.IsEnabled = true;
         }

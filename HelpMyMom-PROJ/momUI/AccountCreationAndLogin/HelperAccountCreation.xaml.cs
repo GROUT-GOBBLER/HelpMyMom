@@ -26,6 +26,29 @@ public partial class HelperAccountCreation : ContentPage
     {
         base.OnAppearing();
         //SearchResultList.IsRefreshing = true;
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        UserL.FontSize = a.fontsize;
+        UsernameEntry.FontSize = a.fontsize;
+        LNameL.FontSize = a.fontsize;
+        FNameL.FontSize = a.fontsize;
+        PasswordEntry.FontSize = a.fontsize;
+        PasswordL.FontSize = a.fontsize;
+        EmailL.FontSize = a.fontsize;
+        EmailEntry.FontSize = a.fontsize;
+        FirstNameEntry.FontSize = a.fontsize;
+        LastNameEntry.FontSize = a.fontsize;
+        CreateAccountButton.FontSize = a.fontsize;
+        ErrorLabel.FontSize = a.fontsize;
+        specailL.FontSize = a.fontsize;
+        SelSpecailL.FontSize = a.fontsize;
+        DOBL.FontSize = a.fontsize;
+        DescL.FontSize = a.fontsize;
+        descriptionEditor.FontSize = a.fontsize;
+
+
+
+
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -90,12 +113,23 @@ public partial class HelperAccountCreation : ContentPage
             helper.LName = LastNameEntry.Text;
             helper.Email = EmailEntry.Text;
             String specString = "";
+            int i = 0;
             foreach (Spec item in SelectedSpecList)
             {
-                specString += item.Id + ", ";
+                if (i < SelectedSpecList.Count - 1)
+                {
+
+                    specString += item.Id + ", ";
+                }
+                else
+                {
+                    specString += item.Id;
+                }
+
+                    i++;
             }
-            specString.Remove(specString.Length -2);
-            helper.Specs = specString;
+          
+            helper.Specs = specString; 
             /* String dob = "2000/1/1"; //DOBEntry.Text;
              if (!dob.Contains("/"))
              {
@@ -182,15 +216,7 @@ public partial class HelperAccountCreation : ContentPage
 
     }
   
-    async private void SearchResults_Loaded(object sender, EventArgs e)
-    {
-      
-    }
-
-    private void Search_SearchButtonPressed(object sender, EventArgs e)
-    {
-
-    }
+   
 
     private void SearchResultList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {

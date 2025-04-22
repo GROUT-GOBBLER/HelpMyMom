@@ -1,4 +1,5 @@
 
+using Java.Net;
 using momUI.models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -12,7 +13,26 @@ public partial class MomAccountCreation : ContentPage
 	{
 		InitializeComponent();
 	}
+
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+    protected override async void OnAppearing()
+    {
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        UserL.FontSize = a.fontsize;
+        UsernameEntry.FontSize = a.fontsize;
+        LNAMEL.FontSize = a.fontsize;
+        FNAMEL.FontSize = a.fontsize;
+        PasswordEntry.FontSize = a.fontsize;
+        PasswordL.FontSize = a.fontsize;
+        EmailL.FontSize = a.fontsize;
+        EmailEntry.FontSize = a.fontsize;
+        FirstNameEntry.FontSize = a.fontsize;
+        LastNameEntry.FontSize = a.fontsize;
+        CreateAccountButton.FontSize = a.fontsize;
+        ErrorLabel.FontSize = a.fontsize;
+
+
+    }
     async private void CreateAccountButton_Clicked(object sender, EventArgs e)
     {
 		using (HttpClient client = new HttpClient())
