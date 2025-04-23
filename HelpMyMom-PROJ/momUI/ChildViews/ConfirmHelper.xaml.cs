@@ -1,5 +1,6 @@
 namespace momUI;
 
+using GoogleGson;
 using models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
@@ -110,11 +111,43 @@ public partial class ConfirmHelper : ContentPage
                 ticket.HelperId = helper.Id;
                 ticket.Status = "ASSIGNED";
 
+                string[]? notifSettings = null;
+                if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
+                Mother? mom = null;
+
+                HttpResponseMessage momResponse = await client.GetAsync($"{URL}/Mothers/{ticket.MomId}");
+                if (momResponse.IsSuccessStatusCode)
+                {
+                    string json2 = await momResponse.Content.ReadAsStringAsync();
+                    mom = JsonConvert.DeserializeObject<Mother>(json2);
+                }
+
                 try
                 {
                     HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{ticket.Id}", ticket);
 
-                    if (response3.IsSuccessStatusCode) confirmBtn.Text = "Success";
+                    if (response3.IsSuccessStatusCode)
+                    {
+                        EmailServices.SendNotifcation(helper.Email, $"{helper.FName} {helper.LName}", ticket.Status, ticket);
+
+                        if (mom != null)
+                        {
+                            EmailServices.SendNotifcation(mom.Email, $"{mom.FName} {mom.LName}", ticket.Status, ticket);
+                        }
+
+                        if (notifSettings != null && notifSettings.Length == 5)
+                        {
+                            bool shouldSendChild = bool.Parse(notifSettings[1].ToLower()) || true;
+
+                            if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", ticket.Status, ticket);
+                        }
+                        else //If there are no settings, assume "true"
+                        {
+                            EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", ticket.Status, ticket);
+                        }
+
+                        confirmBtn.Text = "Success";
+                    }
                     else confirmBtn.Text = "Error";
                 }
                 catch (Exception ex)

@@ -122,10 +122,43 @@ public partial class UnassignedTickets : ContentPage
                 selected.HelperId = helper.Id;
                 selected.Status = "ASSIGNED";
 
+                string[]? notifSettings = null;
+                if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
+
                 try
                 {
+                    Mother? mom = null;
+
+                    HttpResponseMessage momResponse = await client.GetAsync($"{URL}/Mothers/{selected.MomId}");
+                    if (momResponse.IsSuccessStatusCode)
+                    {
+                        string json2 = await momResponse.Content.ReadAsStringAsync();
+                        mom = JsonConvert.DeserializeObject<Mother>(json2);
+                    }
+
                     HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{selected.Id}", selected);
-                    if (response3.IsSuccessStatusCode) TopText.Text = "Success";
+                    if (response3.IsSuccessStatusCode) 
+                    {
+                        EmailServices.SendNotifcation(helper.Email, $"{helper.FName} {helper.LName}", selected.Status, selected);
+
+                        if (mom != null)
+                        {
+                            EmailServices.SendNotifcation(mom.Email, $"{mom.FName} {mom.LName}", selected.Status, selected);
+                        }
+
+                        if (notifSettings != null && notifSettings.Length == 5)
+                        {
+                            bool shouldSendChild = bool.Parse(notifSettings[1].ToLower()) || true;
+
+                            if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", selected.Status, selected);
+                        }
+                        else //If there are no settings, assume "true"
+                        {
+                            EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", selected.Status, selected);
+                        }
+
+                        TopText.Text = "Success"; 
+                    }
                     else TopText.Text = "Error";
 
                     if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new ChildMenu(account));

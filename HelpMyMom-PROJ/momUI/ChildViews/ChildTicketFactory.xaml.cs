@@ -92,6 +92,9 @@ public partial class ChildTicketFactory : ContentPage
         Ticket newTicket = new Ticket();
         List<Ticket>? tickets = new List<Ticket>();
 
+        string[]? notifSettings = null;
+        if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -159,7 +162,18 @@ public partial class ChildTicketFactory : ContentPage
                             {
                                 settingBtn.Text = "good";
 
-                                EmailServices.SendNotifcation(mom.Email, );
+                                EmailServices.SendNotifcation(mom.Email, $"{mom.FName} {mom.LName}", "NEW", newTicket);
+
+                                if (notifSettings != null && notifSettings.Length == 5)
+                                {
+                                    bool shouldSendChild = bool.Parse(notifSettings[0].ToLower()) || true;
+
+                                    if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", "NEW", newTicket);
+                                }
+                                else //If there are no settings, assume "true"
+                                {
+                                    EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", "NEW", newTicket);
+                                }
                             }
                             else settingBtn.Text = "bad money request";
                         }
