@@ -9,10 +9,22 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Label
-                Text="Chat Testing!!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+            <HorizontalStackLayout Spacing="30" >
+                <Label
+                    x:Name="MomNameTextBox"
+                    FontSize="Large"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    FontAttributes="Bold"/>
+
+                <Button 
+                    x:Name="TicketApprovedButton"
+                    Text=""
+                    Clicked="TicketApprovedButton_Clicked"
+                    SemanticProperties.Hint="Mark the ticket as APPROVED."
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"/>
+            </HorizontalStackLayout>
 
             <ListView 
                 x:Name="ChatMessageListView"  

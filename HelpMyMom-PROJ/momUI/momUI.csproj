@@ -64,6 +64,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="HelperViews\HelperWriteTicketSummary.xaml.cs">
+	    <DependentUpon>HelperWriteTicketSummary.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="MomViews\MomChatLogs.xaml.cs">
 	    <DependentUpon>MomChatLogs.xaml</DependentUpon>
 	  </Compile>
@@ -82,6 +85,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="HelperViews\HelperWriteTicketSummary.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="HelperViews\MessagingView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

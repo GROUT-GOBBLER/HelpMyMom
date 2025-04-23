@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace momUI.models;
 
-namespace momUI.models;
 public partial class Helper
 {
     public int Id { get; set; }
@@ -21,8 +19,6 @@ public partial class Helper
     public double? Tokens { get; set; }
 
     public short? Banned { get; set; }
-
-    public byte[]? Pfp { get; set; }
 
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
 

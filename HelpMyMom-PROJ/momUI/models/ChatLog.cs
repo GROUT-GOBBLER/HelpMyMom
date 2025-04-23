@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace momUI.models;
+﻿namespace momUI.models;
 
 public partial class ChatLog
 {
@@ -14,8 +11,6 @@ public partial class ChatLog
     public string? IsMom { get; set; }
 
     public string? Text { get; set; }
-
-    public byte[]? Image { get; set; }
 
     public virtual Ticket? Ticket { get; set; }
 }

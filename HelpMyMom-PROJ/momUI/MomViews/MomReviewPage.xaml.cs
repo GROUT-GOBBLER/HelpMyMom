@@ -148,7 +148,6 @@ namespace momUI
                         Description = _helper.Description,
                         Dob = _helper.Dob,
                         Banned = _helper.Banned,
-                        Pfp = _helper.Pfp,
                         Tokens = newBalance
                     };
 

@@ -23,10 +23,10 @@ public partial class HelperView : ContentPage
                 // Get lists of Accounts and Helpers.
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
                     String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
+                    List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
                     String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
+                    List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
 
                 // Define some temporary variables.
                 Helper tempHelper = new Helper();
@@ -35,12 +35,15 @@ public partial class HelperView : ContentPage
                 double? balance = 0.0;
 
                 // Find account and helper.
-                foreach(Account a in accountsList)
+                if(accountsList != null)
                 {
-                    if(a.Username == MASTER_ACCOUNT_USERNAME)
+                    foreach (Account a in accountsList)
                     {
-                        helperID = a.HelperId;
-                        break;
+                        if (a.Username == MASTER_ACCOUNT_USERNAME)
+                        {
+                            helperID = a.HelperId;
+                            break;
+                        }
                     }
                 }
 
@@ -50,13 +53,16 @@ public partial class HelperView : ContentPage
                     return;
                 }
 
-                foreach(Helper h in helpersList)
+                if (helpersList != null)
                 {
-                    if(h.Id == helperID)
+                    foreach (Helper h in helpersList)
                     {
-                        tempHelper = h;
-                        found = true;
-                        break;
+                        if (h.Id == helperID)
+                        {
+                            tempHelper = h;
+                            found = true;
+                            break;
+                        }
                     }
                 }
 

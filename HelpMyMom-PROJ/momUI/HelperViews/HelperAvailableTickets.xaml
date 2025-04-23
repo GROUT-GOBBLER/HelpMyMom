@@ -5,8 +5,46 @@
              Title="HelperAvailableTickets">
     <VerticalStackLayout>
         <Label 
+            x:Name="AvailableTicketsExceptionLabel"
             Text="Available Tickets."
+            FontSize="Title"
+            FontAttributes="Bold"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <ListView
+            x:Name="AvailableTicketsListView"
+            HorizontalOptions="Start"
+            VerticalOptions="Center"
+            VerticalScrollBarVisibility="Never"
+            ItemSelected="AvailableTicketsListView_ItemSelected"
+            HasUnevenRows="True"
+            Margin="10">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid
+                            ColumnSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label 
+                                Grid.Row="0"
+                                Text="{Binding momName}"
+                                FontSize="Large"
+                                x:Name="AvailableTicketPersonName"/>
+                            <Label
+                                Grid.Row="1"
+                                Text="{Binding ticketDescription}"
+                                FontSize="Small"
+                                FontAttributes="Italic"
+                                LineBreakMode="WordWrap"
+                                x:Name="AvailableTicketTopic"/>                        
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </VerticalStackLayout>
 </ContentPage>

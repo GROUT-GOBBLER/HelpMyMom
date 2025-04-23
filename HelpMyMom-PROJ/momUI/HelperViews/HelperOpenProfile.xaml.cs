@@ -8,7 +8,7 @@ public partial class HelperOpenProfile : ContentPage
 {
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 	String MASTERusername = "UncleBensBiggestFan";
-    String[] helperSPECIALTIES;
+    String[] helperSPECIALTIES = {""};
 
     public HelperOpenProfile()
 	{
@@ -24,16 +24,16 @@ public partial class HelperOpenProfile : ContentPage
 				// Get lists of Accounts, Helpers, and Specs.
 				HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
 					String json1 = await response1.Content.ReadAsStringAsync();
-					List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
+					List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
                 HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
 					String json2 = await response2.Content.ReadAsStringAsync();
-					List<Helper> helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
+					List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
                 HttpResponseMessage response3 = await client.GetAsync($"{URL}/{"Specs"}");
 					String json3 = await response3.Content.ReadAsStringAsync();
-					List<Spec> specsList = JsonConvert.DeserializeObject<List<Spec>>(json3); // specsList.
+					List<Spec>? specsList = JsonConvert.DeserializeObject<List<Spec>>(json3); // specsList.
 				HttpResponseMessage response4 = await client.GetAsync($"{URL}/{"Reviews"}");
 					String json4 = await response4.Content.ReadAsStringAsync();
-					List<Review> reviewsList = JsonConvert.DeserializeObject<List<Review>>(json4); // reviewsList.
+					List<Review>? reviewsList = JsonConvert.DeserializeObject<List<Review>>(json4); // reviewsList.
 
 				// Variable initialization.
                 Account tempAccount = new Account();
@@ -45,16 +45,20 @@ public partial class HelperOpenProfile : ContentPage
 				int numberOfApplicableReviews = 0;
 
                 // Find our account.
-                foreach (Account a in accountsList) // Get Helper Id from Accounts table.
-                {
-					if(a.Username == MASTERusername)
-					{
-						UsernameLabel.Text = a.Username;
-						tempAccount = a;
-					}
-				}
+				if(accountsList != null)
+				{
+                    foreach (Account a in accountsList) // Get Helper Id from Accounts table.
+                    {
+                        if (a.Username == MASTERusername)
+                        {
+                            UsernameLabel.Text = a.Username;
+                            tempAccount = a;
+                        }
+                    }
+                }
+                else { await DisplayAlert("AccountsNotFound", $"ERROR! Failed to find any accounts.", "OK"); }
 
-				if(tempAccount.HelperId == -1)
+                if (tempAccount.HelperId == -1)
 				{
                     await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
 					return;
@@ -62,72 +66,84 @@ public partial class HelperOpenProfile : ContentPage
 
 				// Find our helper.
 				bool found = false;
-				foreach(Helper h in helpersList)
+				if(helpersList != null)
 				{
-					if(h.Id == tempAccount.HelperId)
-					{
-						tempHelper = h;
-						found = true;
-					}
-				}
-				
-				if(!found)
-				{
-                    await DisplayAlert("AccountNotFoundError", $"ERROR! Helper not found.", "OK");
-					return;
-                }
-
-				specs = tempHelper.Specs;
-
-				// Turn the specs values into their string equivalents.
-					specsAsNumbers = specs.Split(','); // split Comma-Separated list.
-					specsAsStringsFull = new String[specsAsNumbers.Length];
-				
-				foreach(Spec s in specsList) // converts all of the int values in listOfSpecs into their String descriptions.
-				{
-					for(int x = 0; x < specsAsNumbers.Length; x++)
-					{
-						short shortIDFromSpec = short.Parse(specsAsNumbers[x].Trim()); // convert string # into short #.
-
-						if (s.Id == shortIDFromSpec)
-						{
-							specsAsStringsFull[x] = s.Name;
-						}
-					}
-				}
-
-				// Find review score.
-				if(reviewsList.Count() != 0)
-				{
-                    foreach (Review r in reviewsList)
+                    foreach (Helper h in helpersList)
                     {
-                        if (r.HelperId == tempHelper.Id)
+                        if (h.Id == tempAccount.HelperId)
                         {
-                            reviewAverageValue += (int) r.Stars;
-                            numberOfApplicableReviews++;
+                            tempHelper = h;
+                            found = true;
                         }
                     }
 
-					if (numberOfApplicableReviews > 0)
-					{
-						reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
-						reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
-						textForRatingsLabel = reviewAverageValue + " stars.";
-                    }
-					else
-					{
-                        textForRatingsLabel = "No reviews found.";
+                    if (!found)
+                    {
+                        await DisplayAlert("AccountNotFoundError", $"ERROR! Helper not found.", "OK");
+                        return;
                     }
                 }
-				else
+				else { await DisplayAlert("HelpersNotFound", $"ERROR! Failed to find any helpers.", "OK"); }
+
+				if(tempHelper.Specs != null)
 				{
-					textForRatingsLabel = "No reviews found.";
-				}
+                    specs = tempHelper.Specs;
+                }
+                else { await DisplayAlert("HelperSpecsNotFound", $"ERROR! Failed to find {tempHelper.FName}'s specs.", "OK"); }
 
-
+                // Turn the specs values into their string equivalents.
+                specsAsNumbers = specs.Split(','); // split Comma-Separated list.
+					specsAsStringsFull = new String[specsAsNumbers.Length];
 				
-				// Set objects in the XAML file with the newfound values.
-				FirstNameLabel.Text = tempHelper.FName;
+				if(specsList != null)
+				{
+					foreach(Spec s in specsList) // converts all of the int values in listOfSpecs into their String descriptions.
+					{
+						for(int x = 0; x < specsAsNumbers.Length; x++)
+						{
+							short shortIDFromSpec = short.Parse(specsAsNumbers[x].Trim()); // convert string # into short #.
+
+							if (s.Id == shortIDFromSpec)
+							{
+								specsAsStringsFull[x] = s.Name;
+							}
+						}
+					}
+				}
+                else { await DisplayAlert("SpecsNotFound", $"ERROR! Failed to find any specs.", "OK"); }
+
+                // Find review score.
+				if(reviewsList != null)
+				{
+					if (reviewsList.Count != 0)
+					{
+						foreach (Review r in reviewsList)
+						{
+							if (r.HelperId == tempHelper.Id)
+							{
+								if(r.Stars != null)
+								{
+                                    reviewAverageValue += (int)r.Stars;
+                                    numberOfApplicableReviews++;
+                                }
+                                else { await DisplayAlert("ReviewWithNoStars", $"ERROR! Found a review without a star-rating.", "OK"); }
+                            }
+						}
+
+						if (numberOfApplicableReviews > 0)
+						{
+							reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
+							reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
+							textForRatingsLabel = reviewAverageValue + " stars.";
+						}
+						else { textForRatingsLabel = "No reviews found."; }
+					}
+					else { textForRatingsLabel = "No reviews found."; }
+				}
+                else { await DisplayAlert("ReviewsNotFound", $"ERROR! Failed to find any reviews.", "OK"); }
+
+                // Set objects in the XAML file with the newfound values.
+                FirstNameLabel.Text = tempHelper.FName;
 				LastNameLabel.Text = tempHelper.LName;
 				DescriptionLabel.Text = tempHelper.Description;
 
