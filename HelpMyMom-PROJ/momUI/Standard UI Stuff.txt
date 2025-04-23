@@ -1,0 +1,7 @@
+﻿==============
+Button Colors
+==============
+
+Confirm:
+> Text: LightGreen
+> Background: DarkGreen

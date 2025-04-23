@@ -13,23 +13,12 @@
 
         <HorizontalStackLayout>
             <Button
-                x:Name="settingBtn"
-                Text="Settings" 
-                FontSize="30"
-                LineBreakMode="WordWrap"
-                BackgroundColor="Grey"
-                Margin="40,10,0,0"
-                SemanticProperties.Hint="Get"
-                Clicked="NothingClicked"
-                HorizontalOptions="Fill" />
-
-            <Button
                 x:Name="LogOutBtn"
                 Text="Log out" 
                 FontSize="30"
                 LineBreakMode="WordWrap"
                 BackgroundColor="Grey"
-                Margin="50,10,0,0"
+                Margin="10,10,0,0"
                 SemanticProperties.Hint="Get"
                 Clicked="SignOutClicked"
                 HorizontalOptions="Fill" />
@@ -39,7 +28,7 @@
             x:Name="CreateBtn"
             Text="Create A Help Ticket" 
             FontSize="50"
-            Margin="0,40,0,0"
+            Margin="0,30,0,0"
             LineBreakMode="WordWrap"
             SemanticProperties.Hint="Get"
             Clicked="CreateTicketClicked"

@@ -40,6 +40,18 @@ public partial class ChildAccountSettings : ContentPage
                 AddMomBtn.IsEnabled = false;
                 RemoveMom.IsEnabled = false;
 
+                string[]? notifSettings = null;
+                if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
+
+                if (notifSettings != null && notifSettings.Length == 5) 
+                {
+                    NewSwitch.IsToggled = bool.Parse(notifSettings[0].ToLower());
+                    AssignedSwitch.IsToggled = bool.Parse(notifSettings[1].ToLower());
+                    ProgressSwitch.IsToggled = bool.Parse(notifSettings[2].ToLower());
+                    CompleatedSwitch.IsToggled = bool.Parse(notifSettings[3].ToLower());
+                    ApprovedSwitch.IsToggled = bool.Parse(notifSettings[4].ToLower());
+                }
+
                 if (accountResponse.IsSuccessStatusCode && momResponse.IsSuccessStatusCode && relationshipResponse.IsSuccessStatusCode)
 				{
                     string json1 = await accountResponse.Content.ReadAsStringAsync();
@@ -263,6 +275,46 @@ public partial class ChildAccountSettings : ContentPage
             catch (Exception ex)
             {
                 RemoveMom.Text = ex.Message;
+
+                Console.WriteLine("\n-------------------------------------------------------------");
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine("-------------------------------------------------------------\n");
+            }
+        }
+    }
+
+    private async void SetNotifsClicked(object sender, EventArgs e)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            List<string> newSettings = new List<string>();
+
+            try
+            {
+                newSettings.Add(NewSwitch.IsToggled.ToString());
+                newSettings.Add(AssignedSwitch.IsToggled.ToString());
+                newSettings.Add(ProgressSwitch.IsToggled.ToString());
+                newSettings.Add(CompleatedSwitch.IsToggled.ToString());
+                newSettings.Add(ApprovedSwitch.IsToggled.ToString());
+
+                string newSettingAll = string.Join(",", newSettings);
+
+                account.Notifs = newSettingAll;
+
+                HttpResponseMessage response1 = await client.PutAsJsonAsync($"{URL}/Children/{account.Id}", account);
+
+                if (response1.IsSuccessStatusCode)
+                {
+                    SetNotifsBtn.Text = "Notifcations Changed";
+                }
+                else
+                {
+                    SetNotifsBtn.Text = "Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                NotifText.Text = ex.Message;
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());

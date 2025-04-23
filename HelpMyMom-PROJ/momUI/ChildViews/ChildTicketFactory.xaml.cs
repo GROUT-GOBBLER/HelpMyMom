@@ -101,6 +101,7 @@ public partial class ChildTicketFactory : ContentPage
                 if (ticketResponse.IsSuccessStatusCode == true)
                 {
                     string json = await ticketResponse.Content.ReadAsStringAsync();
+                    string json2 = await ticketResponse.Content.ReadAsStringAsync();
 
                     tickets = JsonConvert.DeserializeObject<List<Ticket>>(json);
 
@@ -153,18 +154,17 @@ public partial class ChildTicketFactory : ContentPage
 
                             mom.Tokens = Math.Round(newToken, 2);
 
-                            Console.WriteLine("-----------------------------------------------------------------------------------");
-                            Console.WriteLine(JsonConvert.SerializeObject(mom));
-                            Console.WriteLine("-----------------------------------------------------------------------------------");
-
                             HttpResponseMessage response4 = await client.PutAsJsonAsync($"{URL}/Mothers/{mom.Id}", mom);
                             if (response4.IsSuccessStatusCode)
                             {
                                 settingBtn.Text = "good";
+
+                                EmailServices.SendNotifcation(mom.Email, );
                             }
                             else settingBtn.Text = "bad money request";
                         }
                         else settingBtn.Text = "bad request";
+
                     }
 
                     await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
