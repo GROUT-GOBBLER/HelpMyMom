@@ -20,8 +20,9 @@ namespace momUI
         private double _currentAccountBalance;
 
         private int _momAccountID;
+        private string _accountID;
 
-        public MomTicketPage(double? currentBalance, int momID)
+        public MomTicketPage(double? currentBalance, int momID, string accountID)
         {
             InitializeComponent();
             BindingContext = this;
@@ -29,6 +30,20 @@ namespace momUI
 
             _currentAccountBalance = (double)currentBalance;
             _momAccountID = momID;
+            _accountID = accountID;
+
+        }
+
+        protected override void OnAppearing()
+        {
+            Accessibility a = Accessibility.getAccessibilitySettings();
+            PageTitle.FontSize = Math.Min(Math.Max(20, a.fontsize + 11), 30);
+
+            IssueDescriptionBox.FontSize = Math.Min(Math.Max(15, a.fontsize + 3), 22);
+
+            SubmitTicketButton.FontSize = Math.Min(Math.Max(16, a.fontsize + 1), 20);
+
+            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
 
         }
 
@@ -46,10 +61,8 @@ namespace momUI
             }
 
 
-            // Step 1: Fetch the current balance from the database
             double currentBalance = _currentAccountBalance;
 
-            // Step 2: Check if the balance is sufficient
             if (currentBalance < _ticketCost)
             {
                 await DisplayAlert("Insufficient Balance",
@@ -60,7 +73,6 @@ namespace momUI
 
 
             
-            // Step 3: Deduct the ticket cost from the balance
             double newBalance = currentBalance - _ticketCost;
 
             using (HttpClient client = new HttpClient())
@@ -73,7 +85,7 @@ namespace momUI
                     HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
                     HttpResponseMessage response3 = await client.GetAsync(URL + "/Relationships");
                     HttpResponseMessage response4 = await client.GetAsync(URL + "/Children");
-
+                    HttpResponseMessage response5 = await client.GetAsync(URL + "/Accounts");
 
                     if (response3.IsSuccessStatusCode)
                     {
@@ -81,11 +93,14 @@ namespace momUI
                         String json2 = await response2.Content.ReadAsStringAsync();
                         String json3 = await response3.Content.ReadAsStringAsync();
                         String json4 = await response4.Content.ReadAsStringAsync();
+                        String json5 = await response5.Content.ReadAsStringAsync();
 
-                        List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
-                        List<Mother> mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-                        List<Relationship> relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
-                        List<Child> childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
+                        List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
+                        List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                        List<Relationship>? relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
+                        List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
+                        List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json5);
+
 
                         int childrenID = 0;
                         Boolean found_childrenID = false;
@@ -95,6 +110,16 @@ namespace momUI
                             {
                                 childrenID = (int)index.ChildId;
                                 found_childrenID = true;
+                            }
+                        }
+
+                        Account account = new Account();
+                        foreach (Account index in accountList)
+                        {
+                            if (index.MomId == _momAccountID)
+                            {
+                                account = index;
+                                break;
                             }
                         }
 
@@ -121,13 +146,23 @@ namespace momUI
                             if (index.Id == _momAccountID)
                             {
                                 momIndexInList = index.Id;
+                                break;
                             }
                         }
 
+                        int newTicketID;
+                        if (length1 <= 0)
+                        {
+                            newTicketID = 1;
+                        }
+                        else
+                        {
+                            newTicketID = ticketsList[length1 - 1].Id + 1;
+                        }
                         // Step 4: Create the ticket and add it to the database
                         Ticket newTicket = new Ticket
                         {
-                            Id = ticketsList[length1 - 1].Id + 1,
+                            Id = newTicketID,
                             MomId = _momAccountID,
                             ChildId = childrenID,
                             HelperId = null,
@@ -162,8 +197,39 @@ namespace momUI
 
                         if (createTicketResponse.IsSuccessStatusCode)
                         {
-                            // Step 5: Show success pop-up and navigate back
                             await DisplayAlert("Success", "Your ticket has been successfully sent!", "OK");
+
+                            // Send email to mom.
+                            EmailServices.SendNotifcation(updateMom.Email, $"{updateMom.FName} {updateMom.LName}", 
+                                $"{newTicket.Status}", newTicket);
+
+                            // Only if the child opts in.
+                            foreach (Child index in childrenList)
+                            {
+                                if (index.Id == childrenID)
+                                {
+                                    string[]? notifSettings = null;
+                                    if (index.Notifs != null)
+                                    {
+                                        notifSettings = index.Notifs.Split(",");
+                                    }
+
+                                    if (notifSettings != null && notifSettings.Length == 5)
+                                    {
+                                        bool shouldSendChild = bool.Parse(notifSettings[1].ToLower()) || true;
+                                        if (shouldSendChild)
+                                        {
+                                            EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", newTicket.Status, newTicket);
+                                        }
+                                    }
+                                    else //If there are no settings, assume "true"
+                                    {
+                                        EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", newTicket.Status, newTicket);
+                                    }
+
+                                }
+                            }
+
                             await Navigation.PopAsync();
                         }
                         else
@@ -171,7 +237,6 @@ namespace momUI
                             await DisplayAlert("Error", $"Failed to create ticket: {createTicketResponse.StatusCode}", "OK");
                             return;
                         }
-
                     }
                     else
                     {

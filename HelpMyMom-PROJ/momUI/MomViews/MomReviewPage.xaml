@@ -1,28 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="momUI.MomReviewPage"
-             Title="Review">
+             x:Class="momUI.MomReviewPage">
 
-    <Grid Padding="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <ScrollView
+        VerticalScrollBarVisibility="Always">
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <!-- Back Button -->
-        <Button Grid.Row="0"
+            <!-- Back Button -->
+            <Button x:Name="GoBack"
+                Grid.Row="0"
                 Text="BACK"
                 HorizontalOptions="Start"
                 Clicked="OnBackClicked"
-                Margin="0,0,0,10" />
+                Margin="0,0,0,0" />
 
-        <!-- Review Title -->
-        <Label x:Name="MomReviewTemplateText"
+            <Label x:Name="PageTitle"
                Grid.Row="1"
+               Text="Review Page"
+               FontSize="25"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,0,0,10"
+               LineBreakMode="WordWrap" />
+
+            <!-- Review Title -->
+            <Label x:Name="MomReviewTemplateText"
+               Grid.Row="2"
                Text="How did [HelperFName][HelperLName] do in assisting you?"
                FontSize="18"
                FontAttributes="Bold"
@@ -30,34 +43,68 @@
                Margin="0,0,0,10"
                LineBreakMode="WordWrap" />
 
-        <!-- Star Rating -->
-        <HorizontalStackLayout Grid.Row="2"
-                              HorizontalOptions="Center"
-                              Spacing="5"
-                              Margin="0,0,0,20">
-            <Label Text="★" FontSize="24" TextColor="Gold" />
-            <Label Text="★" FontSize="24" TextColor="Gold" />
-            <Label Text="★" FontSize="24" TextColor="Gold" />
-            <Label Text="★" FontSize="24" TextColor="Gold" />
-            <Label Text="★" FontSize="24" TextColor="Gold" />
-        </HorizontalStackLayout>
+            <!-- Star Rating -->
+            <HorizontalStackLayout 
+                Grid.Row="3"
+                HorizontalOptions="Center"
+                Spacing="5"
+                Margin="0,0,0,20">
+                <VerticalStackLayout>
+                    <Label x:Name="RatingDialogue"
+                        Text="Rate your experience:"
+                        FontSize="18"
+                        HorizontalOptions="Center" />
 
-        <!-- Review Prompt and Input -->
-        <Frame Grid.Row="3"
+                    <Picker x:Name="RatingPicker"
+                        Title="Select Rating"
+                        HorizontalOptions="Center"
+                        WidthRequest="150"
+                        SelectedIndexChanged="OnRatingSelected">
+                        <Picker.ItemsSource
+                            WidthRequest="50">
+                            <x:Array Type="{x:Type x:Int32}">
+                                <x:Int32>1</x:Int32>
+                                <x:Int32>2</x:Int32>
+                                <x:Int32>3</x:Int32>
+                                <x:Int32>4</x:Int32>
+                                <x:Int32>5</x:Int32>
+                                <x:Int32>6</x:Int32>
+                                <x:Int32>7</x:Int32>
+                                <x:Int32>8</x:Int32>
+                                <x:Int32>9</x:Int32>
+                                <x:Int32>10</x:Int32>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Review Prompt and Input -->
+            <Label x:Name="PleaseWriteReview"
+                Grid.Row="4"
+                Text="Please write a short review about their performance."
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                LineBreakMode="WordWrap" 
+                Margin="0,0,0,25"/>
+
+            <Frame Grid.Row="5"
                BorderColor="Black"
                CornerRadius="1"
                Padding="5"
                HasShadow="True">
-            <Editor x:Name="IssueDescriptionBox1"
-                    Placeholder="Please write a short review about their performance."
+                <Editor x:Name="IssueDescriptionBox1"
+                    Placeholder="Write a review here"
                     HeightRequest="150"
                     Text="{Binding ReviewText}"
+                    MaxLength="2000"
                     Margin="0,0,0,10" />
-        </Frame>
+            </Frame>
 
-        <!-- Submit Button -->
-        <Button x:Name="SubmitTicketButton1"
-                Grid.Row="4"
+            <!-- Submit Button -->
+            <Button x:Name="SubmitTicketButton1"
+                Grid.Row="6"
                 Text="SUBMIT"
                 BackgroundColor="Purple"
                 TextColor="White"
@@ -68,5 +115,6 @@
                 Clicked="OnSubmitClicked"
                 LineBreakMode="WordWrap"
                 Margin="0,20,0,0" />
-    </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>

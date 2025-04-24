@@ -74,7 +74,11 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
-                        await Navigation.PushAsync(new MomMenu());
+
+                        await Navigation.PushAsync(new MomMenu("LoveMyRan", 0));
+
+
+
                         //  LoginButton.Text = $" mother {mother.FName} {mother.LName} ";
                         return;
                     }
@@ -103,8 +107,12 @@ namespace momUI
             await Navigation.PushAsync(new SignUpPage());
         }
 
-        private void AccessibiltySettings_Clicked(object sender, EventArgs e)
+        async private void AccessibiltySettings_Clicked(object sender, EventArgs e)
         {
+            AccessibiltySettings.IsEnabled = false;
+            await Navigation.PushAsync(new Accessibility_Settings());
+
+            AccessibiltySettings.IsEnabled = true;
         }
 
         async private void QuickLogin_Clicked(object sender, EventArgs e)

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.Accessibility_Settings"
+             Title="Accessibility_Settings">
+    
+    <VerticalStackLayout>
+        <Label 
+            x:Name="L"
+            Text="Font Size"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Picker x:Name="picker"
+        Title="Font size"
+        SelectedIndexChanged ="picker_SelectedIndexChanged">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:Int16}">
+                    <x:Int16>10</x:Int16>
+                    <x:Int16>11</x:Int16>
+                    <x:Int16>12</x:Int16>
+                    <x:Int16>13</x:Int16>
+                    <x:Int16>14</x:Int16>
+                    <x:Int16>15</x:Int16>
+                    <x:Int16>16</x:Int16>
+                    <x:Int16>17</x:Int16>
+                    <x:Int16>18</x:Int16>
+                    <x:Int16>19</x:Int16>
+                    <x:Int16>20</x:Int16>
+                    <x:Int16>21</x:Int16>
+                    <x:Int16>22</x:Int16>
+                    <x:Int16>23</x:Int16>
+                    <x:Int16>24</x:Int16>
+                    <x:Int16>25</x:Int16>
+                    <x:Int16>26</x:Int16>
+                    <x:Int16>27</x:Int16>
+                    <x:Int16>28</x:Int16>
+                    <x:Int16>29</x:Int16>
+                    <x:Int16>30</x:Int16>
+
+
+
+
+
+
+
+
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+    </VerticalStackLayout>
+</ContentPage>

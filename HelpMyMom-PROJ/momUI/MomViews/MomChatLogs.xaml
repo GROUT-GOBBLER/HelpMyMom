@@ -6,45 +6,47 @@
     <ScrollView
         VerticalScrollBarVisibility="Always"
         Margin="20">
+
         <VerticalStackLayout
                     Padding="30,0"
                     Spacing="25">
-
+        
             <!-- Header with Back and Settings Buttons -->
             <HorizontalStackLayout Grid.Row="0" Margin="0,0,0,10">
-                
-                <Button Text="BACK"
-                        HorizontalOptions="Start"
-                        Clicked="OnBackClicked" />
-                
+
+                <Button x:Name="GoBack"
+                  Text="BACK"
+                  HorizontalOptions="Start"
+                  WidthRequest="80"
+                  HeightRequest="50"
+                  Clicked="OnBackClicked"
+                  Margin="-20,0,0,0"/>
+
                 <Button x:Name="TicketStatusButton"
                         Text="ONGOING"
                         BackgroundColor="Red"
                         TextColor="Black"
-                        FontSize="25"
+                        FontSize="15"
                         FontAttributes="Bold"
-                        WidthRequest="200"
+                        WidthRequest="125"
                         HeightRequest="50"
                         CornerRadius="10" 
                         Clicked="OnStatusCompleteClickedMom"
                         LineBreakMode="WordWrap" 
-                        Margin="50,0,0,0" />
+                        Margin="15,0,0,0" />
 
-                <Button HorizontalOptions="EndAndExpand"
-                        Clicked="OnSettingsClicked"
-                        Margin="50,0,0,10">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialIcons"
-                           Glyph="&#xE8B8;"
-                           Size="24" />
-                    </Button.ImageSource>
-                </Button>
             </HorizontalStackLayout>
 
-            <Label
-                Text="Chat Testing!!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+            <!-- Header with Back and Settings Buttons -->
+            <HorizontalStackLayout Grid.Row="1" Margin="0,0,0,10">
+                <Button x:Name="HelperChatName"
+                    Text="HelperName"
+                    TextColor="White"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    Clicked="OnClickedHelperProfile" />
+
+            </HorizontalStackLayout>
 
             <ListView 
                 x:Name="ChatMessageListView"  
@@ -61,16 +63,19 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Column="1"
-                                       Text="{Binding sender}"
-                                       FontSize="25"
-                                       FontAttributes="Bold" />
-                                <Label Grid.Row="1"
+                                <Label x:Name="UserMessageLabels"
                                        Grid.Column="1"
-                                       Text="{Binding messageTextContent}"
-                                       FontSize="15"
-                                       FontAttributes="Italic"                                           
-                                       VerticalOptions="End" />
+                                       Text="{Binding sender}"
+                                       FontSize="{Binding SenderFontSize}"
+                                       FontAttributes="Bold" />
+
+                                <Label x:Name="UserMessageContentLabels"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       FontSize="{Binding MessageFontSize}"
+                                       FontAttributes="Italic"
+                                       VerticalOptions="End"
+                                       FormattedText="{Binding messageTextContent}" />  
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -79,29 +84,25 @@
 
             <HorizontalStackLayout
                 HorizontalOptions="Center">
-                <Entry 
-                    x:Name="MessageTextEntry"
-                    Placeholder="Enter your message."
-                    TextChanged="MessageTextEntry_TextChanged"
-                    ClearButtonVisibility="WhileEditing"
-                    VerticalOptions="End"        
-                    HorizontalOptions="Start" />
+                <VerticalStackLayout>
 
-                <Button
-                    x:Name="SendChatMessage"
-                    Text="Send message."     
-                    SemanticProperties.Hint="Send the typed message."
-                    Clicked="SendChatMessage_Clicked"
-                    VerticalOptions="End"
-                    HorizontalOptions="End" />
+                    <Editor
+                        x:Name="MessageTextEntry"
+                        Placeholder="Enter your message."
+                        TextChanged="MessageTextEntry_TextChanged"
+                        VerticalOptions="End"        
+                        HorizontalOptions="Start"
+                        MaxLength="2000"/>
+                    <!-- ClearButtonVisibility="WhileEditing" -->
 
-                <Button 
-                    x:Name="RefreshChatMessages"
-                    Text="Refresh All Chat Messages."
-                    SemanticProperties.Hint="Reload the page and show all of the chat messages."
-                    Clicked="RefreshChatMessages_Clicked"
-                    VerticalOptions="End"
-                    HorizontalOptions="End" />
+                    <Button
+                        x:Name="SendChatMessage"
+                        Text="Send message."     
+                        SemanticProperties.Hint="Send the typed message."
+                        Clicked="SendChatMessage_Clicked"
+                        VerticalOptions="End"
+                        HorizontalOptions="Start" />
+                </VerticalStackLayout>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

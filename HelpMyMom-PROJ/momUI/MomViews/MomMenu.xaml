@@ -11,15 +11,33 @@
                 Padding="30,0"
                 Spacing="25">
 
-            <Label x:Name="MomNameHeader"
-                    Text="First Name Last Name" 
-                    FontSize="26"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center"
-                    Margin="0,0,0,0"
-                    LineBreakMode="WordWrap" />
+                <HorizontalStackLayout 
+                    Margin="0,0,0,10" >
 
-            <Grid Padding="20">
+                    <Button
+                        x:Name="AccessibiltySettings"
+                        Text="Accessibility" 
+                        SemanticProperties.Hint="Get"
+                        Clicked ="AccessibiltySettings_Clicked"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start" />
+
+
+
+                    <Label x:Name="MomNameHeader"
+                        Text="First Name Last Name" 
+                        FontSize="26"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Margin="50,0,0,0"
+                        LineBreakMode="WordWrap" />
+
+                    
+                    
+                </HorizontalStackLayout>
+            
+            
+                <Grid Padding="20">
                 <!-- Define rows for the layout -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -32,7 +50,7 @@
 
                 <HorizontalStackLayout>
                     <!-- Current Balance Label -->
-                    <Label
+                    <Label x:Name="BalanceLabelAmountText"
                             Grid.Row="0"
                             Text="{Binding BalanceLabel}" 
                             FontSize="18"
@@ -96,7 +114,8 @@
                    HorizontalOptions="Center"
                    VerticalOptions="Center">
             <VerticalStackLayout Spacing="15">
-                    <Label Text="Enter how much you wish to add to your balance"
+                    <Label x:Name="AddBalanceLabelPromptText"
+                        Text="Enter how much you wish to add to your balance"
                         FontSize="16"
                         FontAttributes="Bold"
                         HorizontalOptions="Center"

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.MomReportPage">
+
+    <ScrollView
+        VerticalScrollBarVisibility="Always"
+        Margin="0">
+        <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Back Button -->
+            <Button x:Name="GoBack"
+                Grid.Row="0"
+                Text="BACK"
+                HorizontalOptions="Start"
+                Clicked="OnBackClicked"
+                Margin="0,-15,0,0" />
+
+        <Label x:Name="PageTitle"
+               Grid.Row="1"
+               Text="Report Page"
+               FontSize="30"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,0,0,10"
+               LineBreakMode="WordWrap" />
+
+        <!-- Report Title -->
+        <Label x:Name="MomReportTemplateText"
+               Grid.Row="2"
+               Text="How do you feel that [HelperFName] [HelperLName] has been acting inappropriately?"
+               FontSize="16"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,0,0,25"
+               LineBreakMode="WordWrap" />
+        
+        <!-- Subject Prompt and Input-->
+        <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
+            <Label x:Name="SubjectLabel"
+                Text="Subject: "
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Start"
+                VerticalOptions="End"  
+                Margin="-40,0,0,35"
+                LineBreakMode="WordWrap" />
+
+            <Entry x:Name="IssueSubjectBox"
+                Placeholder="What kind of problem are you having?"
+                FontSize="15"
+                Text="{Binding SubjectText}"
+                Margin="10,0,0,30"
+                VerticalOptions="End"        
+                HorizontalOptions="End"
+                MaxLength="200" />
+        </HorizontalStackLayout>
+
+        <!-- Review Prompt and Input -->
+            <Frame Grid.Row="4"
+               BorderColor="Black"
+               CornerRadius="1"
+               Padding="15"
+               HasShadow="False">
+                <Editor x:Name="IssueDescriptionBox1"
+                    Placeholder="Please write a short review about their behavior."
+                    HeightRequest="150"
+                    Text="{Binding ReviewText}"
+                    Margin="0,0,0,10" 
+                    MaxLength="2000" />
+        </Frame>
+
+        <!-- Submit Button -->
+        <Button x:Name="SubmitReportButton"
+                Grid.Row="5"
+                Text="SUBMIT"
+                BackgroundColor="Purple"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                Clicked="OnSubmitClicked"
+                LineBreakMode="WordWrap"
+                Margin="0,20,0,0" />
+        </Grid>
+    </ScrollView>
+</ContentPage>
