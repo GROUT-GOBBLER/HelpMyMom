@@ -10,7 +10,7 @@ public partial class HelperAvailableTickets : ContentPage
     List<TicketView>? allTickets;
 	String MASTER_USERNAME = "UncleBensBiggestFan";
 
-    public HelperAvailableTickets()
+    public HelperAvailableTickets(Account a, Helper h)
 	{
 		InitializeComponent();
 		allTickets = new List<TicketView>();

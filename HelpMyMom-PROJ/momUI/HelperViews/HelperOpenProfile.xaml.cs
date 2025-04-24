@@ -7,12 +7,15 @@ namespace momUI.HelperViews;
 public partial class HelperOpenProfile : ContentPage
 {
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-	String MASTERusername = "UncleBensBiggestFan";
+	Account masterAccount;
+	Helper masterHelper;
     String[] helperSPECIALTIES = {""};
 
-    public HelperOpenProfile()
+    public HelperOpenProfile(Account a, Helper h)
 	{
 		InitializeComponent();
+		masterAccount = a;
+		masterHelper = h;
 	}
 
 	protected override async void OnAppearing() // determines what the page does when it opens.
@@ -21,13 +24,7 @@ public partial class HelperOpenProfile : ContentPage
 		{
 			try
 			{
-				// Get lists of Accounts, Helpers, and Specs.
-				HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
-					String json1 = await response1.Content.ReadAsStringAsync();
-					List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
-					String json2 = await response2.Content.ReadAsStringAsync();
-					List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
+				// Get lists of Reviews and Specs.
                 HttpResponseMessage response3 = await client.GetAsync($"{URL}/{"Specs"}");
 					String json3 = await response3.Content.ReadAsStringAsync();
 					List<Spec>? specsList = JsonConvert.DeserializeObject<List<Spec>>(json3); // specsList.
@@ -36,60 +33,17 @@ public partial class HelperOpenProfile : ContentPage
 					List<Review>? reviewsList = JsonConvert.DeserializeObject<List<Review>>(json4); // reviewsList.
 
 				// Variable initialization.
-                Account tempAccount = new Account();
-				Helper tempHelper = new Helper();
 				String specs = "";
 				String[] specsAsNumbers, specsAsStringsFull;
 				String textForRatingsLabel = "";
 				int reviewAverageValue = 0;
 				int numberOfApplicableReviews = 0;
 
-                // Find our account.
-				if(accountsList != null)
+				if(masterHelper.Specs != null)
 				{
-                    foreach (Account a in accountsList) // Get Helper Id from Accounts table.
-                    {
-                        if (a.Username == MASTERusername)
-                        {
-                            UsernameLabel.Text = a.Username;
-                            tempAccount = a;
-                        }
-                    }
+                    specs = masterHelper.Specs;
                 }
-                else { await DisplayAlert("AccountsNotFound", $"ERROR! Failed to find any accounts.", "OK"); }
-
-                if (tempAccount.HelperId == -1)
-				{
-                    await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-					return;
-                }
-
-				// Find our helper.
-				bool found = false;
-				if(helpersList != null)
-				{
-                    foreach (Helper h in helpersList)
-                    {
-                        if (h.Id == tempAccount.HelperId)
-                        {
-                            tempHelper = h;
-                            found = true;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        await DisplayAlert("AccountNotFoundError", $"ERROR! Helper not found.", "OK");
-                        return;
-                    }
-                }
-				else { await DisplayAlert("HelpersNotFound", $"ERROR! Failed to find any helpers.", "OK"); }
-
-				if(tempHelper.Specs != null)
-				{
-                    specs = tempHelper.Specs;
-                }
-                else { await DisplayAlert("HelperSpecsNotFound", $"ERROR! Failed to find {tempHelper.FName}'s specs.", "OK"); }
+                else { await DisplayAlert("HelperSpecsNotFound", $"ERROR! Failed to find {masterHelper.FName}'s specs.", "OK"); }
 
                 // Turn the specs values into their string equivalents.
                 specsAsNumbers = specs.Split(','); // split Comma-Separated list.
@@ -119,7 +73,7 @@ public partial class HelperOpenProfile : ContentPage
 					{
 						foreach (Review r in reviewsList)
 						{
-							if (r.HelperId == tempHelper.Id)
+							if (r.HelperId == masterHelper.Id)
 							{
 								if(r.Stars != null)
 								{
@@ -132,10 +86,10 @@ public partial class HelperOpenProfile : ContentPage
 
 						if (numberOfApplicableReviews > 0)
 						{
-							reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
-							reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
-							textForRatingsLabel = reviewAverageValue + " stars.";
-						}
+                            reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
+                            reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
+                            textForRatingsLabel = reviewAverageValue + " stars.";
+                        }
 						else { textForRatingsLabel = "No reviews found."; }
 					}
 					else { textForRatingsLabel = "No reviews found."; }
@@ -143,9 +97,11 @@ public partial class HelperOpenProfile : ContentPage
                 else { await DisplayAlert("ReviewsNotFound", $"ERROR! Failed to find any reviews.", "OK"); }
 
                 // Set objects in the XAML file with the newfound values.
-                FirstNameLabel.Text = tempHelper.FName;
-				LastNameLabel.Text = tempHelper.LName;
-				DescriptionLabel.Text = tempHelper.Description;
+                UsernameLabel.Text = masterAccount.Username;
+
+                FirstNameLabel.Text = masterHelper.FName;
+				LastNameLabel.Text = masterHelper.LName;
+				DescriptionLabel.Text = masterHelper.Description;
 
                 helperSPECIALTIES = specsAsStringsFull;
 				SpecialtiesListView.ItemsSource = helperSPECIALTIES;
@@ -160,11 +116,11 @@ public partial class HelperOpenProfile : ContentPage
 
     async private void ProfileEditButton_Clicked(object sender, EventArgs e)
     {
-		await Navigation.PushAsync(new HelperEditProfile());
+		await Navigation.PushAsync(new HelperEditProfile(masterAccount, masterHelper));
     }
 
     async private void ShowReviewsButton_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ViewReviews());
+        await Navigation.PushAsync(new ViewReviews(masterHelper));
     }
 }

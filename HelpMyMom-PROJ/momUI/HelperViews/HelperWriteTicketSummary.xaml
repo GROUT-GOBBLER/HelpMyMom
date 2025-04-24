@@ -3,42 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.HelperViews.HelperWriteReport"
              Title="HelperWriteReport">
-    <VerticalStackLayout
+    <ScrollView
         Margin="20,20,20,20"
         Padding="10">
-        <Label 
-            Text="TICKET SUMMARY."
-            FontSize="Large"
-            FontAttributes="Bold"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <VerticalStackLayout>
+            <Label 
+                Text="TICKET SUMMARY."
+                FontSize="Large"
+                FontAttributes="Bold"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
 
-        <Label
-            Text="Give a short description (4-5 sentences) of how the ticket went."
-            FontSize="Medium"
-            VerticalOptions="Center"
-            HorizontalOptions="Start"/>
+            <Label
+                Text="Give a short description (4-5 sentences) of how the ticket went."
+                FontSize="Medium"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
 
-        <Editor
-            x:Name="HelperTicketSummaryEditor"
-            TextChanged="HelperTicketSummaryEditor_TextChanged"
-            HeightRequest="500"
-            WidthRequest="355"
-            AutoSize="TextChanges"
-            IsSpellCheckEnabled="True"
-            BackgroundColor="LightGray"
-            IsTextPredictionEnabled="True"
-            MaxLength="2000"
-            HorizontalTextAlignment="Start"
-            VerticalTextAlignment="Start"
-            HorizontalOptions="Start"
-            VerticalOptions="Center" />
+            <Editor
+                x:Name="HelperTicketSummaryEditor"
+                TextChanged="HelperTicketSummaryEditor_TextChanged"
+                HeightRequest="500"
+                WidthRequest="355"
+                AutoSize="TextChanges"
+                IsSpellCheckEnabled="True"
+                BackgroundColor="LightGray"
+                IsTextPredictionEnabled="True"
+                MaxLength="2000"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Start"
+                HorizontalOptions="Start"
+                VerticalOptions="Center" />
 
-        <Button
-            x:Name="SubmitTicketSummaryButton" 
-            Text="SUBMIT"
-            FontSize="Medium"
-            Clicked="SubmitTicketSummaryButton_Clicked"/>
-
-    </VerticalStackLayout>
+            <Button
+                x:Name="SubmitTicketSummaryButton" 
+                Text="SUBMIT"
+                FontSize="Medium"
+                Clicked="SubmitTicketSummaryButton_Clicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

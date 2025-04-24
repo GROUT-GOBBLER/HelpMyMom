@@ -85,6 +85,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Accessibility Settings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="HelperViews\HelperWriteTicketSummary.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

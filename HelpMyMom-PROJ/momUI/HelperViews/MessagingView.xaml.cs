@@ -13,14 +13,22 @@ public partial class MessagingView : ContentPage
     DateTime? latestMessageTime;
 
     String messageToSend = "";
-    int ticketID = 0; // hard-coded value for TICKET id.
+
+    int? ticketID;
+    Helper masterHelper;
+    Account masterAccount;
+    
     private System.Timers.Timer aTimer;
 
-    public MessagingView()
+    public MessagingView(int? t_id, Helper h, Account a)
 	{
         InitializeComponent();
         chatMessagesList = new ObservableCollection<MessageView>();
         GetLatestMessageTime();
+
+        ticketID = t_id;
+        masterHelper = h;
+        masterAccount = a;
 
         aTimer = new System.Timers.Timer(5000);
         aTimer.Elapsed += OnTimedEvent;
@@ -317,7 +325,7 @@ public partial class MessagingView : ContentPage
                 {
                     if(Application.Current != null)
                     {
-                        Application.Current.MainPage = new NavigationPage(new HelperWriteReport());
+                        Application.Current.MainPage = new NavigationPage(new HelperWriteReport(ticketID, masterHelper, masterAccount));
                     }
                     else { await DisplayAlert("NoCurrentPage", "Error! There is no current page.\nHow did this happen?", "What?"); }
                 }

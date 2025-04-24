@@ -21,7 +21,7 @@
                 <Image
                     x:Name="ProfilePictureImage"
                     Aspect="AspectFit"
-                    Source="mr_worldwide.jpg"
+                    Source="pfp1.jpg"
                     Scale="1.2"
                     SemanticProperties.Description="Cute dot net bot waving hi to you!"
                     HeightRequest="200"

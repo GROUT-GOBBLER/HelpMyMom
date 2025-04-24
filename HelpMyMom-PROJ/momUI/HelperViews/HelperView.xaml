@@ -8,28 +8,35 @@
             Margin="20,20,20,20"
             Padding="10">
 
-            <HorizontalStackLayout>
+            <VerticalStackLayout Padding="10">
                 <Label 
                     x:Name="CurrentBalanceLabel"
-                    Text="Current Balance: $X.XX"
-                    FontSize="30"
-                    Margin="20"
+                    Text="Balance: $X.XX"
                     VerticalOptions="Center" 
                     HorizontalOptions="Start" />
 
-                <Button 
-                    x:Name="SettingsButton"
-                    Text="Settings."
-                    FontSize="Small"
-                    VerticalOptions="Center"
-                    HorizontalOptions="End"/>
-            </HorizontalStackLayout>
+                <HorizontalStackLayout
+                    Spacing="10">
+                    <Button 
+                        x:Name="SettingsButton"
+                        Text="Settings."
+                        Clicked="SettingsButton_Clicked"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+
+                    <Button
+                        x:Name="LogOutButton"
+                        Text="Log Out."
+                        Clicked="LogOutButton_Clicked"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
 
             <Button
                 x:Name="OpenChatsButton"
-                Text="OPEN CHATS."
+                Text="Chats."
                 SemanticProperties.Hint="Open all of the current chats."
-                FontSize="75"
                 Margin="20"
                 Clicked="OpenChatsButton_Clicked"
                 VerticalOptions="Center" 
@@ -37,9 +44,8 @@
 
             <Button
                 x:Name="OpenTicketsButton"
-                Text="Assigned Tickets."
+                Text="Tickets."
                 SemanticProperties.Hint="Look at all of the available tickets."
-                FontSize="75"
                 Margin="20"
                 Clicked="OpenTicketsButton_Clicked"
                 VerticalOptions="Center" 
@@ -47,9 +53,8 @@
 
             <Button
                 x:Name="OpenProfileButton"
-                Text="PROFILE."
+                Text="Profile."
                 SemanticProperties.Hint="Open the 'Profile' page."
-                FontSize="75"
                 Margin="20"
                 Clicked="OpenProfileButton_Clicked"
                 VerticalOptions="Center" 

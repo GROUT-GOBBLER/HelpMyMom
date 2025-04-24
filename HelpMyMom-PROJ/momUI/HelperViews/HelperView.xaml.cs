@@ -1,100 +1,88 @@
 using momUI.HelperViews;
 using momUI.models;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace momUI;
 
 public partial class HelperView : ContentPage
 {
-    String MASTER_ACCOUNT_USERNAME = "Cats2019";
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+    Account masterAccount;
+    Helper masterHelper;
 
-    public HelperView()
+    public HelperView(Account a)
 	{
 		InitializeComponent();
-	}
 
-    protected override async void OnAppearing() // determines what the page does when it opens.
+        masterAccount = a;
+        masterHelper = new Helper();
+        
+        populateHelper();
+    }
+
+    private async void populateHelper() // puts the valid helper object into masterHelper. 
     {
-        using(HttpClient client = new HttpClient())
+        using (HttpClient client = new HttpClient())
         {
             try
             {
-                // Get lists of Accounts and Helpers.
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
-                    String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
-                    String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
-
-                // Define some temporary variables.
-                Helper tempHelper = new Helper();
-                int? helperID = -1;
-                bool found = false;
-                double? balance = 0.0;
-
-                // Find account and helper.
-                if(accountsList != null)
-                {
-                    foreach (Account a in accountsList)
-                    {
-                        if (a.Username == MASTER_ACCOUNT_USERNAME)
-                        {
-                            helperID = a.HelperId;
-                            break;
-                        }
-                    }
-                }
-
-                if(helperID == -1)
-                {
-                    await DisplayAlert("AccountNotFound", "Error! Account not found.", "Ok.");
-                    return;
-                }
+                // Get list of all helpers.
+                HttpResponseMessage helperResponse = await client.GetAsync($"{URL}/{"Helpers"}");
+                String helperJson = await helperResponse.Content.ReadAsStringAsync();
+                List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(helperJson); // helpersList.
 
                 if (helpersList != null)
                 {
+                    bool found = false;
                     foreach (Helper h in helpersList)
                     {
-                        if (h.Id == helperID)
+                        if (h.Id == masterAccount.HelperId)
                         {
-                            tempHelper = h;
+                            masterHelper = h;
                             found = true;
                             break;
                         }
                     }
+                    if (!found) { await DisplayAlert("HelperNotFound", $"A helper with ID {masterAccount.HelperId} was not found.", "Ok."); }
                 }
-
-                if (!found)
-                {
-                    await DisplayAlert("HelperNotFound", "Error! Helper not found.", "Ok.");
-                    return;
-                }
-
-                // Return balance.
-                    balance = tempHelper.Tokens;
-                    CurrentBalanceLabel.Text = $"Current Balance: {balance}";
+                else { await DisplayAlert("HelpersNotFound", "Error! Helpers not found.", "Ok."); }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                CurrentBalanceLabel.Text = $"Error occured ... {e}";
+                await DisplayAlert("ExceptionOccured", $"An exception occurred ... {e}", "Ok.");
             }
         }
+
+        CurrentBalanceLabel.Text = $"Balance: {masterHelper.Tokens}";
     }
     
     async private void OpenChatsButton_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HelperCurrentChats());
+        await Navigation.PushAsync(new HelperCurrentChats(masterAccount, masterHelper));
     }
 
     async private void OpenTicketsButton_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HelperAvailableTickets());
+        await Navigation.PushAsync(new HelperAvailableTickets(masterAccount, masterHelper));
     }
 
     async private void OpenProfileButton_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HelperOpenProfile());
+        await Navigation.PushAsync(new HelperOpenProfile(masterAccount, masterHelper));
+    }
+
+    private async void LogOutButton_Clicked(object sender, EventArgs e)
+    {
+        if(Application.Current != null)
+        {
+            Application.Current.MainPage = new NavigationPage(new MainPage());
+        }
+        else { await DisplayAlert("NoCurrentPage", "Error! Current main page not set.", "Ok."); }
+    }
+
+    private async void SettingsButton_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new Accessibility_Settings());
     }
 }

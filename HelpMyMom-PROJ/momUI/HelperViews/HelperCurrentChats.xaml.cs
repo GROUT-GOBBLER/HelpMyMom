@@ -7,18 +7,20 @@ public partial class HelperCurrentChats : ContentPage
 {
 	List<ChatLogView> CHATLOG_LIST;
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-    String MASTERusername = "UncleBensBiggestFan";
-    
+    Helper masterHelper;
+    Account masterAccount;
 
-    public HelperCurrentChats()
+    public HelperCurrentChats(Account a, Helper h)
 	{
         InitializeComponent();
+        masterHelper = h;
+        masterAccount = a;
         CHATLOG_LIST = new List<ChatLogView>();
     }
 
 	private class ChatLogView
 	{
-		public long chatLogID { get; set; }
+		public int? ticketID { get; set; }
 		public String? momName { get; set; }
 		public String? lastMessageSent { get; set; }
 		public DateTime? lastMessageTime { get; set; }
@@ -28,13 +30,7 @@ public partial class HelperCurrentChats : ContentPage
 	{
 		using (HttpClient client = new HttpClient())
 		{
-			// Get account, helper, mom, chatlog, ticket.
-			HttpResponseMessage accountResponse = await client.GetAsync($"{URL}/{"Accounts"}");
-				String accountJson = await accountResponse.Content.ReadAsStringAsync();
-				List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(accountJson); // accountsList.
-			HttpResponseMessage helperResponse = await client.GetAsync($"{URL}/{"Helpers"}");
-				String helperJson = await helperResponse.Content.ReadAsStringAsync();
-				List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(helperJson); // helpersList.
+			// Get Mom, chatlog, ticket.
 			HttpResponseMessage motherResponse = await client.GetAsync($"{URL}/{"Mothers"}");
 				String motherJson = await motherResponse.Content.ReadAsStringAsync();
 				List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(motherJson); // mothersList.
@@ -45,55 +41,11 @@ public partial class HelperCurrentChats : ContentPage
 				String ticketJson = await ticketResponse.Content.ReadAsStringAsync();
 				List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(ticketJson); // ticketsList.
 
-			// Create temporary variables.
-			Helper tempHelper = new Helper();
-			int? helperID = -1;
-			bool found = false;
-
-			if(accountsList != null)
-			{
-                foreach (Account a in accountsList) // Find helper ID.
-                {
-                    if (a.Username == MASTERusername)
-                    {
-                        helperID = a.HelperId;
-                        break;
-                    }
-                }
-            }
-            else { await DisplayAlert("AccountsNotFound", "Error! Failed to find any Accounts.", "Ok."); }
-
-            if (helperID == -1) 
-			{
-				await DisplayAlert("AccountNotFound", "Error! Account not found.", "Ok.");
-				return;
-			}
-
-			if(helpersList != null)
-			{
-                foreach (Helper h in helpersList) // Find helper.
-                {
-                    if (h.Id == helperID)
-                    {
-                        tempHelper = h;
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            else { await DisplayAlert("HelpersNotFound", "Error! Failed to find any helpers.", "Ok."); }
-
-            if (!found)
-            {
-                await DisplayAlert("HelperNotFound", "Error! Helper not found.", "Ok.");
-                return;
-            }
-
 			if(ticketsList != null)
 			{
                 foreach (Ticket t in ticketsList) // For each of the helper's tickets...
                 {
-                    if (t.HelperId == helperID && (t.Status == "INPROGRESS" || t.Status == "COMPLETED"))
+                    if (t.HelperId == masterHelper.Id && (t.Status == "INPROGRESS" || t.Status == "COMPLETED"))
                     {
                         Mother tempMother = new Mother(); // find the mom.
                         if(mothersList != null)
@@ -109,7 +61,7 @@ public partial class HelperCurrentChats : ContentPage
                         }
                         else { await DisplayAlert("MothersNotFound", "Error! Failed to find any Mothers.", "Ok."); }
 
-                            ChatLogView tempChatLogView = new ChatLogView();
+                        ChatLogView tempChatLogView = new ChatLogView();
                         tempChatLogView.momName = tempMother.FName + " " + tempMother.LName;
 
                         if(chatLogsList != null)
@@ -118,7 +70,7 @@ public partial class HelperCurrentChats : ContentPage
                             {
                                 if (c.TicketId == t.Id)
                                 {
-                                    tempChatLogView.chatLogID = c.Id;
+                                    tempChatLogView.ticketID = c.TicketId;
                                     tempChatLogView.lastMessageTime = c.Time;
                                     tempChatLogView.lastMessageSent = c.Text;
                                 }
@@ -138,6 +90,7 @@ public partial class HelperCurrentChats : ContentPage
 
     async private void CurrentChatsListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        await Navigation.PushAsync(new MessagingView());
+        ChatLogView tempChatLogView = (ChatLogView) CurrentChatsListView.SelectedItem;
+        await Navigation.PushAsync(new MessagingView(tempChatLogView.ticketID, masterHelper, masterAccount));
     }
 }

@@ -7,13 +7,19 @@ namespace momUI.HelperViews;
 public partial class HelperWriteReport : ContentPage
 {
     string URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+    
     String ticketSummaryText = "";
-    String accountUsername = "ANDwhenYOUcloseYOUReyes";
-    int ticketID = 0;
 
-	public HelperWriteReport()
+    int? ticketID;
+    Helper masterHelper;
+    Account masterAccount;
+
+	public HelperWriteReport(int? t_id, Helper h, Account a)
 	{
 		InitializeComponent();
+        ticketID = t_id;
+        masterHelper = h;
+        masterAccount = a;
     }
 
     async private void SubmitTicketSummaryButton_Clicked(object sender, EventArgs e)
@@ -22,16 +28,6 @@ public partial class HelperWriteReport : ContentPage
         {
             try
             {
-                // Get entries from ACCOUNT table.
-                HttpResponseMessage accountResponse = await client.GetAsync($"{URL}/{"Accounts"}");
-                    String accountJSON = await accountResponse.Content.ReadAsStringAsync();
-                    List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(accountJSON);
-
-                // Get entries from HELPER table.
-                HttpResponseMessage helperResponse = await client.GetAsync($"{URL}/{"Helpers"}");
-                    String helperJSON = await helperResponse.Content.ReadAsStringAsync();
-                    List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(helperJSON);
-
                 // Get entries from TICKET table.
                 HttpResponseMessage ticketResponse = await client.GetAsync($"{URL}/{"Tickets"}");
                     String ticketJSON = await ticketResponse.Content.ReadAsStringAsync();
@@ -39,40 +35,10 @@ public partial class HelperWriteReport : ContentPage
 
                 // Temporary variable creation.
                 Ticket tempTicket = new Ticket();
-                Helper tempHelper = new Helper();
-                int? helperID = -1;
 
-                // Populate temporary variables.
-                if (accountResponse.IsSuccessStatusCode && helperResponse.IsSuccessStatusCode && ticketResponse.IsSuccessStatusCode)
+                // Populate tempTicket.
+                if (ticketResponse.IsSuccessStatusCode)
                 {
-                    if(accountsList != null)
-                    {
-                        foreach(Account a in accountsList) // get helper ID from account username.
-                        {
-                            if(a.Username == accountUsername)
-                            {
-                                helperID = a.HelperId;
-                                break;
-                            }
-                        }
-                        if(helperID == -1) { await DisplayAlert("AccountNotFound", $"Error! Failed to find account with username {accountUsername}", "Ok."); }
-                    }
-                    else { await DisplayAlert("AccountsNotFound", "Error! Failed to find any accounts.", "Ok."); }
-
-                    if(helpersList != null) 
-                    {
-                        foreach(Helper h in helpersList) // get helper object from helper ID.
-                        {
-                            if(h.Id == helperID)
-                            {
-                                tempHelper = h;
-                                break;
-                            }
-                        }
-                        if(tempHelper.Id != helperID) { await DisplayAlert("HelperNotFound", $"Error! Failed to find helper with ID {helperID}", "Ok."); }
-                    }
-                    else { await DisplayAlert("HelpersNotFound", "Error! Failed to find any helpers.", "Ok."); }
-
                     if (ticketsList != null)
                     {
                         foreach (Ticket t in ticketsList) // get ticket object from ticket ID.
@@ -90,17 +56,17 @@ public partial class HelperWriteReport : ContentPage
                     // Submit log form into DB.
                     tempTicket.LogForm = ticketSummaryText;
 
-                    // increase balance by 19.99
-                    tempHelper.Tokens += 19.99;
+                    // increase balance by $19.99
+                    masterHelper.Tokens += 19.99;
 
                     HttpResponseMessage editTicket = await client.PutAsJsonAsync($"{URL}/Tickets/{ticketID}", tempTicket);
-                    HttpResponseMessage editHelper = await client.PutAsJsonAsync($"{URL}/Helpers/{helperID}", tempHelper);
+                    HttpResponseMessage editHelper = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
 
                     if (editTicket.IsSuccessStatusCode && editHelper.IsSuccessStatusCode)
                     {
                         if (Application.Current != null)
                         {
-                            Application.Current.MainPage = new NavigationPage(new HelperView()); // go back to main Helper view page.
+                            Application.Current.MainPage = new NavigationPage(new HelperView(masterAccount)); // go back to main Helper view page.
                         }
                         else { await DisplayAlert("NoCurrentPage", "Error! There is no set current page.", "Ok."); }
                     }

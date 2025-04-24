@@ -65,7 +65,7 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Helper helper = JsonConvert.DeserializeObject<Helper>(json);
-                        await Navigation.PushAsync(new HelperView());
+                        await Navigation.PushAsync(new HelperView(account));
                         return;
                     }
                     else if (account.MomId != null)
