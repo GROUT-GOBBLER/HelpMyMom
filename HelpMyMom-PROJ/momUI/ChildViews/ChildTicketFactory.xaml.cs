@@ -104,7 +104,6 @@ public partial class ChildTicketFactory : ContentPage
                 if (ticketResponse.IsSuccessStatusCode == true)
                 {
                     string json = await ticketResponse.Content.ReadAsStringAsync();
-                    string json2 = await ticketResponse.Content.ReadAsStringAsync();
 
                     tickets = JsonConvert.DeserializeObject<List<Ticket>>(json);
 
@@ -186,7 +185,7 @@ public partial class ChildTicketFactory : ContentPage
             }
             catch (Exception ex)
             {
-                settingBtn.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n\n");
                 Console.WriteLine(ex.ToString());

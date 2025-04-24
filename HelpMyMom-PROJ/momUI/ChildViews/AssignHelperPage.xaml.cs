@@ -210,7 +210,7 @@ public partial class AssignHelperPage : ContentPage
             }
             catch (Exception ex)
             {
-                Searching.Text = ex.Message;
+                DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n\n");
                 Console.WriteLine(ex.ToString());
@@ -292,7 +292,7 @@ public partial class AssignHelperPage : ContentPage
         }
         catch (Exception ex)
         {
-            Searching.Text = ex.Message;
+            DisplayAlert("Error", ex.Message, "ok");
 
             Console.WriteLine("\n\n");
             Console.WriteLine(ex.ToString());

@@ -1,3 +1,4 @@
+using momUI.ChildViews;
 using momUI.models;
 using Newtonsoft.Json;
 
@@ -103,6 +104,29 @@ public partial class TicketProgress : ContentPage
             {
                 ticketList.IsRefreshing = false;
             }
+        }
+    }
+
+    private async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+    {
+        try
+        {
+            SearchTicket? s = ticketList.SelectedItem as SearchTicket;
+
+            Ticket? selected = tickets.SingleOrDefault(t => t.Id == s.Id);
+
+            if (selected != null && selected.HelperId != null)
+            {
+                await Navigation.PushAsync(new ChildHelperReport(account, selected));
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "ok");
+
+            Console.WriteLine("\n-------------------------------------------------------------");
+            Console.WriteLine(ex.ToString());
+            Console.WriteLine("-------------------------------------------------------------\n");
         }
     }
 }

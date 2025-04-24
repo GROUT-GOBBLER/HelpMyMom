@@ -1,7 +1,28 @@
 ﻿==============
+Outer Margins
+==============
+10-15 on either side.
+scroll views: add at least 20 on the bottom to allow users to see items properly on the bottom of the screen.
+
+===================
+Default text sizes
+===================
+Title: 40
+Header: 30
+Normal: 20-25
+
+==============
 Button Colors
 ==============
 
 Confirm:
 > Text: LightGreen
 > Background: DarkGreen
+
+Deny/Cancel/Report:
+> Text:
+> Background:
+
+Other/Edit:
+> Text:
+> Background:

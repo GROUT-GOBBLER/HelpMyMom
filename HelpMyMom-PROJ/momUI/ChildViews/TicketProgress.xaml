@@ -11,7 +11,13 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <ListView x:Name="ticketList" HasUnevenRows="True" Margin="10,10,0,10">
+        <Label x:Name = "reportText" 
+            Text="Select a ticket to report a helper"
+            FontSize="20"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <ListView x:Name="ticketList" ItemSelected="OnItemSelected" HasUnevenRows="True" Margin="10,20,0,10">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:SearchTicket">
                     <ViewCell>

@@ -111,7 +111,7 @@ public partial class ChildAccountSettings : ContentPage
             }
 			catch (Exception ex)
 			{
-                NameText.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -157,7 +157,7 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                NameText.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -231,7 +231,7 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                AddMom.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -274,7 +274,7 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                RemoveMom.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -314,7 +314,7 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                NotifText.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
