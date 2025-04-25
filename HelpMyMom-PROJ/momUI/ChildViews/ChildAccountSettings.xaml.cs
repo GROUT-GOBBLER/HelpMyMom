@@ -18,6 +18,10 @@ public partial class ChildAccountSettings : ContentPage
     string newLast = "";
     string newMomUser = "";
 
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 	
     public ChildAccountSettings(Child acc)

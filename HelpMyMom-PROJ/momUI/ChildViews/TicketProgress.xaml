@@ -7,7 +7,7 @@
     <VerticalStackLayout>
         <Label x:Name = "TopText" 
             Text="List of Tickets"
-            FontSize="40"
+            FontSize="35"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
@@ -22,24 +22,28 @@
                 <DataTemplate x:DataType="models:SearchTicket">
                     <ViewCell>
                         <StackLayout Padding="10">
-                            <Label Text="{Binding MomName}"
+                            <Label x:Name="momName"
+                               Text="{Binding MomName}"
                                LineBreakMode="WordWrap"
                                TextColor="Black"
-                               FontSize="24"
+                               FontSize="25"
                             />
-                            <Label Text="{Binding HelperName}"
+                            <Label x:Name="helperName"
+                               Text="{Binding HelperName}"
                                LineBreakMode="WordWrap"
                                TextColor="Black"
-                               FontSize="24"
+                               FontSize="25"
                             />
-                            <Label Text="{Binding Status}"
+                            <Label x:Name="statusText"
+                               Text="{Binding Status}"
                                TextColor="SlateGray"
-                               FontSize="18"
+                               FontSize="20"
                             />
-                            <Label Text="{Binding Details}"
+                            <Label x:Name="detailsText"
+                               Text="{Binding Details}"
                                LineBreakMode="WordWrap"
                                TextColor="DarkSlateGray"
-                               FontSize="18"
+                               FontSize="20"
                                MaxLines ="4"
                             />
                         </StackLayout>

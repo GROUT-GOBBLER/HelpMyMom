@@ -14,7 +14,12 @@ public partial class ChildTicketFactory : ContentPage
     string details = "";
 
     Child account;
-	public ChildTicketFactory(Child acc)
+
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
+    public ChildTicketFactory(Child acc)
 	{
 		InitializeComponent();
         account = acc;
@@ -165,7 +170,7 @@ public partial class ChildTicketFactory : ContentPage
 
                                 if (notifSettings != null && notifSettings.Length == 5)
                                 {
-                                    bool shouldSendChild = bool.Parse(notifSettings[0].ToLower()) || true;
+                                    bool shouldSendChild = bool.Parse(notifSettings[0].ToLower());
 
                                     if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", "NEW", newTicket);
                                 }

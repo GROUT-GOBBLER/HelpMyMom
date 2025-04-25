@@ -12,6 +12,10 @@ public partial class ConfirmHelper : ContentPage
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
     public ConfirmHelper(Child acc, Helper h, Ticket? t = null)
 	{
 		InitializeComponent();
@@ -136,7 +140,7 @@ public partial class ConfirmHelper : ContentPage
 
                         if (notifSettings != null && notifSettings.Length == 5)
                         {
-                            bool shouldSendChild = bool.Parse(notifSettings[1].ToLower()) || true;
+                            bool shouldSendChild = bool.Parse(notifSettings[1].ToLower());
 
                             if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", ticket.Status, ticket);
                         }

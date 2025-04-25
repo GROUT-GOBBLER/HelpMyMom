@@ -12,6 +12,10 @@ public partial class TicketProgress : ContentPage
     List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
 
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
     public TicketProgress(Child acc)
 	{
 		InitializeComponent();

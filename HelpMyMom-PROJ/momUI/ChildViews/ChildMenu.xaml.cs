@@ -6,6 +6,11 @@ public partial class ChildMenu : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     Child account;
+
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
     public ChildMenu(Child acc)
 	{
 		InitializeComponent();

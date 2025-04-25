@@ -5,15 +5,17 @@
              Title="Child Ticket Factory">
     <VerticalStackLayout>
         <Label 
+            x:Name="factortTitle"
             Text="New Ticket"
-            FontSize="50"
+            FontSize="35"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
         <Label 
+            x:Name="explainText"
             Text="Please expain the issue"
             Margin="5,20,0,0"
-            FontSize="35"
+            FontSize="25"
             TextColor="SlateGrey"
             VerticalOptions="Center" 
             HorizontalOptions="Start" />
@@ -21,7 +23,7 @@
         <Editor
             x:Name="DetailsEntry"
             Placeholder="Details"
-            FontSize="30"
+            FontSize="20"
             IsSpellCheckEnabled="True"
             TextChanged="DetailsEntry_TextChanged"
             HeightRequest ="370"
@@ -39,7 +41,7 @@
         <Button
             x:Name="settingBtn"
             Text="Submit" 
-            FontSize="30"
+            FontSize="35"
             LineBreakMode="WordWrap"
             BackgroundColor="DarkGreen"
             Margin="10,50,10,0"

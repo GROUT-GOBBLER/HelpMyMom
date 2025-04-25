@@ -16,6 +16,10 @@ public partial class ChildHelperReport : ContentPage
     string subject = "";
     string body = "";
 
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
     public ChildHelperReport(Child acc, Ticket t)
     {
         InitializeComponent();

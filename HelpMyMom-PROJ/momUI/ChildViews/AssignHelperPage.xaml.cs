@@ -17,6 +17,10 @@ public partial class AssignHelperPage : ContentPage
     Child account;
     Ticket? ticket = null;
 
+    int titleFont = 35;
+    int headerFont = 25;
+    int normalFont = 18;
+
     public AssignHelperPage(Child acc, Ticket? t = null)
 	{
 		InitializeComponent();

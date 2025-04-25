@@ -10,7 +10,7 @@
                 <Button
                     x:Name="settingBtn"
                     Text="Apply Specs" 
-                    FontSize="30"
+                    FontSize="25"
                     LineBreakMode="WordWrap"
                     BackgroundColor="Grey"
                     Margin="10,0,20,0"
@@ -38,14 +38,16 @@
                     <DataTemplate x:DataType="models:SearchHelper">
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <Label Text="{Binding FullName}"
-                                   FontSize="22"
+                                <Label x:Name="nameText"
+                                   Text="{Binding FullName}"
+                                   FontSize="20"
                                    />
 
-                                <Label Text="{Binding FullDescription}"
+                                <Label x:Name="DescText"
+                                   Text="{Binding FullDescription}"
                                    LineBreakMode="WordWrap"
                                    TextColor="DarkSlateGray"
-                                   FontSize="16"
+                                   FontSize="18"
                                    MaxLines ="2"
                                    />
                             </StackLayout>

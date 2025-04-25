@@ -9,7 +9,7 @@
                 x:Name="Name"
                 Text="First Last"
                 Margin="10,20,0,0"
-                FontSize="40"
+                FontSize="35"
                 TextColor="Black"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
@@ -53,22 +53,14 @@
             <Button
                 x:Name="confirmBtn"
                 Text="Confirm" 
-                FontSize="30"
+                FontSize="35"
                 LineBreakMode="WordWrap"
                 BackgroundColor="DarkGreen"
                 TextColor="LightGreen"
-                Margin="10,50,10,0"
+                Margin="10,20,10,0"
                 SemanticProperties.Hint="Get"
                 Clicked="finishedClicked"
                 HorizontalOptions="Fill" />
-
-            <Label 
-                Text="Reviews"
-                Margin="0,5,0,0"
-                FontSize="40"
-                TextColor="Black"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -8,7 +8,7 @@
         <VerticalStackLayout>
             <Label x:Name="TopText"
                 Text="Select a ticket"
-                FontSize="30"
+                FontSize="35"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
@@ -17,26 +17,30 @@
                     <DataTemplate x:DataType="models:SearchTicket">
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <Label Text="{Binding MomName}"
-                                LineBreakMode="WordWrap"
-                                TextColor="Black"
-                                FontSize="24"
-                            />
-                                <Label Text="{Binding HelperName}"
-                               LineBreakMode="WordWrap"
-                               TextColor="Black"
-                               FontSize="24"
-                            />
-                                <Label Text="{Binding Status}"
-                               TextColor="SlateGray"
-                               FontSize="18"
-                            />
-                                <Label Text="{Binding Details}"
-                               LineBreakMode="WordWrap"
-                               TextColor="DarkSlateGray"
-                               FontSize="18"
-                               MaxLines ="4"
-                            />
+                                <Label x:Name="momName"
+                                   Text="{Binding MomName}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="Black"
+                                   FontSize="25"
+                                />
+                                <Label x:Name="helperName"
+                                   Text="{Binding HelperName}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="Black"
+                                   FontSize="25"
+                                />
+                                <Label x:Name="statusText"
+                                   Text="{Binding Status}"
+                                   TextColor="SlateGray"
+                                   FontSize="20"
+                                />
+                                <Label x:Name="detailsText"
+                                   Text="{Binding Details}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="DarkSlateGray"
+                                   FontSize="20"
+                                   MaxLines ="4"
+                                />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

@@ -15,7 +15,7 @@
             <Button
                 x:Name="LogOutBtn"
                 Text="Log out" 
-                FontSize="30"
+                FontSize="25"
                 LineBreakMode="WordWrap"
                 BackgroundColor="Grey"
                 Margin="10,10,0,0"
@@ -27,7 +27,7 @@
         <Button
             x:Name="CreateBtn"
             Text="Create A Help Ticket" 
-            FontSize="50"
+            FontSize="40"
             Margin="0,30,0,0"
             LineBreakMode="WordWrap"
             SemanticProperties.Hint="Get"
@@ -43,7 +43,7 @@
         <Button
             x:Name="AssignBtn"
             Text="Assign Helper" 
-            FontSize="50"
+            FontSize="40"
             SemanticProperties.Hint="Get"
             Clicked="AssignHelperClicked"
             HorizontalOptions="Fill" />
@@ -57,7 +57,7 @@
         <Button
             x:Name="ProgressBtn"
             Text="Ticket Progress" 
-            FontSize="50"
+            FontSize="40"
             SemanticProperties.Hint="Get"
             Clicked="ViewProgressClicked"
             HorizontalOptions="Fill" />
@@ -71,7 +71,7 @@
         <Button
             x:Name="AccountBtn"
             Text="Account" 
-            FontSize="50"
+            FontSize="40"
             SemanticProperties.Hint="Get"
             Clicked="AccManagementClicked"
             HorizontalOptions="Fill" />

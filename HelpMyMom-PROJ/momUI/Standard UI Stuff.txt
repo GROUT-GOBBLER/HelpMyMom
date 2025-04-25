@@ -7,22 +7,33 @@ scroll views: add at least 20 on the bottom to allow users to see items properly
 ===================
 Default text sizes
 ===================
-Title: 40
-Header: 30
-Normal: 20-25
+Title: 35
+Header: 25
+Normal: 18-20
+Buttons:
+	Small: 25
+	Med: 35
+	Large: 40
+
+============
+Text Colors (refer to TicketProgress for example use)
+============
+Default: Black
+Medium grey: SlateGray
+Dark grey: DarkSlateGray
 
 ==============
 Button Colors
 ==============
 
 Confirm:
-> Text: LightGreen
-> Background: DarkGreen
+	Text: LightGreen
+	Background: DarkGreen
 
 Deny/Cancel/Report:
-> Text:
-> Background:
+	Text: Pink
+	Background: DarkRed
 
 Other/Edit:
-> Text:
-> Background:
+	Text: LightBlue
+	Background: #3033aa
