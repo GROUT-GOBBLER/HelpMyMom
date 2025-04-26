@@ -1,6 +1,6 @@
-﻿==============
-Outer Margins
-==============
+﻿======================
+Default Outer Margins
+======================
 10-15 on either side.
 scroll views: add at least 20 on the bottom to allow users to see items properly on the bottom of the screen.
 
@@ -25,7 +25,6 @@ Dark grey: DarkSlateGray
 ==============
 Button Colors
 ==============
-
 Confirm:
 	Text: LightGreen
 	Background: DarkGreen

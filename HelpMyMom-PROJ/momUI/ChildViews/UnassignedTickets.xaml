@@ -21,24 +21,24 @@
                                    Text="{Binding MomName}"
                                    LineBreakMode="WordWrap"
                                    TextColor="Black"
-                                   FontSize="25"
+                                   FontSize="{Binding headerFontOut}"
                                 />
                                 <Label x:Name="helperName"
                                    Text="{Binding HelperName}"
                                    LineBreakMode="WordWrap"
                                    TextColor="Black"
-                                   FontSize="25"
+                                   FontSize="{Binding headerFontOut}"
                                 />
                                 <Label x:Name="statusText"
                                    Text="{Binding Status}"
                                    TextColor="SlateGray"
-                                   FontSize="20"
+                                   FontSize="{Binding normalFontOut}"
                                 />
                                 <Label x:Name="detailsText"
                                    Text="{Binding Details}"
                                    LineBreakMode="WordWrap"
                                    TextColor="DarkSlateGray"
-                                   FontSize="20"
+                                   FontSize="{Binding normalFontOut}"
                                    MaxLines ="4"
                                 />
                             </StackLayout>

@@ -17,5 +17,10 @@ namespace momUI.models
         public string? Status { get; set; }
 
         public string? Details { get; set; }
+
+        public int TextOffset { get; set; } = 0;
+
+        public int headerFontOut => TextOffset + 25;
+        public int normalFontOut => TextOffset + 18;
     }
 }

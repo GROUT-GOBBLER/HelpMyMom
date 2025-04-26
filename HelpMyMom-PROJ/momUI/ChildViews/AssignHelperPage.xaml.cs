@@ -21,6 +21,8 @@ public partial class AssignHelperPage : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     public AssignHelperPage(Child acc, Ticket? t = null)
 	{
 		InitializeComponent();
@@ -35,6 +37,9 @@ public partial class AssignHelperPage : ContentPage
 
     protected override async void OnAppearing()
     {
+        settingBtn.FontSize = headerFont + fontOffset;
+        Searching.FontSize = normalFont + fontOffset;
+
         using (HttpClient client = new HttpClient())
         {
             helperList.IsRefreshing = true;

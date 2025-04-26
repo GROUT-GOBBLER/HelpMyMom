@@ -22,6 +22,8 @@ public partial class ChildAccountSettings : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 	
     public ChildAccountSettings(Child acc)
@@ -32,6 +34,27 @@ public partial class ChildAccountSettings : ContentPage
 
     protected override async void OnAppearing()
 	{
+        AccountTitle.FontSize = titleFont + fontOffset;
+
+        NameText.FontSize = headerFont + fontOffset;
+        AddMom.FontSize = headerFont + fontOffset;
+        RemoveMom.FontSize = headerFont + fontOffset;
+        NotifText.FontSize = headerFont + fontOffset;
+        setOneText.FontSize = normalFont + fontOffset;
+        setTwoText.FontSize = normalFont + fontOffset;
+        setThreeText.FontSize = normalFont + fontOffset;
+        setFourText.FontSize = normalFont + fontOffset;
+        setFiveText.FontSize = normalFont + fontOffset;
+
+        fName.FontSize = normalFont + fontOffset;
+        lName.FontSize = normalFont + fontOffset;
+        MomUsername.FontSize = normalFont + fontOffset;
+
+        changeNameBtn.FontSize = headerFont + fontOffset;
+        AddMomBtn.FontSize = headerFont + fontOffset;
+        RemovedMomBtn.FontSize = headerFont + fontOffset;
+        SetNotifsBtn.FontSize = headerFont + fontOffset;
+
         using (HttpClient client = new HttpClient())
 		{
 			try

@@ -10,6 +10,9 @@ public partial class ChildMenu : ContentPage
     int titleFont = 35;
     int headerFont = 25;
     int normalFont = 18;
+    int largeBtnFont = 40;
+
+    int fontOffset = 0;
 
     public ChildMenu(Child acc)
 	{
@@ -32,6 +35,13 @@ public partial class ChildMenu : ContentPage
     protected override void OnAppearing()
     {
         loggedIn.Text = $"Logged in as {account.FName} {account.LName}";
+
+        loggedIn.FontSize = normalFont + fontOffset;
+        LogOutBtn.FontSize = headerFont + fontOffset;
+        CreateBtn.FontSize = largeBtnFont + fontOffset;
+        AssignBtn.FontSize = largeBtnFont + fontOffset;
+        ProgressBtn.FontSize = largeBtnFont + fontOffset;
+        AccountBtn.FontSize = largeBtnFont + fontOffset;
     }
 
     async private void CreateTicketClicked(object sender, EventArgs e)

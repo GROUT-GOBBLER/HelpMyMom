@@ -10,7 +10,7 @@
                 <Button
                     x:Name="settingBtn"
                     Text="Apply Specs" 
-                    FontSize="25"
+                    FontSize="5"
                     LineBreakMode="WordWrap"
                     BackgroundColor="Grey"
                     Margin="10,0,20,0"
@@ -33,21 +33,21 @@
                 CancelButtonColor="DarkRed"
                 Margin="0,0,10,0"/>
 
-            <ListView x:Name="helperList" ItemSelected="OnItemSelected" RowHeight="90" Margin="5,10,5,10">
+            <ListView x:Name="helperList" ItemSelected="OnItemSelected" RowHeight="140" Margin="5,10,5,10">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:SearchHelper">
                         <ViewCell>
                             <StackLayout Padding="10">
                                 <Label x:Name="nameText"
                                    Text="{Binding FullName}"
-                                   FontSize="20"
+                                   FontSize="{Binding headerFontOut}"
                                    />
 
                                 <Label x:Name="DescText"
                                    Text="{Binding FullDescription}"
                                    LineBreakMode="WordWrap"
                                    TextColor="DarkSlateGray"
-                                   FontSize="18"
+                                   FontSize="{Binding normalFontOut}"
                                    MaxLines ="2"
                                    />
                             </StackLayout>

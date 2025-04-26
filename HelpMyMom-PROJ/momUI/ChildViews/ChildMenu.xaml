@@ -7,7 +7,7 @@
         <Label 
             x:Name="loggedIn"
             Text="Signed in as [user]"
-            FontSize="20"
+            FontSize="5"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
@@ -15,7 +15,7 @@
             <Button
                 x:Name="LogOutBtn"
                 Text="Log out" 
-                FontSize="25"
+                FontSize="5"
                 LineBreakMode="WordWrap"
                 BackgroundColor="Grey"
                 Margin="10,10,0,0"
@@ -27,51 +27,35 @@
         <Button
             x:Name="CreateBtn"
             Text="Create A Help Ticket" 
-            FontSize="40"
-            Margin="0,30,0,0"
+            FontSize="5"
+            Margin="0,30,0,40"
             LineBreakMode="WordWrap"
             SemanticProperties.Hint="Get"
             Clicked="CreateTicketClicked"
             HorizontalOptions="Fill" />
 
-        <Label 
-            Text=" " 
-            FontSize="40"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
         <Button
             x:Name="AssignBtn"
             Text="Assign Helper" 
-            FontSize="40"
+            FontSize="5"
+            Margin="0,0,0,40"
             SemanticProperties.Hint="Get"
             Clicked="AssignHelperClicked"
             HorizontalOptions="Fill" />
 
-        <Label 
-            Text=" " 
-            FontSize="40"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
         <Button
             x:Name="ProgressBtn"
             Text="Ticket Progress" 
-            FontSize="40"
+            FontSize="5"
+            Margin="0,0,0,40"
             SemanticProperties.Hint="Get"
             Clicked="ViewProgressClicked"
             HorizontalOptions="Fill" />
 
-        <Label 
-            Text=" " 
-            FontSize="40"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
         <Button
             x:Name="AccountBtn"
             Text="Account" 
-            FontSize="40"
+            FontSize="5"
             SemanticProperties.Hint="Get"
             Clicked="AccManagementClicked"
             HorizontalOptions="Fill" />
