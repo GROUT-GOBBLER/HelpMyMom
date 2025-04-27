@@ -29,7 +29,9 @@ public partial class UnassignedTickets : ContentPage
 
 	protected override async void OnAppearing()
 	{
-		using (HttpClient client = new HttpClient())
+        TopText.FontSize = titleFont + fontOffset;
+
+        using (HttpClient client = new HttpClient())
 		{
             try
             {

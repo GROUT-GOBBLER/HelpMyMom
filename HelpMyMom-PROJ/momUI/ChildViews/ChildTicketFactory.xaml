@@ -21,16 +21,18 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
-            <Editor
-                x:Name="DetailsEntry"
-                Placeholder="Details"
-                FontSize="5"
-                IsSpellCheckEnabled="True"
-                TextChanged="DetailsEntry_TextChanged"
-                HeightRequest ="370"
-                VerticalOptions="Center"            
-                HorizontalOptions="Fill" />
-
+            <Border StrokeThickness="2" Stroke="Black" Margin="10">
+                <Editor
+                    x:Name="DetailsEntry"
+                    Placeholder="Details"
+                    FontSize="5"
+                    IsSpellCheckEnabled="True"
+                    TextChanged="DetailsEntry_TextChanged"
+                    HeightRequest ="370"
+                    VerticalOptions="Center"            
+                    HorizontalOptions="Fill" />
+            </Border>
+                
             <Picker x:Name="momSelect" Title="Select a mom" Margin="0,20,0,0">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">

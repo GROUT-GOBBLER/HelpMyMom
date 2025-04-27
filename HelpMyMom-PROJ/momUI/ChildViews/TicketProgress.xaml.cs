@@ -27,6 +27,9 @@ public partial class TicketProgress : ContentPage
 
     protected override async void OnAppearing()
     {
+        TopText.FontSize = titleFont + fontOffset;
+        reportText.FontSize = normalFont + fontOffset;
+
         using (HttpClient client = new HttpClient())
         {
             try

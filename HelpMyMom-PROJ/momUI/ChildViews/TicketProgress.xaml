@@ -8,13 +8,13 @@
         <VerticalStackLayout>
             <Label x:Name = "TopText" 
                 Text="List of Tickets"
-                FontSize="35"
+                FontSize="5"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
             <Label x:Name = "reportText" 
                 Text="Select a ticket to report a helper"
-                FontSize="20"
+                FontSize="5"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
