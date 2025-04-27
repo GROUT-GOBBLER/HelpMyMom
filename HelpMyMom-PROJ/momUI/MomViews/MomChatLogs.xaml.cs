@@ -15,7 +15,11 @@ namespace momUI
     public partial class MomChatLogs : ContentPage
     {
         string URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+        
+        
         ObservableCollection<MessageView> chatMessagesList;
+        
+        
         DateTime? latestMessageTime;
 
         String messageToSend;
@@ -79,18 +83,53 @@ namespace momUI
 
 
             Accessibility a = Accessibility.getAccessibilitySettings();
-            TicketStatusButton.FontSize = Math.Min(Math.Max(14, a.fontsize), 20);
 
-            HelperChatName.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 40);
-            /* Doesnt work
-            UserMessageLabels.FontSize = Math.Min(Math.Max(15, a.fontsize + 10), 25);
-            UserMessageContentLabels.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+            TicketStatusButton.FontSize = Math.Min(Math.Max(25, a.fontsize), 30);
+
+            HelperChatName.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 40);
+
+            MessageTextEntry.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
+            SendChatMessage.FontSize = Math.Min(Math.Max(25, a.fontsize), 30);
+            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+
+
+
+            /*
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+
+                    // Get entries from Ticket table in DB.
+                    HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
+                    String json = await response.Content.ReadAsStringAsync();
+                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
+
+                    Ticket tempTicket = new Ticket(); // Find ticket.
+                    foreach (Ticket t in ticketsList)
+                    {
+                        if (t.Id == ticketID)
+                        {
+                            tempTicket = t;
+                            break;
+                        }
+                    }
+
+                    // int momID, int helperID, int ticketID
+                    int ticket_momID = (int)tempTicket.MomId;
+                    int ticket_helperID = (int)tempTicket.HelperId;
+
+                    // Goto the review page.
+                    await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
+
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
+
+                }
+            }
             */
-
-            MessageTextEntry.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-
-            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-
 
         }
 
@@ -264,16 +303,14 @@ namespace momUI
 
                             if (cl.IsMom == "true      ") // mom's chat.
                             {
-                                
-
                                 MainThread.BeginInvokeOnMainThread(() =>
                                 {
                                     MessageView tempMessageView = new MessageView();
                                     tempMessageView.sender = momName;
                                     tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
-                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(15, a.fontsize + 10), 25);
-                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
+                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
                                     chatMessagesList.Add(tempMessageView);
                                 });
                             }
@@ -285,8 +322,8 @@ namespace momUI
                                     tempMessageView.sender = helperName;
                                     tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
-                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(15, a.fontsize + 10), 25);
-                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
+                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
                                     chatMessagesList.Add(tempMessageView);
                                 });
                             }
@@ -538,7 +575,7 @@ namespace momUI
 
                                 if (notifSettings != null && notifSettings.Length == 5)
                                 {
-                                    bool shouldSendChild = bool.Parse(notifSettings[1].ToLower()) || true;
+                                    bool shouldSendChild = bool.Parse(notifSettings[4].ToLower());
                                     if (shouldSendChild)
                                     {
                                         EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);

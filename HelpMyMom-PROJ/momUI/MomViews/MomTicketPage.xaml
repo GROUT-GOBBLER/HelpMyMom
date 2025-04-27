@@ -4,7 +4,8 @@
              x:Class="momUI.MomTicketPage">
 
     <ScrollView
-        VerticalScrollBarVisibility="Always">
+        VerticalScrollBarVisibility="Always"
+        Margin="10,15,15,20">
         <Grid Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -41,20 +42,21 @@
                     HeightRequest="250"
                     Text="{Binding IssueText}"
                     MaxLength="2000"
-                    Margin="0,0,0,10" />
+                    Margin="0,0,0,50" />
             </Frame>
 
             <!-- Submit Button -->
             <Button x:Name="SubmitTicketButton"
                 Grid.Row="3"
                 Text="SUBMIT"
-                BackgroundColor="Purple"
-                TextColor="White"
+                BackgroundColor="DarkGreen"
+                TextColor="LightGreen"
                 FontSize="16"
                 FontAttributes="Bold"
                 CornerRadius="10"
                 HorizontalOptions="Center"
-                Clicked="OnSubmitClicked" />
+                Clicked="OnSubmitClicked"
+                Margin="0,0,00,0"/>
         </Grid>
     </ScrollView>
 </ContentPage>

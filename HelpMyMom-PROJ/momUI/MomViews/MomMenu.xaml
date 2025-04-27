@@ -6,14 +6,13 @@
 
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    Margin="10,15,15,20">
         <VerticalStackLayout
                 Padding="30,0"
                 Spacing="25">
 
-                <HorizontalStackLayout 
-                    Margin="0,0,0,10" >
-
+                <HorizontalStackLayout>
                     <Button
                         x:Name="AccessibiltySettings"
                         Text="Accessibility" 
@@ -22,21 +21,28 @@
                         VerticalOptions="Center"
                         HorizontalOptions="Start" />
 
-
-
-                    <Label x:Name="MomNameHeader"
-                        Text="First Name Last Name" 
-                        FontSize="26"
-                        FontAttributes="Bold"
-                        HorizontalOptions="Center"
-                        Margin="50,0,0,0"
-                        LineBreakMode="WordWrap" />
-
-                    
-                    
+                    <Button
+                        x:Name="LogOutBtn"
+                        Text="Log out" 
+                        FontSize="5"
+                        LineBreakMode="WordWrap"
+                        BackgroundColor="Grey"
+                        Margin="10,0,0,0"
+                        SemanticProperties.Hint="Get"
+                        Clicked="SignOutClicked"
+                        HorizontalOptions="Fill" />
                 </HorizontalStackLayout>
-            
-            
+
+
+
+                <Label x:Name="MomNameHeader"
+                    Text="First Name Last Name" 
+                    FontSize="26"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,0"
+                    LineBreakMode="WordWrap" />
+
                 <Grid Padding="20">
                 <!-- Define rows for the layout -->
                 <Grid.RowDefinitions>
@@ -48,30 +54,30 @@
                     <!-- For the main content -->
                 </Grid.RowDefinitions>
 
-                <HorizontalStackLayout>
+                <VerticalStackLayout>
                     <!-- Current Balance Label -->
                     <Label x:Name="BalanceLabelAmountText"
                             Grid.Row="0"
                             Text="{Binding BalanceLabel}" 
-                            FontSize="18"
+                            FontSize="78"
                             FontAttributes="Bold"
-                            HorizontalOptions="Center"
+                            HorizontalOptions="Start"
                             Margin="-30,10,0,20"
                             LineBreakMode="WordWrap" />
 
                     <Button x:Name="AddBalanceBtn"
                             Text="Add Additional Tokens To Balance"
-                            BackgroundColor="Black"
-                            TextColor="White"
-                            FontSize="15"
+                            BackgroundColor="#3033aa"
+                            TextColor="LightBlue"
+                            FontSize="25"
                             FontAttributes="Bold"
-                            WidthRequest="160"
-                            HeightRequest="80"
+                            WidthRequest="400"
+                            HeightRequest="100"
                             CornerRadius="10" 
                             Clicked="OnAddBalanceClicked"
                             LineBreakMode="WordWrap" 
-                            Margin="25,-20,0,0"/>
-                </HorizontalStackLayout>
+                            Margin="0,0,0,0"/>
+                </VerticalStackLayout>
             </Grid>
 
                 <Button x:Name="OpenChatBtn"
@@ -80,8 +86,8 @@
                     TextColor="White"
                     FontSize="16"
                     FontAttributes="Bold"
-                    WidthRequest="250"
-                    HeightRequest="80"
+                    WidthRequest="300"
+                    HeightRequest="120"
                     CornerRadius="10" 
                     Clicked="OnOpenChatsClicked"
                     LineBreakMode="WordWrap" />
@@ -92,8 +98,8 @@
                     TextColor="White"
                     FontSize="16"
                     FontAttributes="Bold"
-                    WidthRequest="250"
-                    HeightRequest="80"
+                    WidthRequest="350"
+                    HeightRequest="120"
                     CornerRadius="10" 
                     Clicked="OnCreateTicketClicked"
                     LineBreakMode="WordWrap" />
@@ -122,7 +128,7 @@
                         LineBreakMode="WordWrap" />
 
                     <Entry x:Name="BalanceEntry"
-                        Placeholder="Enter a value... (negative numbers will be treated as 0)"
+                        Placeholder="Enter a value..."
                         Keyboard="Numeric"
                         HorizontalTextAlignment="Center" />
 
@@ -132,8 +138,8 @@
 
                         <Button x:Name="GoBack"
                            Text="CANCEL"
-                           BackgroundColor="Purple"
-                           TextColor="White"
+                           BackgroundColor="DarkRed"
+                           TextColor="Pink"
                            FontSize="16"
                            FontAttributes="Bold"
                            CornerRadius="10"
@@ -144,8 +150,8 @@
                         
                         <Button x:Name="SubmitBalanceAmount"
                             Text="CONFIRM"
-                            BackgroundColor="Purple"
-                            TextColor="White"
+                            BackgroundColor="DarkGreen"
+                            TextColor="LightGreen"
                             FontSize="16"
                             FontAttributes="Bold"
                             CornerRadius="10"

@@ -34,19 +34,19 @@ namespace momUI
         protected override void OnAppearing()
         {
             Accessibility a = Accessibility.getAccessibilitySettings();
-            PageTitle.FontSize = Math.Min(Math.Max(20, a.fontsize + 11), 30);
+            PageTitle.FontSize = Math.Min(Math.Max(35, a.fontsize + 11), 35);
 
-            MomReviewTemplateText.FontSize = Math.Min(Math.Max(15, a.fontsize + 3), 22);
+            MomReviewTemplateText.FontSize = Math.Min(Math.Max(25, a.fontsize + 3), 25);
 
-            RatingDialogue.FontSize = Math.Min(Math.Max(15, a.fontsize + 3), 22);
-            RatingPicker.FontSize = Math.Min(Math.Max(10, a.fontsize), 40);
+            RatingDialogue.FontSize = Math.Min(Math.Max(18, a.fontsize + 3), 20);
+            RatingPicker.FontSize = Math.Min(Math.Max(25, a.fontsize), 40);
 
-            PleaseWriteReview.FontSize = Math.Min(Math.Max(15, a.fontsize + 3), 22);
-            IssueDescriptionBox1.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+            PleaseWriteReview.FontSize = Math.Min(Math.Max(18, a.fontsize + 3), 20);
+            IssueDescriptionBox1.FontSize = Math.Min(Math.Max(18, a.fontsize), 20);
 
-            SubmitTicketButton1.FontSize = Math.Min(Math.Max(16, a.fontsize + 1), 20);
+            SubmitTicketButton1.FontSize = Math.Min(Math.Max(25, a.fontsize + 1), 25);
 
-            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
 
         }
 

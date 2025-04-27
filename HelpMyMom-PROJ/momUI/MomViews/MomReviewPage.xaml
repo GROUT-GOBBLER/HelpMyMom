@@ -4,7 +4,8 @@
              x:Class="momUI.MomReviewPage">
 
     <ScrollView
-        VerticalScrollBarVisibility="Always">
+        VerticalScrollBarVisibility="Always"
+        Margin="10,15,15,20">
         <Grid Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -58,7 +59,7 @@
                     <Picker x:Name="RatingPicker"
                         Title="Select Rating"
                         HorizontalOptions="Center"
-                        WidthRequest="150"
+                        WidthRequest="250"
                         SelectedIndexChanged="OnRatingSelected">
                         <Picker.ItemsSource
                             WidthRequest="50">
@@ -106,8 +107,8 @@
             <Button x:Name="SubmitTicketButton1"
                 Grid.Row="6"
                 Text="SUBMIT"
-                BackgroundColor="Purple"
-                TextColor="White"
+                BackgroundColor="DarkGreen"
+                TextColor="LightGreen"
                 FontSize="16"
                 FontAttributes="Bold"
                 CornerRadius="10"

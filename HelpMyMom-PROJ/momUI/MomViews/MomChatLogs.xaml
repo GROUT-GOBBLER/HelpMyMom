@@ -5,7 +5,7 @@
 
     <ScrollView
         VerticalScrollBarVisibility="Always"
-        Margin="20">
+        Margin="10,15,15,20">
 
         <VerticalStackLayout
                     Padding="30,0"
@@ -17,7 +17,7 @@
                 <Button x:Name="GoBack"
                   Text="BACK"
                   HorizontalOptions="Start"
-                  WidthRequest="80"
+                  WidthRequest="100"
                   HeightRequest="50"
                   Clicked="OnBackClicked"
                   Margin="-20,0,0,0"/>
@@ -28,7 +28,7 @@
                         TextColor="Black"
                         FontSize="15"
                         FontAttributes="Bold"
-                        WidthRequest="125"
+                        WidthRequest="250"
                         HeightRequest="50"
                         CornerRadius="10" 
                         Clicked="OnStatusCompleteClickedMom"
@@ -44,7 +44,8 @@
                     TextColor="White"
                     FontSize="20"
                     FontAttributes="Bold"
-                    Clicked="OnClickedHelperProfile" />
+                    Clicked="OnClickedHelperProfile"
+                    LineBreakMode="WordWrap" />
 
             </HorizontalStackLayout>
 
@@ -98,6 +99,8 @@
                     <Button
                         x:Name="SendChatMessage"
                         Text="Send message."     
+                        BackgroundColor="DarkGreen"
+                        TextColor="LightGreen"
                         SemanticProperties.Hint="Send the typed message."
                         Clicked="SendChatMessage_Clicked"
                         VerticalOptions="End"

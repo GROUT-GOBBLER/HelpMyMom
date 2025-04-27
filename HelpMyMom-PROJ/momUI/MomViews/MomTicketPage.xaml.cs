@@ -37,13 +37,13 @@ namespace momUI
         protected override void OnAppearing()
         {
             Accessibility a = Accessibility.getAccessibilitySettings();
-            PageTitle.FontSize = Math.Min(Math.Max(20, a.fontsize + 11), 30);
+            PageTitle.FontSize = Math.Min(Math.Max(35, a.fontsize + 11), 35);
 
-            IssueDescriptionBox.FontSize = Math.Min(Math.Max(15, a.fontsize + 3), 22);
+            IssueDescriptionBox.FontSize = Math.Min(Math.Max(18, a.fontsize + 3), 20);
 
-            SubmitTicketButton.FontSize = Math.Min(Math.Max(16, a.fontsize + 1), 20);
+            SubmitTicketButton.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 25);
 
-            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
 
         }
 
@@ -151,7 +151,7 @@ namespace momUI
                         }
 
                         int newTicketID;
-                        if (length1 <= 0)
+                        if (length1 <= 0 || ticketsList == null)
                         {
                             newTicketID = 1;
                         }
@@ -172,8 +172,10 @@ namespace momUI
                             ReviewId = null,
                             Reports = [],
                             ChatLogs = [],
+                            Child = null,
                             Helper = null,
-                            Mom = mothersList[_momAccountID]
+                            Review = null,
+                            Mom = null
                         };
 
                         HttpResponseMessage createTicketResponse = await client.PostAsJsonAsync(
@@ -181,26 +183,28 @@ namespace momUI
                             newTicket);
 
                         
-                        Mother updateMom = new Mother
-                        {
-                            Id = mothersList[momIndexInList].Id,
-                            FName = mothersList[momIndexInList].FName,
-                            LName = mothersList[momIndexInList].LName,
-                            Email = mothersList[momIndexInList].Email,
-                            Tokens = newBalance
-                        };
-
-                        HttpResponseMessage changeTokenAmountInMomResponse = await client.PutAsJsonAsync(
-                            $"{URL}/{"Mothers"}/{momIndexInList}", 
-                            updateMom);
+                     
                         
 
                         if (createTicketResponse.IsSuccessStatusCode)
                         {
                             await DisplayAlert("Success", "Your ticket has been successfully sent!", "OK");
 
+                            Mother updateMom = new Mother
+                            {
+                                Id = mothersList[momIndexInList].Id,
+                                FName = mothersList[momIndexInList].FName,
+                                LName = mothersList[momIndexInList].LName,
+                                Email = mothersList[momIndexInList].Email,
+                                Tokens = newBalance
+                            };
+
+                            HttpResponseMessage changeTokenAmountInMomResponse = await client.PutAsJsonAsync(
+                                $"{URL}/{"Mothers"}/{momIndexInList}",
+                                updateMom);
+
                             // Send email to mom.
-                            EmailServices.SendNotifcation(updateMom.Email, $"{updateMom.FName} {updateMom.LName}", 
+                            EmailServices.SendNotifcation($"{updateMom.Email}", $"{updateMom.FName} {updateMom.LName}", 
                                 $"{newTicket.Status}", newTicket);
 
                             // Only if the child opts in.
@@ -209,6 +213,7 @@ namespace momUI
                                 if (index.Id == childrenID)
                                 {
                                     string[]? notifSettings = null;
+
                                     if (index.Notifs != null)
                                     {
                                         notifSettings = index.Notifs.Split(",");
@@ -216,7 +221,7 @@ namespace momUI
 
                                     if (notifSettings != null && notifSettings.Length == 5)
                                     {
-                                        bool shouldSendChild = bool.Parse(notifSettings[1].ToLower()) || true;
+                                        bool shouldSendChild = bool.Parse(notifSettings[0].ToLower());
                                         if (shouldSendChild)
                                         {
                                             EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", newTicket.Status, newTicket);
@@ -229,7 +234,6 @@ namespace momUI
 
                                 }
                             }
-
                             await Navigation.PopAsync();
                         }
                         else

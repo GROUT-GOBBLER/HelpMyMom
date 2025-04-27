@@ -1,6 +1,7 @@
 using momUI.HelperViews;
 using momUI.models;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace momUI
@@ -10,9 +11,19 @@ namespace momUI
 		String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 		String MASTERusername = "UncleBensBiggestFan";
 
-		String[] helperSPECIALTIES;
+        ObservableCollection<SpecialtyItem> helperSPECIALTIES;
 
-		public int MessageFontSize;
+
+        public int MessageFontSize { get; set; }
+
+        public class SpecialtyItem
+        {
+            public string? Name { get; set; }
+            public double? MessageFontSizeSpecialty { get; set; } // Property for message label font size
+        }
+
+
+       // public int MessageFontSize;
 
 
         private int _momAccountID;
@@ -22,46 +33,45 @@ namespace momUI
         public MomLookAtHelperProfile(int momID, int helperID, int ticketID)
 		{
 			InitializeComponent();
+          
+
 
             _momAccountID = momID;
             _helperAccountID = helperID;
             _ticketID = ticketID;
+
+
 
         }
 
 		protected override async void OnAppearing() // determines what the page does when it opens.
 		{
             Accessibility ac = Accessibility.getAccessibilitySettings();
+            helperSPECIALTIES = new ObservableCollection<SpecialtyItem>();
 
-			MessageFontSize = Math.Min(Math.Max(10, ac.fontsize + 10), 20);
+            MessageFontSize = Math.Min(Math.Max(18, ac.fontsize + 3), 20);
 
-            RatingLabelText.FontSize = Math.Min(Math.Max(20, ac.fontsize + 10), 26);
-            RatingsLabel.FontSize = Math.Min(Math.Max(20, ac.fontsize + 10), 26);
+            RatingLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize), 25);
+            RatingsLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize), 25);
 
-            ShowReviewsButton.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
+            ShowReviewsButton.FontSize = Math.Min(Math.Max(18, ac.fontsize), 15);
 
-            UserNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
-			UsernameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
+            UserNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+			UsernameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
 
-            FirstNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
-            FirstNameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
+            FirstNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            FirstNameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
 
-            LastNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
-            LastNameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
+            LastNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            LastNameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
 
-            DescLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
-            DescriptionLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
+            DescLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            DescriptionLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
 
-            SpecTextLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 10), 26);
+            SpecTextLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
 
 
             ReportButton.FontSize = Math.Min(Math.Max(35, ac.fontsize + 35), 60);
-
-
-            /*
-            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-            SubmitReportButton.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-			*/
 
 
             using (HttpClient client = new HttpClient())
@@ -71,16 +81,16 @@ namespace momUI
 					// Get lists of Accounts, Helpers, and Specs.
 					HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
 					String json1 = await response1.Content.ReadAsStringAsync();
-					List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
+					List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(json1); // accountsList.
 					HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
 					String json2 = await response2.Content.ReadAsStringAsync();
-					List<Helper> helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
+					List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json2); // helpersList.
 					HttpResponseMessage response3 = await client.GetAsync($"{URL}/{"Specs"}");
 					String json3 = await response3.Content.ReadAsStringAsync();
-					List<Spec> specsList = JsonConvert.DeserializeObject<List<Spec>>(json3); // specsList.
+					List<Spec>? specsList = JsonConvert.DeserializeObject<List<Spec>>(json3); // specsList.
 					HttpResponseMessage response4 = await client.GetAsync($"{URL}/{"Reviews"}");
 					String json4 = await response4.Content.ReadAsStringAsync();
-					List<Review> reviewsList = JsonConvert.DeserializeObject<List<Review>>(json4); // reviewsList.
+					List<Review>? reviewsList = JsonConvert.DeserializeObject<List<Review>>(json4); // reviewsList.
 
 					// Variable initialization.
 					Account tempAccount = new Account();
@@ -136,10 +146,15 @@ namespace momUI
 						{
 							short shortIDFromSpec = short.Parse(specsAsNumbers[x].Trim()); // convert string # into short #.
 
-							if (s.Id == shortIDFromSpec)
+                            Accessibility a = Accessibility.getAccessibilitySettings();
+                            if (s.Id == shortIDFromSpec)
 							{
+								SpecialtyItem newSpecialty = new SpecialtyItem();
+								newSpecialty.Name = s.Name;
+								newSpecialty.MessageFontSizeSpecialty = Math.Min(Math.Max(18, a.fontsize), 25);
 								specsAsStringsFull[x] = s.Name;
-							}
+								helperSPECIALTIES.Add(newSpecialty);
+                            }
 						}
 					}
 
@@ -178,8 +193,9 @@ namespace momUI
 					LastNameLabel.Text = tempHelper.LName;
 					DescriptionLabel.Text = tempHelper.Description;
 
-					helperSPECIALTIES = specsAsStringsFull;
+					// helperSPECIALTIES = helperSPECIALTIES;
 					SpecialtiesListView.ItemsSource = helperSPECIALTIES;
+					//SpecialtiesListView.ItemsSource.
 					RatingsLabel.Text = textForRatingsLabel;
 				}
 				catch (Exception except)

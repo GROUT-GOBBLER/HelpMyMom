@@ -4,7 +4,8 @@
              x:Class="momUI.MomLookAtHelperProfile"
              Title="MomViewHelperProfile">
     
-    <ScrollView>
+    <ScrollView
+        Margin="10,15,15,20">
         <VerticalStackLayout
             Margin="20,20,20,20"
             Spacing="10">
@@ -36,38 +37,48 @@
                 Padding="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center" >
-                <Label x:Name="RatingLabelText"
-                    Text="Rating: "
-                    FontSize="25" 
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start" />
+              
+                    <Label x:Name="RatingLabelText"
+                        Text="Rating: "
+                        FontSize="25" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        Margin="0,0,0,0"/>
 
-                <Frame 
-                    HasShadow="False"
-                    CornerRadius="0"
-                    Padding="10"
-                    Margin="3"
-                    BackgroundColor="LightGray">
-                    <Label 
-                        x:Name="RatingsLabel"
-                        FontSize="25"
-                        TextColor="Black"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center" />
-                </Frame>
-
-                <Button 
-                    x:Name="ShowReviewsButton"
-                    Text="SHOW REVIEWS" 
-                    FontSize="25"
-                    FontAttributes="Bold"
-                    SemanticProperties.Hint="View all of your reviews."
-                    Clicked="ShowReviewsButton_Clicked"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center" 
-                    Padding="10"/>
+                    <Frame 
+                        HasShadow="False"
+                        CornerRadius="0"
+                        Padding="10"
+                        Margin="3"
+                        BackgroundColor="LightGray">
+                        <Label 
+                            x:Name="RatingsLabel"
+                            FontSize="25"
+                            TextColor="Black"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" 
+                            LineBreakMode="WordWrap"
+                            Margin="0,0,0,0"/>
+                    </Frame>
+             
 
             </HorizontalStackLayout>
+
+
+
+            <Button 
+                x:Name="ShowReviewsButton"
+                Text="SHOW REVIEWS" 
+                FontSize="25"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="View all of your reviews."
+                Clicked="ShowReviewsButton_Clicked"
+                VerticalOptions="Center"
+                BackgroundColor="#3033aa"
+                TextColor="LightBlue"
+                HorizontalOptions="Center" 
+                Padding="10"
+                Margin="0,0,0,50"/>
             
             <!-- USERNAME. -->
             <VerticalStackLayout
@@ -201,9 +212,9 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <Label 
-                                        x:Name="SpecialtyStuff"
-                                        Text="{Binding}" 
-                                        FontSize="{Binding MessageFontSize}"
+                                        
+                                        Text="{Binding Name}" 
+                                        FontSize="{Binding MessageFontSizeSpecialty}"
                                         TextColor="Black"
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center" />
@@ -224,6 +235,8 @@
                 Clicked="OnReportHelperClicked"
                 VerticalOptions="Center"
                 HorizontalOptions="Center" 
+                BackgroundColor="DarkRed"
+                TextColor="Pink"
                 Padding="10"/>
 
         </VerticalStackLayout>

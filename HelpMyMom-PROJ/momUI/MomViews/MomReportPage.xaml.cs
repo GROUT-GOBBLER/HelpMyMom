@@ -34,13 +34,13 @@ namespace momUI
         protected override async void OnAppearing()
         {
             Accessibility a = Accessibility.getAccessibilitySettings();
-            PageTitle.FontSize = Math.Min(Math.Max(20, a.fontsize + 11), 30);
-            MomReportTemplateText.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-            SubjectLabel.FontSize = Math.Min(Math.Max(12, a.fontsize + 3), 18);
-            IssueSubjectBox.FontSize = Math.Min(Math.Max(12, a.fontsize), 15);
-            IssueDescriptionBox1.FontSize = Math.Min(Math.Max(12, a.fontsize), 15);
-            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-            SubmitReportButton.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+            PageTitle.FontSize = Math.Min(Math.Max(35, a.fontsize + 20), 35);
+            MomReportTemplateText.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
+            SubjectLabel.FontSize = Math.Min(Math.Max(18, a.fontsize + 300), 22);
+            IssueSubjectBox.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
+            IssueDescriptionBox1.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
+            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+            SubmitReportButton.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
         }
 
 
@@ -137,28 +137,25 @@ namespace momUI
                         if (index.Id == _momAccountID)
                         {
                             momIndexInList = index.Id;
+                            break;
                         }
                     }
 
-                    HttpResponseMessage relationshipResponse = await client.GetAsync(URL + "/Relationships");
-                    String relationsString = await relationshipResponse.Content.ReadAsStringAsync();
-                    int childrenID = 0;
-
-                    List<Relationship>? relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(relationsString);
 
 
-                    foreach (Relationship index in relationshipList)
+                    Ticket tempTicket = new Ticket(); // Find ticket.
+                    foreach (Ticket t in ticketsList)
                     {
-                        if (index.MomId == _momAccountID)
+                        if (t.Id == _ticketID)
                         {
-                            childrenID = (int)index.ChildId;
+                            tempTicket = t;
                             break;
                         }
                     }
 
                     int length1 = reportsList.Count;
                     int newReportID;
-                    if (length1 <= 0)
+                    if (length1 <= 0 || reportsList == null)
                     {
                         newReportID = 1;
                     }
@@ -172,9 +169,14 @@ namespace momUI
                         Id = newReportID,
                         HelperId = _helperAccountID,
                         MomId = _momAccountID,
+                        ChildId = tempTicket.ChildId,
                         TicketId = _ticketID,
                         Subject = SubjectText,
-                        Body = ReviewText
+                        Body = ReviewText,
+                        Child = null,
+                        Helper = null,
+                        Mom = null,
+                        Ticket = null
                     };
 
 

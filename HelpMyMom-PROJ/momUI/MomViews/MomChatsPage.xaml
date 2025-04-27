@@ -4,7 +4,9 @@
              x:Class="momUI.MomChatsPage" >
 
     <ScrollView
-        VerticalScrollBarVisibility="Always">
+        VerticalScrollBarVisibility="Always"
+        Margin="10,15,15,20">
+        
         <VerticalStackLayout
               Padding="25,0"
               Spacing="25">
@@ -36,12 +38,14 @@
                 <CollectionView Grid.Row="2"
                                 ItemsSource="{Binding Chats}"
                                 SelectionMode="Single"
-                                SelectionChanged="OnChatSelected">
+                                SelectionChanged="OnChatSelected"
+                                Margin="-20,0,0,0">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid Padding="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
@@ -52,6 +56,16 @@
                                            FontSize="{Binding SenderFontSize}"
                                            FontAttributes="Bold"
                                            Margin="0,0,0,0"/>
+                                    <!-- Time -->
+                                    <Label x:Name="UserTimeLabels"
+                                      
+                                       Text="{Binding Time}"
+                                       FontSize="{Binding TimeFontSize}"
+                                       FontAttributes="Bold"
+                                       TextColor="Gray"
+                                       VerticalOptions="Start"
+                                       HorizontalOptions="End"
+                                       Margin="10,0,0,0" />
                                     <Label x:Name="UserMessageLabels"
                                            Text="{Binding Text}"
                                            FontSize="{Binding MessageFontSize}"
@@ -61,16 +75,7 @@
                                     <!--LineBreakMode="TailTruncation"-->
                                 </VerticalStackLayout>
 
-                                <!-- Time -->
-                                <Label x:Name="UserTimeLabels"
-                                       Grid.Column="1"
-                                       Text="{Binding Time}"
-                                       FontSize="{Binding TimeFontSize}"
-                                       FontAttributes="Bold"
-                                       TextColor="Gray"
-                                       VerticalOptions="Start"
-                                       HorizontalOptions="End"
-                                       Margin="0,0,0,0" />
+                                
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

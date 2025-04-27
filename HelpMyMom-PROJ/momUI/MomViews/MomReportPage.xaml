@@ -5,7 +5,7 @@
 
     <ScrollView
         VerticalScrollBarVisibility="Always"
-        Margin="0">
+        Margin="10,15,15,20">
         <Grid Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -45,23 +45,26 @@
         
         <!-- Subject Prompt and Input-->
         <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
-            <Label x:Name="SubjectLabel"
-                Text="Subject: "
-                FontSize="18"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="End"  
-                Margin="-40,0,0,35"
-                LineBreakMode="WordWrap" />
+                <VerticalStackLayout>
+                    <Label x:Name="SubjectLabel"
+                        Text="Subject: "
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        VerticalOptions="End"  
+                        Margin="0,0,0,0"
+                        LineBreakMode="WordWrap" />
 
-            <Entry x:Name="IssueSubjectBox"
-                Placeholder="What kind of problem are you having?"
-                FontSize="15"
-                Text="{Binding SubjectText}"
-                Margin="10,0,0,30"
-                VerticalOptions="End"        
-                HorizontalOptions="End"
-                MaxLength="200" />
+                    <Entry x:Name="IssueSubjectBox"
+                        Placeholder="What kind of problem are you having?"
+                        FontSize="15"
+                        Text="{Binding SubjectText}"
+                        Margin="10,0,0,0"
+                        VerticalOptions="End"        
+                        HorizontalOptions="End"
+                        WidthRequest="300"
+                        MaxLength="200" />
+                </VerticalStackLayout>
         </HorizontalStackLayout>
 
         <!-- Review Prompt and Input -->
@@ -82,8 +85,8 @@
         <Button x:Name="SubmitReportButton"
                 Grid.Row="5"
                 Text="SUBMIT"
-                BackgroundColor="Purple"
-                TextColor="White"
+                BackgroundColor="DarkGreen"
+                TextColor="LightGreen"
                 FontSize="16"
                 FontAttributes="Bold"
                 CornerRadius="10"

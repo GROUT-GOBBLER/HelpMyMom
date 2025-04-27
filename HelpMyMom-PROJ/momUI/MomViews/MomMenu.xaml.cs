@@ -53,16 +53,19 @@ namespace momUI
             FetchImportantVariables();
 
             Accessibility a = Accessibility.getAccessibilitySettings();
-            AccessibiltySettings.FontSize = a.fontsize;
-            MomNameHeader.FontSize = Math.Min(Math.Max(20, a.fontsize + 11), 30);
-            AddBalanceBtn.FontSize = Math.Min(Math.Max(10, a.fontsize + 5), 20);
-            BalanceLabelAmountText.FontSize = Math.Min(Math.Max(10, a.fontsize + 5), 20);
-            OpenChatBtn.FontSize = Math.Min(Math.Max(16, a.fontsize + 1), 20);
-            CreateTicketBtn.FontSize = Math.Min(Math.Max(16, a.fontsize + 1), 20);
-            AddBalanceLabelPromptText.FontSize = Math.Min(Math.Max(14, a.fontsize + 1), 18);
-            BalanceEntry.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-            GoBack.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
-            SubmitBalanceAmount.FontSize = Math.Min(Math.Max(10, a.fontsize), 20);
+            AccessibiltySettings.FontSize = Math.Min(Math.Max(25, a.fontsize + 11), 30);
+            LogOutBtn.FontSize = Math.Min(Math.Max(25, a.fontsize + 11), 30);
+            MomNameHeader.FontSize = Math.Min(Math.Max(35, a.fontsize + 11), 40);
+            AddBalanceBtn.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+
+            BalanceLabelAmountText.FontSize = Math.Min(Math.Max(18, a.fontsize + 5), 22);
+
+            OpenChatBtn.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 25);
+            CreateTicketBtn.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 25);
+            AddBalanceLabelPromptText.FontSize = Math.Min(Math.Max(18, a.fontsize), 20);
+            BalanceEntry.FontSize = Math.Min(Math.Max(18, a.fontsize), 20);
+            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+            SubmitBalanceAmount.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
 
         }
 
@@ -114,7 +117,7 @@ namespace momUI
                     if (changeTokenAmountInMomResponse.IsSuccessStatusCode)
                     {
                         // Shows success pop-up and navigate back
-                        BalanceLabel = $"Current Balance: ${newBalance:F2}";
+                        BalanceLabel = $"Current Balance: \n ${newBalance:F2}";
                         await DisplayAlert("Success", "Your balance has been successfully updated!", "OK");
 
                         return;
@@ -143,6 +146,11 @@ namespace momUI
         {
             AddBalancePopup.IsVisible = false;
             BalanceEntry.Text = string.Empty;
+        }
+
+        private void SignOutClicked(object sender, EventArgs e)
+        {
+            if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new MainPage());
         }
 
         private async void OnSubmitBalanceClicked(object sender, EventArgs e)
@@ -201,7 +209,7 @@ namespace momUI
                             _balance = (double)index.Tokens;
                             MomNameHeader.Text = $"{index.FName} {index.LName}";
 
-                            BalanceLabel = $"Current Balance: {"\n"} ${_balance:F2}";
+                            BalanceLabel = $"Current Balance: ${_balance:F2}";
                         //    found = true;
                             break;
                             
