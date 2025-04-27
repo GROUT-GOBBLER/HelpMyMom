@@ -32,15 +32,17 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
-            <Label 
-                x:Name="Description"
-                Text="Helper Details"
-                Margin="0,20,0,0"
-                FontSize="5"
-                TextColor="Black"
-                VerticalOptions="Center" 
-                HorizontalOptions="Fill"/>
-            
+            <Border StrokeThickness="2" Stroke="Black" Margin="10">
+                <Label 
+                    x:Name="Description"
+                    Text="Helper Details"
+                    Margin="0,20,0,0"
+                    FontSize="5"
+                    TextColor="Black"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Fill"/>
+            </Border>
+
             <Label 
                 x:Name="TextSpecs"
                 Text="Helper specs"

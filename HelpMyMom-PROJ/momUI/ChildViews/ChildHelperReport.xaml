@@ -26,7 +26,8 @@
                 TextChanged="SubjectEntry_TextChanged"
                 />
 
-            <Editor
+            <Border StrokeThickness="2" Stroke="Black" Margin="10">
+                <Editor
                 x:Name="DetailsEntry"
                 Placeholder="Detailed report"
                 FontSize="5"
@@ -36,6 +37,7 @@
                 HeightRequest ="400"
                 VerticalOptions="Center"            
                 HorizontalOptions="Fill" />
+            </Border>
 
             <Button
                 x:Name="ReportBtn"
@@ -44,7 +46,7 @@
                 LineBreakMode="WordWrap"
                 BackgroundColor="DarkRed"
                 TextColor="Pink"
-                Margin="20,30,20,0"
+                Margin="20,10,20,0"
                 SemanticProperties.Hint="Get"
                 Clicked="ReportHelperClicked"
                 HorizontalOptions="Fill" />

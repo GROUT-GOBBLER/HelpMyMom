@@ -37,8 +37,13 @@ Other/Edit:
 	Text: LightBlue
 	Background: #3033aa
 
+Settings:
+	Text: White
+	Background: Gray
+
 =======
 Border 
 =======
 For large info sections (like a description) or Editor
 Stroke size: 2
+Stroke color: black
