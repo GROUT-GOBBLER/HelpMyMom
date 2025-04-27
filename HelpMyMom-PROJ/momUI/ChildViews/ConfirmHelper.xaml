@@ -9,7 +9,7 @@
                 x:Name="Name"
                 Text="First Last"
                 Margin="10,20,0,0"
-                FontSize="35"
+                FontSize="5"
                 TextColor="Black"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
@@ -18,7 +18,7 @@
                 x:Name="Email"
                 Text="email@email"
                 Margin="10,0,0,0"
-                FontSize="20"
+                FontSize="5"
                 TextColor="SlateGray"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
@@ -27,7 +27,7 @@
                 x:Name="Rating"
                 Text="Rating: x"
                 Margin="10,0,0,0"
-                FontSize="20"
+                FontSize="5"
                 TextColor="DarkSlateGray"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
@@ -36,16 +36,16 @@
                 x:Name="Description"
                 Text="Helper Details"
                 Margin="0,20,0,0"
-                FontSize="20"
+                FontSize="5"
                 TextColor="Black"
                 VerticalOptions="Center" 
-                HorizontalOptions="Start" />
+                HorizontalOptions="Fill"/>
             
             <Label 
                 x:Name="TextSpecs"
                 Text="Helper specs"
                 Margin="0,5,0,0"
-                FontSize="20"
+                FontSize="5"
                 TextColor="Black"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
@@ -53,7 +53,7 @@
             <Button
                 x:Name="confirmBtn"
                 Text="Confirm" 
-                FontSize="35"
+                FontSize="5"
                 LineBreakMode="WordWrap"
                 BackgroundColor="DarkGreen"
                 TextColor="LightGreen"

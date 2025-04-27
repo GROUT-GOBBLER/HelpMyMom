@@ -20,6 +20,8 @@ public partial class ChildHelperReport : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     public ChildHelperReport(Child acc, Ticket t)
     {
         InitializeComponent();
@@ -30,6 +32,13 @@ public partial class ChildHelperReport : ContentPage
 
     protected override async void OnAppearing()
     {
+        TopText.FontSize = titleFont + fontOffset;
+        ReportingText.FontSize = headerFont + fontOffset;
+        SubjectEntry.FontSize = normalFont + fontOffset;
+        DetailsEntry.FontSize = normalFont + fontOffset;
+
+        ReportBtn.FontSize = headerFont + fontOffset;
+
         using (HttpClient client = new HttpClient())
         {
             try

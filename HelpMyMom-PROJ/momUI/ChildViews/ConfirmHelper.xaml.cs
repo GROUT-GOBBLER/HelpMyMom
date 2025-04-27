@@ -16,6 +16,8 @@ public partial class ConfirmHelper : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     public ConfirmHelper(Child acc, Helper h, Ticket? t = null)
 	{
 		InitializeComponent();
@@ -27,6 +29,14 @@ public partial class ConfirmHelper : ContentPage
 
     protected override async void OnAppearing()
     {
+        Name.FontSize = titleFont + fontOffset;
+        Email.FontSize = normalFont + fontOffset;
+        Rating.FontSize = normalFont + fontOffset;
+        Description.FontSize = normalFont + fontOffset;
+        TextSpecs.FontSize = normalFont + fontOffset;
+
+        confirmBtn.FontSize = titleFont + fontOffset;
+
         using (HttpClient client = new HttpClient())
         {
             try

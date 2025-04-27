@@ -3,49 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.ChildViews.ChildHelperReport"
              Title="Child Helper Report">
-    <VerticalStackLayout Margin="10,0,10,0">
-        <Label x:Name = "TopText" 
-            Text="Report form"
-            FontSize="35"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView Margin="5">
+        <VerticalStackLayout Margin="10,0,10,0">
+            <Label x:Name = "TopText" 
+                Text="Report form"
+                FontSize="5"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
 
-        <Label x:Name = "ReportingText" 
-            Margin="0,20,0,0"
-            Text="Reporting: [Name]"
-            FontSize="20"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
+            <Label x:Name = "ReportingText" 
+                Margin="0,20,0,0"
+                Text="Reporting: [Name]"
+                FontSize="5"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
 
-        <Entry
-            x:Name="SubjectEntry"
-            MaxLength="500"
-            Placeholder="Subject"
-            FontSize="20"
-            TextChanged="SubjectEntry_TextChanged"
-            />
+            <Entry
+                x:Name="SubjectEntry"
+                MaxLength="500"
+                Placeholder="Subject"
+                FontSize="5"
+                TextChanged="SubjectEntry_TextChanged"
+                />
 
-        <Editor
-            x:Name="DetailsEntry"
-            Placeholder="Detailed report"
-            FontSize="20"
-            IsSpellCheckEnabled="True"
-            MaxLength="2000"
-            TextChanged="DetailsEntry_TextChanged"
-            HeightRequest ="400"
-            VerticalOptions="Center"            
-            HorizontalOptions="Fill" />
+            <Editor
+                x:Name="DetailsEntry"
+                Placeholder="Detailed report"
+                FontSize="5"
+                IsSpellCheckEnabled="True"
+                MaxLength="2000"
+                TextChanged="DetailsEntry_TextChanged"
+                HeightRequest ="400"
+                VerticalOptions="Center"            
+                HorizontalOptions="Fill" />
 
-        <Button
-            x:Name="ReportBtn"
-            Text="Report Helper" 
-            FontSize="25"
-            LineBreakMode="WordWrap"
-            BackgroundColor="DarkRed"
-            TextColor="Pink"
-            Margin="20,30,20,0"
-            SemanticProperties.Hint="Get"
-            Clicked="ReportHelperClicked"
-            HorizontalOptions="Fill" />
-    </VerticalStackLayout>
+            <Button
+                x:Name="ReportBtn"
+                Text="Report Helper" 
+                FontSize="5"
+                LineBreakMode="WordWrap"
+                BackgroundColor="DarkRed"
+                TextColor="Pink"
+                Margin="20,30,20,0"
+                SemanticProperties.Hint="Get"
+                Clicked="ReportHelperClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

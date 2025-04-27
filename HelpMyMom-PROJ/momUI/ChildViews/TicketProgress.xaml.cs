@@ -16,6 +16,8 @@ public partial class TicketProgress : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     public TicketProgress(Child acc)
 	{
 		InitializeComponent();
@@ -41,6 +43,7 @@ public partial class TicketProgress : ContentPage
                     {
                         //tickets.RemoveAll(t => t.HelperId != null);
                         tickets.RemoveAll(t => t.ChildId != account.Id);
+                        tickets.RemoveAll(t => t.Status.ToUpper() == "APPROVED");
 
                         if (tickets.Count > 0)
                         {

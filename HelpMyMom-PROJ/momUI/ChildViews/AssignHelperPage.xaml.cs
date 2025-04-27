@@ -71,6 +71,8 @@ public partial class AssignHelperPage : ContentPage
                             sh.Description = h.Description;
                             sh.Specs = h.Specs;
 
+                            sh.TextOffset = fontOffset;
+
                             Double sum = 0;
                             int count = 0;
                             int calc = 0;

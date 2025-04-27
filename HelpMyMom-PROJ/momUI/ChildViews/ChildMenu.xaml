@@ -30,7 +30,7 @@
             FontSize="5"
             BackgroundColor="#3033aa"
             TextColor="LightBlue"
-            Margin="0,40,0,70"
+            Margin="0,40,0,40"
             LineBreakMode="WordWrap"
             SemanticProperties.Hint="Get"
             Clicked="CreateTicketClicked"
@@ -42,7 +42,7 @@
             FontSize="5"
             BackgroundColor="#3033aa"
             TextColor="LightBlue"
-            Margin="0,0,0,70"
+            Margin="0,0,0,40"
             SemanticProperties.Hint="Get"
             Clicked="AssignHelperClicked"
             HorizontalOptions="Fill" />
@@ -53,7 +53,7 @@
             FontSize="5"
             BackgroundColor="#3033aa"
             TextColor="LightBlue"
-            Margin="0,0,0,70"
+            Margin="0,0,0,40"
             SemanticProperties.Hint="Get"
             Clicked="ViewProgressClicked"
             HorizontalOptions="Fill" />

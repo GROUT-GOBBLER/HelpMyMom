@@ -19,6 +19,8 @@ public partial class ChildTicketFactory : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     public ChildTicketFactory(Child acc)
 	{
 		InitializeComponent();
@@ -27,6 +29,12 @@ public partial class ChildTicketFactory : ContentPage
 
     protected override async void OnAppearing()
     {
+        factortTitle.FontSize = titleFont + fontOffset;
+        explainText.FontSize = headerFont + fontOffset;
+        DetailsEntry.FontSize = normalFont + fontOffset;
+
+        settingBtn.FontSize = titleFont + fontOffset;
+
         using (HttpClient client = new HttpClient())
         {
             try

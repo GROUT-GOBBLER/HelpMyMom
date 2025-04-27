@@ -17,6 +17,8 @@ public partial class UnassignedTickets : ContentPage
     int headerFont = 25;
     int normalFont = 18;
 
+    int fontOffset = 0;
+
     public UnassignedTickets(Child acc, Helper h)
 	{
 		InitializeComponent();
