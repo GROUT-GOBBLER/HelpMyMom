@@ -56,7 +56,7 @@ public partial class HelperAccountCreation : ContentPage
         DescL.FontSize = a.fontsize;
         descriptionEditor.FontSize = a.fontsize;
 
-       }
+       
 
 
 
