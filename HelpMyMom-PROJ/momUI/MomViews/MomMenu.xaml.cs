@@ -53,19 +53,22 @@ namespace momUI
             FetchImportantVariables();
 
             Accessibility a = Accessibility.getAccessibilitySettings();
-            AccessibiltySettings.FontSize = Math.Min(Math.Max(25, a.fontsize + 11), 30);
-            LogOutBtn.FontSize = Math.Min(Math.Max(25, a.fontsize + 11), 30);
-            MomNameHeader.FontSize = Math.Min(Math.Max(35, a.fontsize + 11), 40);
-            AddBalanceBtn.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
 
-            BalanceLabelAmountText.FontSize = Math.Min(Math.Max(18, a.fontsize + 5), 22);
+            AccessibiltySettings.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            LogOutBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            MomNameHeader.FontSize = Math.Min(Math.Max(30, a.fontsize + 20), 50);
+            AddBalanceBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
 
-            OpenChatBtn.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 25);
-            CreateTicketBtn.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 25);
-            AddBalanceLabelPromptText.FontSize = Math.Min(Math.Max(18, a.fontsize), 20);
-            BalanceEntry.FontSize = Math.Min(Math.Max(18, a.fontsize), 20);
-            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
-            SubmitBalanceAmount.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+            BalanceLabelAmountText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+
+            OpenChatBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            CreateTicketBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+
+            AddBalanceLabelPromptText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            BalanceEntry.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+
+            GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            SubmitBalanceAmount.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
 
         }
 

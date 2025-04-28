@@ -49,29 +49,29 @@ namespace momUI
             Accessibility ac = Accessibility.getAccessibilitySettings();
             helperSPECIALTIES = new ObservableCollection<SpecialtyItem>();
 
-            MessageFontSize = Math.Min(Math.Max(18, ac.fontsize + 3), 20);
+            MessageFontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            RatingLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize), 25);
-            RatingsLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize), 25);
+            RatingLabelText.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
+            RatingsLabel.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            ShowReviewsButton.FontSize = Math.Min(Math.Max(18, ac.fontsize), 15);
+            ShowReviewsButton.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            UserNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
-			UsernameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            UserNameLabelText.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
+            UsernameLabel.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            FirstNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
-            FirstNameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            FirstNameLabelText.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
+            FirstNameLabel.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            LastNameLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
-            LastNameLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            LastNameLabelText.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
+            LastNameLabel.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            DescLabelText.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
-            DescriptionLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            DescLabelText.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
+            DescriptionLabel.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
-            SpecTextLabel.FontSize = Math.Min(Math.Max(18, ac.fontsize + 5), 22);
+            SpecTextLabel.FontSize = Math.Min(Math.Max(10, ac.fontsize), 30);
 
 
-            ReportButton.FontSize = Math.Min(Math.Max(35, ac.fontsize + 35), 60);
+            ReportButton.FontSize = Math.Min(Math.Max(15, ac.fontsize + 5), 45);
 
 
             using (HttpClient client = new HttpClient())
@@ -151,7 +151,7 @@ namespace momUI
 							{
 								SpecialtyItem newSpecialty = new SpecialtyItem();
 								newSpecialty.Name = s.Name;
-								newSpecialty.MessageFontSizeSpecialty = Math.Min(Math.Max(18, a.fontsize), 25);
+								newSpecialty.MessageFontSizeSpecialty = Math.Min(Math.Max(10, a.fontsize), 30);
 								specsAsStringsFull[x] = s.Name;
 								helperSPECIALTIES.Add(newSpecialty);
                             }

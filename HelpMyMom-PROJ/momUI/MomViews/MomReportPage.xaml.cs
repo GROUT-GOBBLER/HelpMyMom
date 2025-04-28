@@ -34,13 +34,13 @@ namespace momUI
         protected override async void OnAppearing()
         {
             Accessibility a = Accessibility.getAccessibilitySettings();
-            PageTitle.FontSize = Math.Min(Math.Max(35, a.fontsize + 20), 35);
-            MomReportTemplateText.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
-            SubjectLabel.FontSize = Math.Min(Math.Max(18, a.fontsize + 300), 22);
-            IssueSubjectBox.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
-            IssueDescriptionBox1.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
-            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
-            SubmitReportButton.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+            PageTitle.FontSize = Math.Min(Math.Max(30, a.fontsize + 20), 50);
+            MomReportTemplateText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            SubjectLabel.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            IssueSubjectBox.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            IssueDescriptionBox1.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            SubmitReportButton.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
         }
 
 

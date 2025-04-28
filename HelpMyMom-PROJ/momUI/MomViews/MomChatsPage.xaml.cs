@@ -40,9 +40,9 @@ namespace momUI
         protected override async void OnAppearing()
         {
             Accessibility a = Accessibility.getAccessibilitySettings();
-            PageTitle.FontSize = Math.Min(Math.Max(35, a.fontsize + 15), 35);
+            PageTitle.FontSize = Math.Min(Math.Max(30, a.fontsize + 20), 50);
            
-            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+            GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
         }
 
 
@@ -156,9 +156,9 @@ namespace momUI
                                 Time = $"{timeFixed}",
                                 Text = $"{displayText}",
                                 TicketId = ticketId, // Assign the ticketId
-                                SenderFontSize = Math.Min(Math.Max(18, a.fontsize + 5), 20), // Set sender font size
-                                MessageFontSize = Math.Min(Math.Max(18, a.fontsize - 1), 20), // Set message font size
-                                TimeFontSize = Math.Min(Math.Max(18, a.fontsize - 2), 18) // Set message font size
+                                SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30), // Set sender font size
+                                MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30), // Set message font size
+                                TimeFontSize = Math.Min(Math.Max(10, a.fontsize), 30) // Set message font size
                             };
 
 

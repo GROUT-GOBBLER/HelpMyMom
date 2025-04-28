@@ -75,7 +75,7 @@ namespace momUI
 
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
 
-                        await Navigation.PushAsync(new MomMenu("LoveMyRan", 0));
+                        await Navigation.PushAsync(new MomMenu("LocalMomInYourArea", 4));
 
 
 

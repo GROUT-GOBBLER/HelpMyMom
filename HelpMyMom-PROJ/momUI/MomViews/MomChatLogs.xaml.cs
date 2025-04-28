@@ -84,13 +84,13 @@ namespace momUI
 
             Accessibility a = Accessibility.getAccessibilitySettings();
 
-            TicketStatusButton.FontSize = Math.Min(Math.Max(25, a.fontsize), 30);
+            TicketStatusButton.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
 
-            HelperChatName.FontSize = Math.Min(Math.Max(25, a.fontsize + 10), 40);
+            HelperChatName.FontSize = Math.Min(Math.Max(20, a.fontsize + 10), 40);
 
-            MessageTextEntry.FontSize = Math.Min(Math.Max(18, a.fontsize), 22);
-            SendChatMessage.FontSize = Math.Min(Math.Max(25, a.fontsize), 30);
-            GoBack.FontSize = Math.Min(Math.Max(25, a.fontsize), 25);
+            MessageTextEntry.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            SendChatMessage.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
 
 
 
@@ -309,8 +309,8 @@ namespace momUI
                                     tempMessageView.sender = momName;
                                     tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
-                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
-                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
+                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     chatMessagesList.Add(tempMessageView);
                                 });
                             }
@@ -322,8 +322,8 @@ namespace momUI
                                     tempMessageView.sender = helperName;
                                     tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
-                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
-                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(18, a.fontsize), 20);
+                                    tempMessageView.SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+                                    tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     chatMessagesList.Add(tempMessageView);
                                 });
                             }
