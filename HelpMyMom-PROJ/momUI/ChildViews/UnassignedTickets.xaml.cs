@@ -13,11 +13,11 @@ public partial class UnassignedTickets : ContentPage
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public UnassignedTickets(Child acc, Helper h)
 	{
@@ -29,7 +29,7 @@ public partial class UnassignedTickets : ContentPage
 
 	protected override async void OnAppearing()
 	{
-        TopText.FontSize = titleFont + fontOffset;
+        TopText.FontSize = normalFont + titleFont;
 
         using (HttpClient client = new HttpClient())
 		{

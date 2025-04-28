@@ -7,12 +7,11 @@ public partial class ChildMenu : ContentPage
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     Child account;
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
-    int largeBtnFont = 40;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public ChildMenu(Child acc)
 	{
@@ -36,12 +35,12 @@ public partial class ChildMenu : ContentPage
     {
         loggedIn.Text = $"Logged in as {account.FName} {account.LName}";
 
-        loggedIn.FontSize = normalFont + fontOffset;
-        LogOutBtn.FontSize = headerFont + fontOffset;
-        CreateBtn.FontSize = largeBtnFont + fontOffset;
-        AssignBtn.FontSize = largeBtnFont + fontOffset;
-        ProgressBtn.FontSize = largeBtnFont + fontOffset;
-        AccountBtn.FontSize = largeBtnFont + fontOffset;
+        loggedIn.FontSize = normalFont;
+        LogOutBtn.FontSize = normalFont + medBtnFont;
+        CreateBtn.FontSize = normalFont + titleFont;
+        AssignBtn.FontSize = normalFont + titleFont;
+        ProgressBtn.FontSize = normalFont + titleFont;
+        AccountBtn.FontSize = normalFont + titleFont;
     }
 
     async private void CreateTicketClicked(object sender, EventArgs e)

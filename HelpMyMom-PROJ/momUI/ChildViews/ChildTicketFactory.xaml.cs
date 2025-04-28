@@ -15,11 +15,11 @@ public partial class ChildTicketFactory : ContentPage
 
     Child account;
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public ChildTicketFactory(Child acc)
 	{
@@ -29,11 +29,11 @@ public partial class ChildTicketFactory : ContentPage
 
     protected override async void OnAppearing()
     {
-        factortTitle.FontSize = titleFont + fontOffset;
-        explainText.FontSize = headerFont + fontOffset;
-        DetailsEntry.FontSize = normalFont + fontOffset;
+        factortTitle.FontSize = normalFont + titleFont;
+        explainText.FontSize = normalFont + headerFont;
+        DetailsEntry.FontSize = normalFont;
 
-        settingBtn.FontSize = titleFont + fontOffset;
+        settingBtn.FontSize = normalFont + titleFont;
 
         using (HttpClient client = new HttpClient())
         {

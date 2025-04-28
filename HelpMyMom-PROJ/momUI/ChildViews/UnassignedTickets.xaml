@@ -32,13 +32,13 @@
                                 <Label x:Name="statusText"
                                    Text="{Binding Status}"
                                    TextColor="SlateGray"
-                                   FontSize="{Binding normalFontOut}"
+                                   FontSize="{Binding TextSize}"
                                 />
                                 <Label x:Name="detailsText"
                                    Text="{Binding Details}"
                                    LineBreakMode="WordWrap"
                                    TextColor="DarkSlateGray"
-                                   FontSize="{Binding normalFontOut}"
+                                   FontSize="{Binding TextSize}"
                                    MaxLines ="4"
                                 />
                             </StackLayout>

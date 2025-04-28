@@ -12,11 +12,11 @@ public partial class TicketProgress : ContentPage
     List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public TicketProgress(Child acc)
 	{
@@ -27,8 +27,8 @@ public partial class TicketProgress : ContentPage
 
     protected override async void OnAppearing()
     {
-        TopText.FontSize = titleFont + fontOffset;
-        reportText.FontSize = normalFont + fontOffset;
+        TopText.FontSize = normalFont + titleFont;
+        reportText.FontSize = normalFont;
 
         using (HttpClient client = new HttpClient())
         {

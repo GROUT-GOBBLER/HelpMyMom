@@ -17,11 +17,11 @@ public partial class AssignHelperPage : ContentPage
     Child account;
     Ticket? ticket = null;
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public AssignHelperPage(Child acc, Ticket? t = null)
 	{
@@ -37,8 +37,8 @@ public partial class AssignHelperPage : ContentPage
 
     protected override async void OnAppearing()
     {
-        settingBtn.FontSize = headerFont + fontOffset;
-        Searching.FontSize = normalFont + fontOffset;
+        settingBtn.FontSize = normalFont + headerFont;
+        Searching.FontSize = normalFont;
 
         using (HttpClient client = new HttpClient())
         {
@@ -71,7 +71,7 @@ public partial class AssignHelperPage : ContentPage
                             sh.Description = h.Description;
                             sh.Specs = h.Specs;
 
-                            sh.TextOffset = fontOffset;
+                            sh.TextSize = normalFont;
 
                             Double sum = 0;
                             int count = 0;

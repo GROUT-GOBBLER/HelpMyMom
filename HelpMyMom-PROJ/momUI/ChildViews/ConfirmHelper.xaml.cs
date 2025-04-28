@@ -12,11 +12,11 @@ public partial class ConfirmHelper : ContentPage
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public ConfirmHelper(Child acc, Helper h, Ticket? t = null)
 	{
@@ -29,13 +29,13 @@ public partial class ConfirmHelper : ContentPage
 
     protected override async void OnAppearing()
     {
-        Name.FontSize = titleFont + fontOffset;
-        Email.FontSize = normalFont + fontOffset;
-        Rating.FontSize = normalFont + fontOffset;
-        Description.FontSize = normalFont + fontOffset;
-        TextSpecs.FontSize = normalFont + fontOffset;
+        Name.FontSize = normalFont + titleFont;
+        Email.FontSize = normalFont;
+        Rating.FontSize = normalFont;
+        Description.FontSize = normalFont;
+        TextSpecs.FontSize = normalFont;
 
-        confirmBtn.FontSize = titleFont + fontOffset;
+        confirmBtn.FontSize = normalFont + titleFont;
 
         using (HttpClient client = new HttpClient())
         {

@@ -18,11 +18,12 @@ public partial class ChildAccountSettings : ContentPage
     string newLast = "";
     string newMomUser = "";
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
+
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 	
@@ -34,26 +35,26 @@ public partial class ChildAccountSettings : ContentPage
 
     protected override async void OnAppearing()
 	{
-        AccountTitle.FontSize = titleFont + fontOffset;
+        AccountTitle.FontSize = normalFont + titleFont;
 
-        NameText.FontSize = headerFont + fontOffset;
-        AddMom.FontSize = headerFont + fontOffset;
-        RemoveMom.FontSize = headerFont + fontOffset;
-        NotifText.FontSize = headerFont + fontOffset;
-        setOneText.FontSize = normalFont + fontOffset;
-        setTwoText.FontSize = normalFont + fontOffset;
-        setThreeText.FontSize = normalFont + fontOffset;
-        setFourText.FontSize = normalFont + fontOffset;
-        setFiveText.FontSize = normalFont + fontOffset;
+        NameText.FontSize = normalFont + headerFont;
+        AddMom.FontSize = normalFont + headerFont;
+        RemoveMom.FontSize = normalFont + headerFont;
+        NotifText.FontSize = normalFont + headerFont;
+        setOneText.FontSize = normalFont;
+        setTwoText.FontSize = normalFont;
+        setThreeText.FontSize = normalFont;
+        setFourText.FontSize = normalFont;
+        setFiveText.FontSize = normalFont;
 
-        fName.FontSize = normalFont + fontOffset;
-        lName.FontSize = normalFont + fontOffset;
-        MomUsername.FontSize = normalFont + fontOffset;
+        fName.FontSize = normalFont;
+        lName.FontSize = normalFont;
+        MomUsername.FontSize = normalFont;
 
-        changeNameBtn.FontSize = headerFont + fontOffset;
-        AddMomBtn.FontSize = headerFont + fontOffset;
-        RemovedMomBtn.FontSize = headerFont + fontOffset;
-        SetNotifsBtn.FontSize = headerFont + fontOffset;
+        changeNameBtn.FontSize = normalFont + medBtnFont;
+        AddMomBtn.FontSize = normalFont + medBtnFont;
+        RemovedMomBtn.FontSize = normalFont + medBtnFont;
+        SetNotifsBtn.FontSize = normalFont + medBtnFont;
 
         using (HttpClient client = new HttpClient())
 		{

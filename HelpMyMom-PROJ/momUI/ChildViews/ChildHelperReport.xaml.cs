@@ -16,11 +16,11 @@ public partial class ChildHelperReport : ContentPage
     string subject = "";
     string body = "";
 
-    int titleFont = 35;
-    int headerFont = 25;
-    int normalFont = 18;
+    int normalFont = 15;
 
-    int fontOffset = 0;
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public ChildHelperReport(Child acc, Ticket t)
     {
@@ -32,12 +32,12 @@ public partial class ChildHelperReport : ContentPage
 
     protected override async void OnAppearing()
     {
-        TopText.FontSize = titleFont + fontOffset;
-        ReportingText.FontSize = headerFont + fontOffset;
-        SubjectEntry.FontSize = normalFont + fontOffset;
-        DetailsEntry.FontSize = normalFont + fontOffset;
+        TopText.FontSize = normalFont + titleFont;
+        ReportingText.FontSize = normalFont + headerFont;
+        SubjectEntry.FontSize = normalFont;
+        DetailsEntry.FontSize = normalFont;
 
-        ReportBtn.FontSize = headerFont + fontOffset;
+        ReportBtn.FontSize = normalFont + medBtnFont;
 
         using (HttpClient client = new HttpClient())
         {

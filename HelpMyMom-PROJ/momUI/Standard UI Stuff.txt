@@ -7,13 +7,13 @@ scroll views: add at least 20 on the bottom to allow users to see items properly
 ===================
 Default text sizes
 ===================
-Title: 35
-Header: 25
-Normal: 18-20
+Title: 35 (+20)
+Header: 25 (+10)
+Normal: 15
 Buttons:
-	Small: 25
-	Med: 35
-	Large: 40
+	Small: 20 (+5)
+	Med: 30 (+15)
+	Large: 35 (+20)
 
 ============
 Text Colors (refer to TicketProgress for example use)

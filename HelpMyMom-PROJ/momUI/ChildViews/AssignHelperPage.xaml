@@ -47,7 +47,7 @@
                                    Text="{Binding FullDescription}"
                                    LineBreakMode="WordWrap"
                                    TextColor="DarkSlateGray"
-                                   FontSize="{Binding normalFontOut}"
+                                   FontSize="{Binding TextSize}"
                                    MaxLines ="2"
                                    />
                             </StackLayout>
