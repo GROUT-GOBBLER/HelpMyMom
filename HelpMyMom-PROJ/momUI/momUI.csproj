@@ -82,7 +82,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    
+	  <MauiXaml Update="Accessibility Settings.xaml">
+    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+    
 	  <MauiXaml Update="ChildViews\ChildHelperReport.xaml">
+     <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MomViews\MomChatLogs.xaml">
