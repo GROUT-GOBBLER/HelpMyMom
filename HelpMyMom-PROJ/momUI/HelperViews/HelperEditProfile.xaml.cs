@@ -1,17 +1,20 @@
 using momUI.models;
 using Newtonsoft.Json;
-using System.Linq;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace momUI.HelperViews;
 
 public partial class HelperEditProfile : ContentPage
-{
+{   
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     String newUsername = "", newFirstName = "", newLastName = "", newDescription = "", newSpecsList = "";
 
+    List<SpecialtiesView> specsListFull;
+    IList<object> selectedSpecs = []; // used for default selection.
     DateOnly fullDateOfBirth;
 
+    Accessibility fontSizes;
     Account masterAccount;
     Helper masterHelper;
 
@@ -21,6 +24,8 @@ public partial class HelperEditProfile : ContentPage
 
         masterAccount = a;
         masterHelper = h;
+        fontSizes = Accessibility.getAccessibilitySettings();
+        specsListFull = new List<SpecialtiesView>();
 
         DateOfBirthDatePicker.MaximumDate = DateTime.Today;
 
@@ -31,8 +36,95 @@ public partial class HelperEditProfile : ContentPage
             DateOfBirthDatePicker.Date = tempDateOnly.ToDateTime(TimeOnly.Parse("10:00 PM"));
         }
         else { DateOfBirthDatePicker.Date = DateTime.MinValue; }
-            
     }
+    
+    public class SpecialtiesView
+    {
+        public short IdValue { get; set; }
+        public String? Name { get; set; }
+        public double SpecialtyFontSize { get; set; }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        specsListFull = new List<SpecialtiesView>();
+        selectedSpecs = [];
+        
+        SetSpecsList();
+        SetFontSizes();
+    }
+
+    private async void SetSpecsList()
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                HttpResponseMessage specsResponse = await client.GetAsync($"{URL}/{"Specs"}");
+                String specsJSON = await specsResponse.Content.ReadAsStringAsync();
+                List<Spec>? specsList = JsonConvert.DeserializeObject<List<Spec>>(specsJSON); // specsList.
+
+                // Get previously selected specialties.
+                String helperSpecs;
+                if (masterHelper.Specs != null)
+                {
+                    helperSpecs = masterHelper.Specs;
+                }
+                else { helperSpecs = ""; }
+
+                // Populate specsListFull.
+                if (specsList != null)
+                {
+                    foreach (Spec s in specsList)
+                    {
+                        SpecialtiesView tempSpecialtiesView = new SpecialtiesView();
+                        tempSpecialtiesView.IdValue = s.Id;
+                        tempSpecialtiesView.Name = s.Name;
+                        tempSpecialtiesView.SpecialtyFontSize = fontSizes.fontsize;
+
+                        specsListFull.Add(tempSpecialtiesView);
+
+                        if(helperSpecs.Contains(tempSpecialtiesView.IdValue + ""))
+                        {
+                            selectedSpecs.Add(tempSpecialtiesView);
+                        }
+                    }
+                }
+                else { await DisplayAlert("NoSpecsFound", "Error! Failed to find any specs.", "Ok."); }
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Exception", $"An exception occurred in SetSpecList() ... {e}", "Ok.");
+                return;
+            }
+        }
+
+        SpecsCollectionView.ItemsSource = specsListFull;
+         SpecsCollectionView.SelectedItems = selectedSpecs;
+    }
+
+    private void SetFontSizes()
+    {
+        ProfileSettingsLabel.FontSize = fontSizes.fontsize + 20;
+        UsernameLabel.FontSize = fontSizes.fontsize;
+        UsernameEntry.FontSize = fontSizes.fontsize;
+        UsernameEditButton.FontSize = fontSizes.fontsize + 5;
+        FirstNameLabel.FontSize = fontSizes.fontsize;
+        FirstNameEntry.FontSize = fontSizes.fontsize;
+        LastNameEntry.FontSize = fontSizes.fontsize;
+        ChangeNameButton.FontSize = fontSizes.fontsize + 5;
+        DateOfBirthLabel.FontSize = fontSizes.fontsize;
+        DateOfBirthDatePicker.FontSize = fontSizes.fontsize;
+        DateOfBirthButton.FontSize = fontSizes.fontsize + 5;
+        DescriptionLabel.FontSize = fontSizes.fontsize;
+        DescriptionEditor.FontSize = fontSizes.fontsize;
+        DescriptionButton.FontSize = fontSizes.fontsize + 5;
+        SpecialtiesLabel.FontSize = fontSizes.fontsize;
+        AddNewSpecButton.FontSize = fontSizes.fontsize;
+        SpecsButton.FontSize = fontSizes.fontsize;
+    }   
 
     // USERNAME.
     private void UsernameEntry_TextChanged(object sender, TextChangedEventArgs e)
@@ -79,65 +171,62 @@ public partial class HelperEditProfile : ContentPage
         }
 
         newUsername = "";
-        UsernameEntry.Text = null;
+        UsernameEntry.Placeholder = "...";
     }
 
-    // FIRST NAME.
+    // NAME.
     private void FirstNameEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         newFirstName = e.NewTextValue;
     }
 
-    async private void FirstNameButton_Clicked(object sender, EventArgs e)
-    {
-        using(HttpClient client = new HttpClient())
-        {
-            try
-            {
-                masterHelper.FName = newFirstName;
-                
-                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
-                
-                if (response3.IsSuccessStatusCode) { FirstNameButton.Text = $"Success!"; }
-                else { FirstNameButton.Text = $"Failure."; }
-            }
-            catch(Exception except)
-            {
-                FirstNameButton.Text = $"Exception Occurred: {except}";
-            }
-        }
-
-        newFirstName = "";
-        FirstNameEntry.Text = null;
-    }
-
-    // LAST NAME.
     private void LastNameEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         newLastName = e.NewTextValue;
     }
 
-    async private void LastNameButton_Clicked(object sender, EventArgs e)
+    async private void ChangeNameButton_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
         {
             try
             {
-                masterHelper.LName = newLastName;
-                
-                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
+                if(newFirstName != "")
+                {
+                    masterHelper.FName = newFirstName;
+                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
 
-                if (response3.IsSuccessStatusCode) { LastNameButton.Text = $"Success!"; }
-                else { LastNameButton.Text = $"Failure."; }
+                    if (response3.IsSuccessStatusCode) { ChangeNameButton.Text = "Success!"; }
+                    else { ChangeNameButton.Text = "Failure 1."; }
+                }
             }
             catch (Exception except)
             {
-                LastNameButton.Text = $"Exception Occurred: {except}";
+                ChangeNameButton.Text = $"Exception Occurred: {except}";
+            }
+
+            try
+            {
+                if(newLastName != "")
+                {
+                    masterHelper.LName = newLastName;
+                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
+
+                    if (response3.IsSuccessStatusCode) { ChangeNameButton.Text = " Success."; }
+                    else { ChangeNameButton.Text = "Failure 2."; }
+                }
+                
+            }
+            catch (Exception except)
+            {
+                ChangeNameButton.Text = $"Exception Occurred: {except}";
             }
         }
 
+        newFirstName = "";
         newLastName = "";
-        LastNameEntry.Text = null;
+        FirstNameEntry.Placeholder = "First name";
+        LastNameEntry.Placeholder = "Last name";
     }
 
     // DATE OF BIRTH.
@@ -170,17 +259,24 @@ public partial class HelperEditProfile : ContentPage
     }
 
     // SPECS.
-    private void SpecsEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        newSpecsList = e.NewTextValue;
-    }
-
     async private void SpecsButton_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
         {
             try
             {
+                foreach(SpecialtiesView sv in specsListFull)
+                {
+                    if(sv.IdValue != specsListFull.Last<SpecialtiesView>().IdValue) // not the last element in the list.
+                    {
+                        newSpecsList += $"{sv.IdValue}, ";
+                    }
+                    else // last element in the list.
+                    {
+                        newSpecsList += $"{sv.IdValue}";
+                    }
+                }
+
                 masterHelper.Specs = newSpecsList;
                 HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
 
@@ -192,13 +288,29 @@ public partial class HelperEditProfile : ContentPage
                 SpecsButton.Text = $"Exception occured ... {except}";
             }
         }
-
+        
         newSpecsList = "";
-        SpecsEntry.Text = null;
+    }
+
+    private void SpecsCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        IReadOnlyList<object> temp = e.CurrentSelection;
+
+        specsListFull = new List<SpecialtiesView>();
+
+        foreach(object o in temp)
+        {
+            SpecialtiesView tempSpec = (SpecialtiesView) o;
+            specsListFull.Add(tempSpec);
+        }
+    }
+    async private void AddNewSpecButton_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new AddSpecialty());
     }
 
     // DESCRIPTION.
-    private void DescriptionEntry_TextChanged(object sender, TextChangedEventArgs e)
+    private void DescriptionEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
         newDescription = e.NewTextValue;
     }
@@ -223,6 +335,6 @@ public partial class HelperEditProfile : ContentPage
         }
 
         newDescription = "";
-        DescriptionEntry.Text = null;
+        DescriptionEditor.Text = "";
     }
 }

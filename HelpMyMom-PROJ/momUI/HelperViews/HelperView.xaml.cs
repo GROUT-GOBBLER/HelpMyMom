@@ -8,6 +8,7 @@ namespace momUI;
 public partial class HelperView : ContentPage
 {
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+    Accessibility fontSizes;
     Account masterAccount;
     Helper masterHelper;
 
@@ -16,9 +17,23 @@ public partial class HelperView : ContentPage
 		InitializeComponent();
 
         masterAccount = a;
+        fontSizes = Accessibility.getAccessibilitySettings();
         masterHelper = new Helper();
-        
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
         populateHelper();
+
+        // Set font sizes.
+        LoggedInAsLabel.FontSize = fontSizes.fontsize + 20;
+        CurrentBalanceLabel.FontSize = fontSizes.fontsize;
+        SettingsButton.FontSize = fontSizes.fontsize + 5;
+        LogOutButton.FontSize = fontSizes.fontsize + 5;
+        OpenChatsButton.FontSize = fontSizes.fontsize + 25;
+        OpenTicketsButton.FontSize = fontSizes.fontsize + 25;
+        OpenProfileButton.FontSize = fontSizes.fontsize + 25;
     }
 
     private async void populateHelper() // puts the valid helper object into masterHelper. 
@@ -54,6 +69,7 @@ public partial class HelperView : ContentPage
             }
         }
 
+        LoggedInAsLabel.Text = $"Hello\n{masterHelper.FName}...";
         CurrentBalanceLabel.Text = $"Balance: {masterHelper.Tokens}";
     }
     

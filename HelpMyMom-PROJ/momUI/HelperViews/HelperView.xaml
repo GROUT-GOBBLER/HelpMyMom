@@ -5,15 +5,22 @@
              Title="HelperView">
     <ScrollView>
         <VerticalStackLayout
-            Margin="20,20,20,20"
-            Padding="10">
-
+            Margin="15">
             <VerticalStackLayout Padding="10">
+                <Label
+                    x:Name="LoggedInAsLabel"
+                    Text="Logged in as ..."
+                    LineBreakMode="WordWrap"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Margin="10"/>
+                
                 <Label 
                     x:Name="CurrentBalanceLabel"
                     Text="Balance: $X.XX"
                     VerticalOptions="Center" 
-                    HorizontalOptions="Start" />
+                    HorizontalOptions="Start"
+                    Padding="10"/>
 
                 <HorizontalStackLayout
                     Spacing="10">
@@ -21,6 +28,8 @@
                         x:Name="SettingsButton"
                         Text="Settings."
                         Clicked="SettingsButton_Clicked"
+                        TextColor="White"
+                        BackgroundColor="Gray"
                         VerticalOptions="Center"
                         HorizontalOptions="Start"/>
 
@@ -28,6 +37,8 @@
                         x:Name="LogOutButton"
                         Text="Log Out."
                         Clicked="LogOutButton_Clicked"
+                        TextColor="Pink"
+                        BackgroundColor="DarkRed"
                         VerticalOptions="Center"
                         HorizontalOptions="Center" />
                 </HorizontalStackLayout>
@@ -36,6 +47,8 @@
             <Button
                 x:Name="OpenChatsButton"
                 Text="Chats."
+                TextColor="LightBlue"
+                BackgroundColor="#3033aa"
                 SemanticProperties.Hint="Open all of the current chats."
                 Margin="20"
                 Clicked="OpenChatsButton_Clicked"
@@ -45,6 +58,8 @@
             <Button
                 x:Name="OpenTicketsButton"
                 Text="Tickets."
+                TextColor="LightBlue"
+                BackgroundColor="#3033aa"                
                 SemanticProperties.Hint="Look at all of the available tickets."
                 Margin="20"
                 Clicked="OpenTicketsButton_Clicked"
@@ -54,6 +69,8 @@
             <Button
                 x:Name="OpenProfileButton"
                 Text="Profile."
+                TextColor="LightBlue"
+                BackgroundColor="#3033aa"
                 SemanticProperties.Hint="Open the 'Profile' page."
                 Margin="20"
                 Clicked="OpenProfileButton_Clicked"

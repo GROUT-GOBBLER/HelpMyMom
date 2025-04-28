@@ -56,7 +56,7 @@ public partial class QuickLogin : ContentPage
                             {
                                 tempHelper = h;
                                 found = true;
-                                break;
+                                break;  
                             }
                         }
                         if (!found) { await DisplayAlert("HelpersNotFound", "Error! Helper not found.", "Ok."); }

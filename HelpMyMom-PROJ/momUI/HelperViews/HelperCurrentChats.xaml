@@ -4,11 +4,9 @@
              x:Class="momUI.HelperViews.HelperCurrentChats"
              Title="HelperCurrentChats">
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <VerticalStackLayout Margin="15">
             <Label 
-                x:Name="SWAGLABEL"
+                x:Name="CurrentChatsLabel"
                 Text="CURRENT CHATS."
                 FontSize="Header"
                 VerticalOptions="Center" 
@@ -20,12 +18,12 @@
                     VerticalOptions="Center"
                     VerticalScrollBarVisibility="Never" 
                     HasUnevenRows="True" 
-                    ItemTapped="CurrentChatsListView_ItemTapped">
+                    ItemTapped="CurrentChatsListView_ItemTapped"
+                    Margin="0,0,0,20">
                     <ListView.ItemTemplate>                    
                         <DataTemplate>
                             <ViewCell>
-                                <Grid
-                                    Padding="10">
+                                <Grid Padding="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -33,19 +31,16 @@
                                 </Grid.RowDefinitions>
                                     <Label 
                                         Grid.Row="0"
-                                        Text="{Binding momName}"
-                                        FontSize="25"
-                                        FontAttributes="Bold"/>
+                                        FontSize="{Binding MomNameFontSize}"
+                                        Text="{Binding momName}"/>
                                     <Label 
                                         Grid.Row="1"
-                                        Text="{Binding lastMessageTime}"
-                                        FontSize="15"
-                                        FontAttributes="None"/>
+                                        FontSize="{Binding LatestMessageTimeFontSize}"
+                                        Text="{Binding lastMessageTime}"/>
                                     <Label 
                                         Grid.Row="2"
-                                        Text="{Binding lastMessageSent}"
-                                        FontSize="15"
-                                        FontAttributes="Italic" />
+                                        FontSize="{Binding LatestMessageTextFontSize}"
+                                        Text="{Binding lastMessageSent}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

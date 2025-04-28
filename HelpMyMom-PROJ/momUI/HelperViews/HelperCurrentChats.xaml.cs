@@ -5,17 +5,22 @@ namespace momUI.HelperViews;
 
 public partial class HelperCurrentChats : ContentPage
 {
-	List<ChatLogView> CHATLOG_LIST;
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+    
+    List<ChatLogView> CHATLOG_LIST;
+    Accessibility fontSize;
     Helper masterHelper;
     Account masterAccount;
 
     public HelperCurrentChats(Account a, Helper h)
 	{
         InitializeComponent();
+        
         masterHelper = h;
         masterAccount = a;
+
         CHATLOG_LIST = new List<ChatLogView>();
+        fontSize = Accessibility.getAccessibilitySettings();
     }
 
 	private class ChatLogView
@@ -23,12 +28,21 @@ public partial class HelperCurrentChats : ContentPage
 		public int? ticketID { get; set; }
 		public String? momName { get; set; }
 		public String? lastMessageSent { get; set; }
-		public DateTime? lastMessageTime { get; set; }
+		public String? lastMessageTime { get; set; }
+        public double MomNameFontSize { get; set; }
+        public double LatestMessageTimeFontSize { get; set; }
+        public double LatestMessageTextFontSize { get; set; }
 	}
 
 	protected override async void OnAppearing() // determines what the page does when it opens.
 	{
-		using (HttpClient client = new HttpClient())
+        
+        base.OnAppearing();
+        CurrentChatsLabel.FontSize = fontSize.fontsize;
+
+        CHATLOG_LIST = new List<ChatLogView>();
+
+        using (HttpClient client = new HttpClient())
 		{
 			// Get Mom, chatlog, ticket.
 			HttpResponseMessage motherResponse = await client.GetAsync($"{URL}/{"Mothers"}");
@@ -47,6 +61,7 @@ public partial class HelperCurrentChats : ContentPage
                 {
                     if (t.HelperId == masterHelper.Id && (t.Status == "INPROGRESS" || t.Status == "COMPLETED"))
                     {
+                        int? TESTvalue = -1;
                         Mother tempMother = new Mother(); // find the mom.
                         if(mothersList != null)
                         {
@@ -54,6 +69,7 @@ public partial class HelperCurrentChats : ContentPage
                             {
                                 if (t.MomId == m.Id)
                                 {
+                                    TESTvalue = t.Id;
                                     tempMother = m;
                                     break;
                                 }
@@ -66,14 +82,30 @@ public partial class HelperCurrentChats : ContentPage
 
                         if(chatLogsList != null)
                         {
+                            bool found = false; // if no chats exist yet.
                             foreach (ChatLog c in chatLogsList) // For each chatLog from that ticket...
                             {
                                 if (c.TicketId == t.Id)
                                 {
+                                    found = true;
+                                    
                                     tempChatLogView.ticketID = c.TicketId;
-                                    tempChatLogView.lastMessageTime = c.Time;
+                                    tempChatLogView.lastMessageTime = c.Time.ToString();
                                     tempChatLogView.lastMessageSent = c.Text;
+                                    
+                                    // setting font sizes.
+                                    tempChatLogView.MomNameFontSize = fontSize.fontsize + 10;
+                                    tempChatLogView.LatestMessageTimeFontSize = fontSize.fontsize;
+                                    tempChatLogView.LatestMessageTextFontSize = fontSize.fontsize;
                                 }
+                            }
+
+                            if (!found)
+                            {
+                                tempChatLogView.ticketID = TESTvalue;
+                                tempChatLogView.lastMessageTime = "";
+                                tempChatLogView.lastMessageSent = "";
+                                tempChatLogView.MomNameFontSize = fontSize.fontsize + 10; // font size for mother's name.
                             }
                         }
                         else { await DisplayAlert("ChatlogsNotFound", "Error! Failed to find any ChatLogs.", "Ok."); }

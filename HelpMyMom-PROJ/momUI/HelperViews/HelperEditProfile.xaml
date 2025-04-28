@@ -4,23 +4,22 @@
              x:Class="momUI.HelperViews.HelperEditProfile"
              Title="HelperEditProfile">
     <ScrollView
-        Margin="20,20,20,20">
+        Margin="15">
         <VerticalStackLayout
-            Spacing="20">
+            Spacing="30">
             <Label 
-                Text="EDIT Profile!"
-                FontSize="50"
+                x:Name="ProfileSettingsLabel"
+                Text="Profile Settings"
                 FontAttributes="Bold"
-                VerticalOptions="Start" 
-                HorizontalOptions="Start" />
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
         
             <!-- USER NAME. -->
-            <VerticalStackLayout
-                Spacing="0">
+            <VerticalStackLayout>
                 <HorizontalStackLayout>
                     <Label 
+                        x:Name="UsernameLabel"
                         Text="Username: "
-                        FontSize="25"
                         VerticalOptions="Center"
                         HorizontalOptions="Start"/>
 
@@ -37,77 +36,57 @@
                 <Button
                     x:Name="UsernameEditButton"
                     Text="Submit."
+                    TextColor="LightBlue"
+                    BackgroundColor="#3033aa"
                     SemanticProperties.Hint="Submit edited user name for profile."
                     Clicked="UsernameEditButton_Clicked"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"/>
             </VerticalStackLayout>
 
-            <!-- FIRST NAME. -->
-            <VerticalStackLayout
-                Spacing="0">
-                <HorizontalStackLayout>
-                    <Label 
-                    Text="First name: "
-                    FontSize="25"
+            <!-- NAME. -->
+            <VerticalStackLayout>
+                <Label 
+                    x:Name="FirstNameLabel"
+                    Text="Name: "
                     VerticalOptions="Center"
                     HorizontalOptions="Start"/>
 
-                    <Entry 
-                    x:Name="FirstNameEntry" 
-                    Placeholder="..." 
-                    TextChanged="FirstNameEntry_TextChanged"
-                    ClearButtonVisibility="WhileEditing"
-                    WidthRequest="200"
-                    VerticalOptions="Center"
-                    HorizontalOptions="End"/>
-                </HorizontalStackLayout>
-
-                <Button
-                    x:Name="FirstNameButton"
-                    Text="Submit."
-                    SemanticProperties.Hint="Submit edited first name for profile."
-                    Clicked="FirstNameButton_Clicked"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"/>
-            </VerticalStackLayout>
-
-            <!-- LAST NAME. -->
-            <VerticalStackLayout
-                Spacing="0">
-                <HorizontalStackLayout>
-                    <Label 
-                        Text="Last name: "
-                        FontSize="25"
+                <Entry 
+                        x:Name="FirstNameEntry" 
+                        Placeholder="First name"
+                        TextChanged="FirstNameEntry_TextChanged"
+                        ClearButtonVisibility="WhileEditing"
+                        WidthRequest="200"
                         VerticalOptions="Center"
                         HorizontalOptions="Start"/>
 
-                    <Entry 
+                <Entry 
                         x:Name="LastNameEntry" 
-                        Placeholder="..." 
+                        Placeholder="Last name" 
                         TextChanged="LastNameEntry_TextChanged"
                         ClearButtonVisibility="WhileEditing"
                         WidthRequest="200"
                         VerticalOptions="Center"
-                        HorizontalOptions="End"/>
-                </HorizontalStackLayout>
+                        HorizontalOptions="Start"/>
 
                 <Button
-                    x:Name="LastNameButton"
+                    x:Name="ChangeNameButton"
                     Text="Submit."
-                    SemanticProperties.Hint="Submit edited last name for profile."
-                    Clicked="LastNameButton_Clicked"
+                    TextColor="LightBlue"
+                    BackgroundColor="#3033aa"
+                    SemanticProperties.Hint="Submit edited first name for profile."
+                    Clicked="ChangeNameButton_Clicked"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"/>
             </VerticalStackLayout>
-        
+
             <!-- DATE OF BIRTH -->
-            <VerticalStackLayout
-                Spacing="0">
+            <VerticalStackLayout>
                 <HorizontalStackLayout>
                     <Label 
+                        x:Name="DateOfBirthLabel"
                         Text="Date of Birth: "
-                        FontSize="25"
                         VerticalOptions="Center"
                         HorizontalOptions="Start"/>
 
@@ -120,6 +99,8 @@
                 <Button
                     x:Name="DateOfBirthButton"
                     Text="Submit."
+                    TextColor="LightBlue"
+                    BackgroundColor="#3033aa"                    
                     SemanticProperties.Hint="Submit edited date of birth for profile."
                     Clicked="DateOfBirthButton_Clicked"
                     VerticalOptions="Center"
@@ -127,28 +108,35 @@
             </VerticalStackLayout>
 
             <!-- DESCRIPTION. -->
-            <VerticalStackLayout
-                Spacing="0">
-                <HorizontalStackLayout>
-                    <Label 
-                        Text="Description: "
-                        FontSize="25"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Start"/>
+            <VerticalStackLayout>
+                <Label 
+                    x:Name="DescriptionLabel"
+                    Text="Description: "
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"/>
+                <Border
+                    Stroke="Black"
+                    StrokeThickness="2"
+                    Margin="0,0,0,20">
+                    <Editor
+                        x:Name="DescriptionEditor"
+                        TextChanged="DescriptionEditor_TextChanged"
+                        WidthRequest="378"
+                        AutoSize="TextChanges"
+                        IsSpellCheckEnabled="True"
+                        IsTextPredictionEnabled="True"
+                        MaxLength="2000"
+                        HorizontalTextAlignment="Start"
+                        VerticalTextAlignment="Start"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+                </Border>
 
-                    <Entry 
-                        x:Name="DescriptionEntry" 
-                        Placeholder="..." 
-                        TextChanged="DescriptionEntry_TextChanged"
-                        ClearButtonVisibility="WhileEditing"
-                        WidthRequest="200"
-                        VerticalOptions="Center"
-                        HorizontalOptions="End"/>
-                </HorizontalStackLayout>
-            
                 <Button
                     x:Name="DescriptionButton"
                     Text="Submit."
+                    TextColor="LightBlue"
+                    BackgroundColor="#3033aa"                    
                     SemanticProperties.Hint="Submit edited description for profile."
                     Clicked="DescriptionButton_Clicked"
                     VerticalOptions="Center"
@@ -156,32 +144,57 @@
             </VerticalStackLayout>
         
             <!-- SPECS LIST. -->
-            <VerticalStackLayout
-                Spacing="0">
-                <HorizontalStackLayout>
-                    <Label 
-                        Text="Specialties: "
-                        FontSize="25"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Start"/>
-
-                    <Entry 
-                        x:Name="SpecsEntry" 
-                        Placeholder="..." 
-                        TextChanged="SpecsEntry_TextChanged"
-                        ClearButtonVisibility="WhileEditing"
-                        WidthRequest="200"
-                        VerticalOptions="Center"
-                        HorizontalOptions="End"/>
-                </HorizontalStackLayout>
-            
-                <Button
-                    x:Name="SpecsButton"
-                    Text="Submit."
-                    SemanticProperties.Hint="Submit edited specialties list for profile."
-                    Clicked="SpecsButton_Clicked"
+            <VerticalStackLayout>
+                <Label 
+                    x:Name="SpecialtiesLabel"
+                    Text="Specialties: "
                     VerticalOptions="Center"
                     HorizontalOptions="Start"/>
+
+                <CollectionView
+                    x:Name="SpecsCollectionView"
+                    SelectionMode="Multiple"
+                    SelectionChanged="SpecsCollectionView_SelectionChanged"
+                    BackgroundColor="LightGray"
+                    Margin="5,5,5,10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Grid.Row="0" 
+                                    Text="{Binding Name}"
+                                    FontSize="{Binding SpecialtyFontSize}"
+                                    FontAttributes="None"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <VerticalStackLayout Spacing="10">
+                    <Button 
+                        x:Name="AddNewSpecButton"
+                        Text="Add a new specialty."
+                        TextColor="LightGreen"
+                        BackgroundColor="DarkGreen" 
+                        SemanticProperties.Hint="Add a new specialty."
+                        Clicked="AddNewSpecButton_Clicked"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+                    <Button
+                        x:Name="SpecsButton"
+                        Text="Submit."
+                        TextColor="LightBlue"
+                        BackgroundColor="#3033aa"                        
+                        SemanticProperties.Hint="Submit edited specialties list for profile."
+                        Clicked="SpecsButton_Clicked"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"/>
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

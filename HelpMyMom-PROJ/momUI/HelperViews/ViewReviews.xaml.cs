@@ -6,24 +6,35 @@ namespace momUI.HelperViews;
 public partial class ViewReviews : ContentPage
 {
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+
+    Accessibility fontSizes;
     List<ReviewView> listOfAllReviews;
     Helper masterHelper;
 
-	private class ReviewView
-	{
-		public double numberOfStars { get; set; }
-        public String? reviewTextContent { get; set; }
-	}
-
-	public ViewReviews(Helper h)
-	{
-		InitializeComponent();
+    public ViewReviews(Helper h)
+    {
+        InitializeComponent();
 
         masterHelper = h;
-		listOfAllReviews = new List<ReviewView>();
+        listOfAllReviews = new List<ReviewView>();
+        fontSizes = Accessibility.getAccessibilitySettings();
 
         PopulateReviews();
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ReviewsLabel.FontSize = fontSizes.fontsize + 20;
+    }
+
+    private class ReviewView
+	{
+		public double numberOfStars { get; set; }
+        public String? reviewTextContent { get; set; }
+        public double ReviewStarFontSize { get; set; }
+        public double ReviewTextFontSize { get; set; }
+	}
 
     async void PopulateReviews() // determines what the page does when it opens.
     {
@@ -45,6 +56,8 @@ public partial class ViewReviews : ContentPage
                             {
                                 ReviewView tempReviewView = new ReviewView();
                                 tempReviewView.reviewTextContent = r.Text;
+                                tempReviewView.ReviewStarFontSize = fontSizes.fontsize + 10;
+                                tempReviewView.ReviewTextFontSize = fontSizes.fontsize;
                                 if(r.Stars != null)
                                 {
                                     tempReviewView.numberOfStars = (double)(r.Stars / 2.0);

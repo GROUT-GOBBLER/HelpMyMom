@@ -7,10 +7,10 @@ namespace momUI.HelperViews;
 public partial class HelperWriteReport : ContentPage
 {
     string URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-    
     String ticketSummaryText = "";
-
     int? ticketID;
+
+    Accessibility fontSizes;
     Helper masterHelper;
     Account masterAccount;
 
@@ -18,8 +18,23 @@ public partial class HelperWriteReport : ContentPage
 	{
 		InitializeComponent();
         ticketID = t_id;
+
+        fontSizes = Accessibility.getAccessibilitySettings();
         masterHelper = h;
         masterAccount = a;
+    }
+
+    protected override void OnAppearing()
+    {
+        SetFontSizes();
+    }
+
+    private void SetFontSizes()
+    {
+        TicketSummaryLabel.FontSize = fontSizes.fontsize + 20;
+        TicketDescriptionLabel.FontSize = fontSizes.fontsize;
+        HelperTicketSummaryEditor.FontSize = fontSizes.fontsize;
+        SubmitTicketSummaryButton.FontSize = fontSizes.fontsize + 15;
     }
 
     async private void SubmitTicketSummaryButton_Clicked(object sender, EventArgs e)
@@ -57,7 +72,11 @@ public partial class HelperWriteReport : ContentPage
                     tempTicket.LogForm = ticketSummaryText;
 
                     // increase balance by $19.99
-                    masterHelper.Tokens += 19.99;
+                    if(masterHelper.Tokens != null)
+                    {
+                        masterHelper.Tokens = Double.Round((double)(masterHelper.Tokens + 19.99), 2); ;
+                    }
+                    else { await DisplayAlert("NoTokensFound", "Error! Helper doesn't have tokens.", "Ok."); }
 
                     HttpResponseMessage editTicket = await client.PutAsJsonAsync($"{URL}/Tickets/{ticketID}", tempTicket);
                     HttpResponseMessage editHelper = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);

@@ -10,11 +10,14 @@ namespace momUI
     internal class Accessibility
     {
         private static Accessibility accessibilitySettings;
+
         public int fontsize { get; set; }
+        
         private Accessibility(int fontsize)
         {
             this.fontsize = fontsize;
         }
+        
         public static Accessibility getAccessibilitySettings()
         {
             if (accessibilitySettings == null)
@@ -24,6 +27,7 @@ namespace momUI
             return accessibilitySettings;
 
         }
+        
         public void setFontSize(int fontsize)
         {
             this.fontsize = fontsize;

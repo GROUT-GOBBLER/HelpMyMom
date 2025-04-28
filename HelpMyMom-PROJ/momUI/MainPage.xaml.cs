@@ -7,7 +7,6 @@ namespace momUI
 {
     public partial class MainPage : ContentPage
     {
-        //string URL = $"http://localhost:5124/api";
         string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
         public MainPage()
@@ -22,9 +21,7 @@ namespace momUI
                 try
                 {
                     HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Accounts"}/{UsernameEntry.Text}");
-
                     string json = await response2.Content.ReadAsStringAsync();
-
                     Account account = JsonConvert.DeserializeObject<Account>(json);
 
 
@@ -65,7 +62,10 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
 
                         Helper helper = JsonConvert.DeserializeObject<Helper>(json);
-                        await Navigation.PushAsync(new HelperView(account));
+                        if (Application.Current != null)
+                        {
+                            Application.Current.MainPage = new NavigationPage(new HelperView(account));
+                        }
                         return;
                     }
                     else if (account.MomId != null)
@@ -79,10 +79,7 @@ namespace momUI
                         return;
                     }
 
-
                     LoginButton.Text = $"Some sort of error happened with the account creation";
-
-
 
                 }
                 catch (Exception ex)
@@ -103,8 +100,9 @@ namespace momUI
             await Navigation.PushAsync(new SignUpPage());
         }
 
-        private void AccessibiltySettings_Clicked(object sender, EventArgs e)
+        async private void AccessibiltySettings_Clicked(object sender, EventArgs e)
         {
+            await Navigation.PushAsync(new Accessibility_Settings());
         }
 
         async private void QuickLogin_Clicked(object sender, EventArgs e)

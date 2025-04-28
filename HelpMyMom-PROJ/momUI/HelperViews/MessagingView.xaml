@@ -5,26 +5,27 @@
              Title="MessagingView">
     <ScrollView
         VerticalScrollBarVisibility="Always"
-        Margin="20" >
+        Margin="15" >
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <HorizontalStackLayout Spacing="30" >
+            <VerticalStackLayout>
                 <Label
                     x:Name="MomNameTextBox"
-                    FontSize="Large"
+                    LineBreakMode="WordWrap"
                     VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    FontAttributes="Bold"/>
+                    HorizontalOptions="Start"/>
 
                 <Button 
                     x:Name="TicketApprovedButton"
                     Text=""
+                    TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"
                     Clicked="TicketApprovedButton_Clicked"
                     SemanticProperties.Hint="Mark the ticket as APPROVED."
                     VerticalOptions="Center"
-                    HorizontalOptions="End"/>
-            </HorizontalStackLayout>
+                    HorizontalOptions="Start"/>
+            </VerticalStackLayout>
 
             <ListView 
                 x:Name="ChatMessageListView"  
@@ -45,18 +46,15 @@
                                 <Label 
                                     Grid.Row="0"
                                     Text="{Binding sender}"
-                                    FontSize="25"
-                                    FontAttributes="Bold" />
+                                    FontSize="{Binding MessageSenderFontSize}"/>
                                 <Label 
                                     Grid.Row="1"
-                                    Text="{Binding timeOfSent}"                                       
-                                    FontSize="15"                                    
-                                    FontAttributes="None" />
+                                    Text="{Binding timeOfSent}"
+                                    FontSize="{Binding MessageOtherFontSize}"/>
                                 <Label 
                                     Grid.Row="2"
-                                    Text="{Binding messageTextContent}"
-                                    FontSize="15"
-                                    FontAttributes="Italic"                                           
+                                    Text="{Binding messageTextContent}"    
+                                    FontSize="{Binding MessageOtherFontSize}"
                                     VerticalOptions="End" />
                             </Grid>
                         </ViewCell>
@@ -64,8 +62,10 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <VerticalStackLayout
-                HorizontalOptions="Center">
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="10"
+                Margin="0,0,0,40">
                 <Editor 
                     x:Name="MessageTextEntry"
                     Placeholder="Enter your message."
@@ -74,19 +74,21 @@
                     AutoSize="TextChanges"
                     HorizontalTextAlignment="Start"
                     VerticalTextAlignment="Start"
-                    MinimumWidthRequest="350"
+                    WidthRequest="260"
                     MaxLength="2000"
                     VerticalOptions="Fill"        
                     HorizontalOptions="Fill" />
 
                 <Button
                     x:Name="SendChatMessage"
-                    Text="Send message."     
+                    Text="➤"     
+                    BackgroundColor="#3033aa"
+                    TextColor="LightBlue"
                     SemanticProperties.Hint="Send the typed message."
                     Clicked="SendChatMessage_Clicked"
-                    VerticalOptions="End"
-                    HorizontalOptions="End" />
-            </VerticalStackLayout>
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"/>
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

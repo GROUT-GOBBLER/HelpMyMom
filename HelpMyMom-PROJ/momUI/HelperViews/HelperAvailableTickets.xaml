@@ -4,12 +4,11 @@
              x:Class="momUI.HelperViews.HelperAvailableTickets"
              Title="HelperAvailableTickets">
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout
+            Margin="15">
             <Label 
                 x:Name="AvailableTicketsExceptionLabel"
                 Text="Available Tickets."
-                FontSize="Title"
-                FontAttributes="Bold"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
@@ -20,12 +19,11 @@
                 VerticalScrollBarVisibility="Never"
                 ItemSelected="AvailableTicketsListView_ItemSelected"
                 HasUnevenRows="True"
-                Margin="10">
+                Margin="0,0,0,20">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid
-                                ColumnSpacing="10">
+                            <Grid ColumnSpacing="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
@@ -33,13 +31,12 @@
                                 <Label 
                                     Grid.Row="0"
                                     Text="{Binding momName}"
-                                    FontSize="Large"
+                                    FontSize="{Binding MomNameFontSize}"
                                     x:Name="AvailableTicketPersonName"/>
                                 <Label
                                     Grid.Row="1"
                                     Text="{Binding ticketDescription}"
-                                    FontSize="Small"
-                                    FontAttributes="Italic"
+                                    FontSize="{Binding TicketDescriptionFontSize}"
                                     LineBreakMode="WordWrap"
                                     x:Name="AvailableTicketTopic"/>                        
                             </Grid>
