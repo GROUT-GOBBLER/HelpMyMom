@@ -51,7 +51,7 @@ public partial class QuickLogin : ContentPage
 
             string json = await response2.Content.ReadAsStringAsync();
             Mother mom = JsonConvert.DeserializeObject<Mother>(json);
-            await Navigation.PushAsync(new MomMenu());
+            await Navigation.PushAsync(new MomMenu("LoveMyRan", 0));
         }
 
     }

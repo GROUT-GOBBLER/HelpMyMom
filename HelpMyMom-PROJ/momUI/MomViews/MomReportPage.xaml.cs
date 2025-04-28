@@ -3,24 +3,23 @@ using System.Net.Http.Json;
 using momUI.models;
 using Newtonsoft.Json;
 using System.Net.Http;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 
 namespace momUI
 {
-    public partial class MomReviewPage : ContentPage
+    public partial class MomReportPage : ContentPage
     {
 
 
         public string ReviewText { get; set; }
-        public int Rating { get; set; } = 0; 
-        // Default rating of 0. Maximum of 10. (Out of 5 stars)
+        public string SubjectText { get; set; }
+
 
         private int _momAccountID;
         private int _helperAccountID;
         private int _ticketID;
 
-        public MomReviewPage(int momID, int helperID, int ticketID)
+        public MomReportPage(int momID, int helperID, int ticketID)
         {
             InitializeComponent();
             BindingContext = this;
@@ -31,35 +30,19 @@ namespace momUI
             UpdatePageVariables();
 
         }
-        protected override void OnAppearing()
+
+        protected override async void OnAppearing()
         {
             Accessibility a = Accessibility.getAccessibilitySettings();
             PageTitle.FontSize = Math.Min(Math.Max(30, a.fontsize + 20), 50);
-
-            MomReviewTemplateText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
-
-            RatingDialogue.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
-            RatingPicker.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
-
-            PleaseWriteReview.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            MomReportTemplateText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            SubjectLabel.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            IssueSubjectBox.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
             IssueDescriptionBox1.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
-
-            SubmitTicketButton1.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
-
             GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
-
+            SubmitReportButton.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
         }
 
-
-        private async void OnRatingSelected(object sender, EventArgs e)
-        {
-            if (RatingPicker.SelectedItem != null)
-            {
-                int selectedRating = (int)RatingPicker.SelectedItem;
-                // SelectedRatingLabel.Text = $"Selected Rating: {selectedRating}/10";
-                Rating = selectedRating;
-            }
-        }
 
         private async void UpdatePageVariables()
         {          
@@ -80,15 +63,15 @@ namespace momUI
                         // await DisplayAlert("Testing:", "Got here at least", "OK");
                         if (index.Id == _helperAccountID)
                         {
-                            MomReviewTemplateText.Text = $"How did {index.FName} {index.LName} do in assisting you?";
+                            MomReportTemplateText.Text = $"What problems are you having with {index.FName} {index.LName}?";
                             break;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Cannot find helper ID
-                    MomReviewTemplateText.Text = $"ERROR: ({ex.Message}), could not load the helper's account.";
+                    // Could not find helper's name
+                    MomReportTemplateText.Text = $"ERROR: ({ex.Message}), could not load the helper's account.";
                 }
 
             }
@@ -99,11 +82,13 @@ namespace momUI
             await Navigation.PopAsync();
         }
 
+
         private async void OnSubmitClicked(object sender, EventArgs e)
         {
-            if (Rating == 0)
+            // Need to fill both fields.
+            if (string.IsNullOrEmpty(ReviewText) || string.IsNullOrEmpty(SubjectText))
             {
-                await DisplayAlert("ERROR:", "Please rate this helper before submitting!", "OK");
+                await DisplayAlert("ERROR:", "Fields for Subject and Explanation need to be filled!", "OK");
                 return;
             }
 
@@ -111,38 +96,40 @@ namespace momUI
             {
                 try
                 {
+                    // await DisplayAlert("1:", "Successfully Loaded Into the try", "OK");
+
                     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
                     HttpResponseMessage response1 = await client.GetAsync(URL + "/Tickets");
                     HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
                     HttpResponseMessage response3 = await client.GetAsync(URL + "/Helpers");
                     HttpResponseMessage response4 = await client.GetAsync(URL + "/Children");
-                    HttpResponseMessage response5 = await client.GetAsync(URL + "/Reviews");
+                    HttpResponseMessage response5 = await client.GetAsync(URL + "/Reports");
                     HttpResponseMessage response6 = await client.GetAsync(URL + "/Accounts");
 
                     String json1 = await response1.Content.ReadAsStringAsync();
                     String json2 = await response2.Content.ReadAsStringAsync();
                     String json3 = await response3.Content.ReadAsStringAsync();
                     String json4 = await response4.Content.ReadAsStringAsync();
+                    String json5 = await response5.Content.ReadAsStringAsync();
                     String json6 = await response6.Content.ReadAsStringAsync();
 
                     List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
                     List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
                     List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json3);
                     List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
+                    List<Report>? reportsList = JsonConvert.DeserializeObject<List<Report>>(json5);
                     List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json6);
 
-                    // Un-necessary Code?
-                    /*
+
                     foreach (Helper index in helpersList)
                     {
                         // await DisplayAlert("Testing:", "Got here at least", "OK");
                         if (index.Id == _helperAccountID)
                         {
-                            MomReviewTemplateText.Text = $"How did {index.FName} {index.LName} do in assisting you?";
+                            MomReportTemplateText.Text = $"How did {index.FName} {index.LName} do in assisting you?";
                         }
                     }
-                    */
 
                     int momIndexInList = 0;
                     foreach(Mother index in mothersList)
@@ -150,42 +137,67 @@ namespace momUI
                         if (index.Id == _momAccountID)
                         {
                             momIndexInList = index.Id;
+                            break;
                         }
                     }
 
-                    // Create a review object with the rating and review text
-                    Review newReview = new Review
+
+
+                    Ticket tempTicket = new Ticket(); // Find ticket.
+                    foreach (Ticket t in ticketsList)
                     {
-                        Id = _ticketID,
+                        if (t.Id == _ticketID)
+                        {
+                            tempTicket = t;
+                            break;
+                        }
+                    }
+
+                    int length1 = reportsList.Count;
+                    int newReportID;
+                    if (length1 <= 0 || reportsList == null)
+                    {
+                        newReportID = 1;
+                    }
+                    else
+                    {
+                        newReportID = reportsList[length1 - 1].Id + 1;
+                    }
+                    // Create a report object with the reason text
+                    Report newReport = new Report
+                    {
+                        Id = newReportID,
                         HelperId = _helperAccountID,
                         MomId = _momAccountID,
-                        Stars = (short?)Rating,
-                        Text = ReviewText
+                        ChildId = tempTicket.ChildId,
+                        TicketId = _ticketID,
+                        Subject = SubjectText,
+                        Body = ReviewText,
+                        Child = null,
+                        Helper = null,
+                        Mom = null,
+                        Ticket = null
                     };
 
 
-                    HttpResponseMessage createReviewResponse = await client.PostAsJsonAsync(
-                        $"{URL}/{"Reviews"}", 
-                        newReview);
+                    HttpResponseMessage createReportResponse = await client.PostAsJsonAsync(
+                        $"{URL}/{"Reports"}", 
+                        newReport);
 
-
-                    if (createReviewResponse.IsSuccessStatusCode)
-
-
+                    if (createReportResponse.IsSuccessStatusCode)
                     {
-                        await DisplayAlert("Success", "Your review has been successfully sent!", "OK");
+                        await DisplayAlert("Success", "You have succesfully reported this user!", "OK");
                         await Navigation.PopAsync();
                     }
                     else
                     {
-                        await DisplayAlert("Error", $"Failed to create ticket: {createReviewResponse.StatusCode}", "OK");
+                        await DisplayAlert("Error", $"Failed to create report: {createReportResponse.StatusCode}", "OK");
                         return;
                     }
-                  
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Error", $"Failed to connect to Review Request: {ex.Message}", "OK");
+                    await DisplayAlert("Error", $"Failed to connect to Report Request: {ex.Message}", "OK");
                 }
 
             }

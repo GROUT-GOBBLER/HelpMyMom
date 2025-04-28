@@ -37,19 +37,19 @@ namespace momUI
         }
 
 
+        protected override async void OnAppearing()
+        {
+            Accessibility a = Accessibility.getAccessibilitySettings();
+            PageTitle.FontSize = Math.Min(Math.Max(30, a.fontsize + 20), 50);
+           
+            GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+        }
+
+
         private async void OnlyLoadChatsForTicketsWithCorrectMomID()
         {
-          
             using (HttpClient client = new HttpClient())
             {
-
-                /* WIP
-                 Want to make it so that it only shows the name of chatlogs of people of tickets with the right momID
-                Then for each chatlog it will say the latest message that was sent regardless of who it was. 
-                        Labelled you or nothing if its the other person
-                It should also display the time.
-                Can then click on each of the names to load the whole chatlog.
-                    */
                 try
                 {
                     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
@@ -65,10 +65,10 @@ namespace momUI
                     String json4 = await response4.Content.ReadAsStringAsync();
 
 
-                    List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
-                    List<Mother> mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-                    List<ChatLog> chatList = JsonConvert.DeserializeObject<List<ChatLog>>(json3);
-                    List<Helper> helperList = JsonConvert.DeserializeObject<List<Helper>>(json4);
+                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
+                    List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                    List<ChatLog>? chatList = JsonConvert.DeserializeObject<List<ChatLog>>(json3);
+                    List<Helper>? helperList = JsonConvert.DeserializeObject<List<Helper>>(json4);
 
                     
                     // Valid statuses: NEW, ASSIGNED, IN PROGRESS, COMPLETED, APPROVED
@@ -96,18 +96,18 @@ namespace momUI
                         
                             ticketId = ticketIndex.Id;
                             helperId = (int)ticketIndex.HelperId;
-                          //  await DisplayAlert("Successfully found a Ticket:", $"Ticket Number: {ticketId}, Helper Number: {helperId}", "OK");
+                            //await DisplayAlert("Successfully found a Ticket:", $"Ticket Number: {ticketId}, Helper Number: {helperId}", "OK");
 
                             foreach (Helper helperIndex in helperList)
                             {
                                 if (helperIndex.Id == helperId)
                                 {
                                     helperName = $"{helperIndex.FName} {helperIndex.LName}";
-                               //     await DisplayAlert("HelperName Acquired:", $"{helperName}", "OK");
+                                   // await DisplayAlert("HelperName Acquired:", $"{helperName}", "OK");
                                 }
                             }
                         
-                            List<ChatLog> allMessages = new List<ChatLog>();
+                            List<ChatLog>? allMessages = new List<ChatLog>();
 
                             foreach (ChatLog chatIndex in chatList)
                             {
@@ -117,7 +117,6 @@ namespace momUI
                                 {
                                     allMessages.Add(chatIndex);
                                     allAddedStuff.Add($"{chatIndex.Id}");
-                                    
                                 }
                                 //    await DisplayAlert("Successfully Added Chat:", $"{allAddedStuff.ToString()}", "OK");
                             }
@@ -144,14 +143,26 @@ namespace momUI
                             }
                             
                             String timeFixed = displayTime.ToString("g");
+                            Accessibility a = Accessibility.getAccessibilitySettings();
 
-                           // await DisplayAlert("Got to the create a new Chat Item thing", $"Yepperonies", "OK");
+                            // await DisplayAlert("Got to the create a new Chat Item thing", $"Yepperonies", "OK");
+                            /*
+                              UserNameLabels.FontSize = Math.Min(Math.Max(10, a.fontsize + 5), 20);
+                              UserMessageLabels.FontSize = Math.Min(Math.Max(10, a.fontsize - 1), 18);
+                              UserTimeLabels.FontSize = Math.Min(Math.Max(9, a.fontsize - 2), 16); 
+                            */
                             ChatItem newChatItem = new ChatItem {
                                 Name = helperName,
                                 Time = $"{timeFixed}",
                                 Text = $"{displayText}",
-                                TicketId = ticketId // Assign the ticketId
+                                TicketId = ticketId, // Assign the ticketId
+                                SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30), // Set sender font size
+                                MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30), // Set message font size
+                                TimeFontSize = Math.Min(Math.Max(10, a.fontsize), 30) // Set message font size
                             };
+
+
+
                             // await DisplayAlert("Item:", $"Name: {newChatItem.Name}, Time: {newChatItem.Time}, Text: {newChatItem.Text}", "OK");
 
                             Chats.Add(newChatItem);
@@ -233,10 +244,7 @@ namespace momUI
             await Navigation.PopAsync();
         }
 
-        private void OnSettingsClicked(object sender, EventArgs e)
-        {
-            // Add settings functionality here
-        }
+
     }
 
     public class ChatItem
@@ -245,5 +253,8 @@ namespace momUI
         public string Time { get; set; }
         public string Text { get; set; }
         public int TicketId { get; set; } // Add TicketId property
+        public double SenderFontSize { get; set; } // Property for sender label font size
+        public double MessageFontSize { get; set; } // Property for message label font size
+        public double TimeFontSize { get; set; } // Property for time label font size
     }
 }

@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.MomChatsPage" >
 
-    <ScrollView>
+    <ScrollView
+        VerticalScrollBarVisibility="Always"
+        Margin="10,15,15,20">
+        
         <VerticalStackLayout
               Padding="25,0"
               Spacing="25">
@@ -16,25 +19,18 @@
 
                 <!-- Header with Back and Settings Buttons -->
                 <HorizontalStackLayout Grid.Row="0" Margin="0,0,0,10">
-                    <Button Text="BACK"
+                    <Button x:Name="GoBack"
+                            Text="BACK"
                             HorizontalOptions="Start"
                             Clicked="OnBackClicked" />
-
-                    <Button HorizontalOptions="EndAndExpand"
-                            Clicked="OnSettingsClicked"
-                            Margin="250,0,0,10">
-                        <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialIcons"
-                                           Glyph="&#xE8B8;"
-                                           Size="24" />
-                        </Button.ImageSource>
-                    </Button>
                 </HorizontalStackLayout>
 
+                    
                 <!-- Chats Title -->
-                <Label Grid.Row="1"
-                       Text="Chats."
-                       FontSize="35"
+                <Label x:Name="PageTitle"
+                       Grid.Row="1"
+                       Text="Chats"
+                       FontSize="30"
                        FontAttributes="Bold"
                        Margin="0,0,0,10" />
 
@@ -42,38 +38,44 @@
                 <CollectionView Grid.Row="2"
                                 ItemsSource="{Binding Chats}"
                                 SelectionMode="Single"
-                                SelectionChanged="OnChatSelected">
+                                SelectionChanged="OnChatSelected"
+                                Margin="-20,0,0,0">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid Padding="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Name and Message Preview -->
                                 <VerticalStackLayout Grid.Column="0">
-                                    <Label Text="{Binding Name}"
-                                           FontSize="20"
+                                    <Label x:Name="UserNameLabels"
+                                           Text="{Binding Name}"
+                                           FontSize="{Binding SenderFontSize}"
                                            FontAttributes="Bold"
                                            Margin="0,0,0,0"/>
-                                    <Label Text="{Binding Text}"
-                                           FontSize="14"
+                                    <!-- Time -->
+                                    <Label x:Name="UserTimeLabels"
+                                      
+                                       Text="{Binding Time}"
+                                       FontSize="{Binding TimeFontSize}"
+                                       FontAttributes="Bold"
+                                       TextColor="Gray"
+                                       VerticalOptions="Start"
+                                       HorizontalOptions="End"
+                                       Margin="10,0,0,0" />
+                                    <Label x:Name="UserMessageLabels"
+                                           Text="{Binding Text}"
+                                           FontSize="{Binding MessageFontSize}"
                                            TextColor="Black" 
                                            LineBreakMode="WordWrap"
                                            Margin="5,5,0,5" />
                                     <!--LineBreakMode="TailTruncation"-->
                                 </VerticalStackLayout>
 
-                                <!-- Time -->
-                                <Label Grid.Column="1"
-                                       Text="{Binding Time}"
-                                       FontSize="13"
-                                       FontAttributes="Bold"
-                                       TextColor="Gray"
-                                       VerticalOptions="Start"
-                                       HorizontalOptions="End"
-                                       Margin="0,0,0,0" />
+                                
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

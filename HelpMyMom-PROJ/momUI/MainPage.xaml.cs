@@ -121,8 +121,12 @@ namespace momUI
 
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
 
-                        await Navigation.PushAsync(new MomMenu());
-                        LoginButton.IsEnabled = true;
+
+                        await Navigation.PushAsync(new MomMenu("LocalMomInYourArea", 4));
+
+
+
+
                         //  LoginButton.Text = $" mother {mother.FName} {mother.LName} ";
                         return;
                     }
@@ -153,7 +157,9 @@ namespace momUI
             SigninButton.IsEnabled = true;
         }
 
-      async  private void AccessibiltySettings_Clicked(object sender, EventArgs e)
+
+        async private void AccessibiltySettings_Clicked(object sender, EventArgs e)
+
         {
             AccessibiltySettings.IsEnabled = false;
             await Navigation.PushAsync(new Accessibility_Settings());

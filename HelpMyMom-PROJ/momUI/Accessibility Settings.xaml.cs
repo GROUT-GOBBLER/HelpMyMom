@@ -1,3 +1,4 @@
+
 namespace momUI;
 
 public partial class Accessibility_Settings : ContentPage
@@ -13,5 +14,6 @@ public partial class Accessibility_Settings : ContentPage
 		a.setFontSize(fontsize: Int32.Parse(picker.SelectedItem.ToString()) ) ;
 		L.FontSize = a.fontsize;
 		
+
     }
 }

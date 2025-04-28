@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.MomLookAtHelperProfile"
+             Title="MomViewHelperProfile">
+    
+    <ScrollView
+        Margin="10,15,15,20">
+        <VerticalStackLayout
+            Margin="20,20,20,20"
+            Spacing="10">
+            <!-- Profile Picture. -->
+            <Frame x:Name="TestingShit"
+                HeightRequest="200"
+                WidthRequest="200"
+                CornerRadius="100"
+                HorizontalOptions="Center"
+                IsClippedToBounds="True"
+                Padding="0"
+                BorderColor="Gray"
+                Margin="0,0,0,0">
+                
+                <Image
+                    x:Name="ProfilePictureImage"
+                    Aspect="AspectFit"
+                    Source="mr_worldwide.jpg"
+                    Scale="1.2"
+                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                    HeightRequest="200"
+                    WidthRequest="200"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+            </Frame>
+            
+            <!-- REVIEWS. -->
+            <HorizontalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" >
+              
+                    <Label x:Name="RatingLabelText"
+                        Text="Rating: "
+                        FontSize="25" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        Margin="0,0,0,0"/>
+
+                    <Frame 
+                        HasShadow="False"
+                        CornerRadius="0"
+                        Padding="10"
+                        Margin="3"
+                        BackgroundColor="LightGray">
+                        <Label 
+                            x:Name="RatingsLabel"
+                            FontSize="25"
+                            TextColor="Black"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" 
+                            LineBreakMode="WordWrap"
+                            Margin="0,0,0,0"/>
+                    </Frame>
+             
+
+            </HorizontalStackLayout>
+
+
+
+            <Button 
+                x:Name="ShowReviewsButton"
+                Text="SHOW REVIEWS" 
+                FontSize="25"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="View all of your reviews."
+                Clicked="ShowReviewsButton_Clicked"
+                VerticalOptions="Center"
+                BackgroundColor="#3033aa"
+                TextColor="LightBlue"
+                HorizontalOptions="Center" 
+                Padding="10"
+                Margin="0,0,0,50"/>
+            
+            <!-- USERNAME. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label x:Name="UserNameLabelText"
+                    Text="Username: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="UsernameLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+            
+            <!-- FIRST NAME. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label x:Name="FirstNameLabelText"
+                    Text="First Name: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="FirstNameLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- LAST NAME. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label x:Name="LastNameLabelText"
+                    Text="Last Name: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="LastNameLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+            
+            <!-- DESCRIPTION. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label x:Name="DescLabelText"
+                    Text="Description: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <Label 
+                        x:Name="DescriptionLabel"
+                        FontSize="25"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- SPECS LIST. -->
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label 
+                    x:Name="SpecTextLabel"
+                    Text="Specialties: "
+                    FontSize="25"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start" />
+
+                <Frame 
+                    HasShadow="False"
+                    CornerRadius="0"
+                    Padding="10"
+                    Margin="3"
+                    BackgroundColor="LightGray">
+                    <ListView 
+                        x:Name="SpecialtiesListView"                    
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="LightGray"
+                        VerticalScrollBarVisibility="Never" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label 
+                                        
+                                        Text="{Binding Name}" 
+                                        FontSize="{Binding MessageFontSizeSpecialty}"
+                                        TextColor="Black"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- REPORT BUTTON. -->
+            <Button 
+                x:Name="ReportButton"
+                Text="REPORT" 
+                FontSize="50"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Change the fields in your profile."
+                Clicked="OnReportHelperClicked"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" 
+                BackgroundColor="DarkRed"
+                TextColor="Pink"
+                Padding="10"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
