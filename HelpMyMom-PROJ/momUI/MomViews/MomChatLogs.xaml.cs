@@ -207,7 +207,9 @@ namespace momUI
             return formattedString;
         }
 
+
         private async Task OpenUrl(string url)
+
         {
             try
             {
@@ -361,7 +363,10 @@ namespace momUI
                     newChatLog.Time = DateTime.Now;
                     newChatLog.IsMom = "true      "; // FOR HELPER. BOHAN, YOU NEED TO CHANGE THIS TO TRUE BECAUSE YOU'RE DOING THE MOM!
                     newChatLog.Text = messageToSend;
-                    newChatLog.Ticket = null;
+
+
+                    newChatLog.Ticket = null; // might NEED TO CHANGE THIS AT SOME POINT!
+
 
                     HttpResponseMessage createResponse = await client.PostAsJsonAsync($"{URL}/{"Chatlogs"}", newChatLog); // post new message.
 

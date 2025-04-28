@@ -6,7 +6,14 @@ public partial class ChildMenu : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     Child account;
-    public ChildMenu(Child acc = null)
+
+    int normalFont = 15;
+
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
+
+    public ChildMenu(Child acc)
 	{
 		InitializeComponent();
 
@@ -17,16 +24,23 @@ public partial class ChildMenu : ContentPage
         else
         {
             account = new Child();
-            account.FName = "[Object]";
-            account.LName = "[object]";
+            account.FName = "You shouldn't";
+            account.LName = "be here";
             account.Id = 2;
             account.Email = "hmmprojectchild@hotmail.com";
         }
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         loggedIn.Text = $"Logged in as {account.FName} {account.LName}";
+
+        loggedIn.FontSize = normalFont;
+        LogOutBtn.FontSize = normalFont + medBtnFont;
+        CreateBtn.FontSize = normalFont + titleFont;
+        AssignBtn.FontSize = normalFont + titleFont;
+        ProgressBtn.FontSize = normalFont + titleFont;
+        AccountBtn.FontSize = normalFont + titleFont;
     }
 
     async private void CreateTicketClicked(object sender, EventArgs e)
@@ -47,6 +61,11 @@ public partial class ChildMenu : ContentPage
     async private void AccManagementClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new ChildAccountSettings(account));
+    }
+
+    private void SignOutClicked(object sender, EventArgs e)
+    {
+        if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new MainPage());
     }
 
     private void NothingClicked(object sender, EventArgs e)

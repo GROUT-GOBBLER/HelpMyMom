@@ -13,9 +13,31 @@ public partial class ChildToMomRelationshipPage : ContentPage
         child = c;
    
 	}
-    Child? child;
+    protected override async void OnAppearing()
+    {
+        /*
+        Title: 35
+        Header: 25
+        Normal: 15
+        Buttons:
+        Small: 20
+        Med: 30
+        Large: 35
+        */
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        FNameLabel.FontSize = a.fontsize;
+        LNameLabel.FontSize = a.fontsize;
+        ErrorLabel.FontSize = a.fontsize;
+        FNameL.FontSize = a.fontsize;
+        LNameL.FontSize = a.fontsize;
+        Search.FontSize = a.fontsize;
+        RelationShipButton.FontSize = a.fontsize + 5;
+
+    }
+        Child? child;
     Account? account;
     Mother? mother;
+    
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     async private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
     {

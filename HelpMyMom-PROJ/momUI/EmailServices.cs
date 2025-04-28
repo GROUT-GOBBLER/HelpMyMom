@@ -29,7 +29,7 @@ namespace momUI
             MailAddress from = new MailAddress(fromEmail);
             MailAddress to = new MailAddress(Target);
             MailMessage message = new MailMessage(from, to);
-            message.Subject = "Ticket #" + ticket.Id + "has been updated to " + status;
+            message.Subject = "Ticket #" + ticket.Id + " has been updated to " + status;
             message.Body = string.Join("\n", msgBody);
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);

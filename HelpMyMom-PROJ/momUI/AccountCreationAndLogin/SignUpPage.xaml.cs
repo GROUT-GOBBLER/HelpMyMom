@@ -6,7 +6,13 @@ public partial class SignUpPage : ContentPage
 	{
 		InitializeComponent();
 	}
-
+    protected override async void OnAppearing()
+    {
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        Mom.FontSize = a.fontsize + 5;
+        Child.FontSize = a.fontsize + 5;
+        Helper.FontSize = a.fontsize + 5;
+    }
     async private void Mom_Clicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new MomAccountCreation());

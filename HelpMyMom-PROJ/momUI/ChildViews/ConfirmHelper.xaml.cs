@@ -7,12 +7,18 @@ using System.Net.Http.Json;
 public partial class ConfirmHelper : ContentPage
 {
     Child account;
-    Ticket ticket;
+    Ticket? ticket = null;
     Helper helper;
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
-    public ConfirmHelper(Child acc, Helper h, Ticket t = null)
+    int normalFont = 15;
+
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
+
+    public ConfirmHelper(Child acc, Helper h, Ticket? t = null)
 	{
 		InitializeComponent();
 
@@ -23,6 +29,14 @@ public partial class ConfirmHelper : ContentPage
 
     protected override async void OnAppearing()
     {
+        Name.FontSize = normalFont + titleFont;
+        Email.FontSize = normalFont;
+        Rating.FontSize = normalFont;
+        Description.FontSize = normalFont;
+        TextSpecs.FontSize = normalFont;
+
+        confirmBtn.FontSize = normalFont + titleFont;
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -39,7 +53,7 @@ public partial class ConfirmHelper : ContentPage
                     int calc = 0;
 
                     string json2 = await reviewResponse.Content.ReadAsStringAsync();
-                    List<Review> allReviews = JsonConvert.DeserializeObject<List<Review>>(json2);
+                    List<Review>? allReviews = JsonConvert.DeserializeObject<List<Review>>(json2);
 
                     Double sum = 0;
                     int count = 0;
@@ -68,7 +82,7 @@ public partial class ConfirmHelper : ContentPage
                 {
                     // get specs
                     string json = await specResponse.Content.ReadAsStringAsync();
-                    List<Spec> allSpecs = JsonConvert.DeserializeObject<List<Spec>>(json);
+                    List<Spec>? allSpecs = JsonConvert.DeserializeObject<List<Spec>>(json);
 
                     var specIds = helper.Specs
                         .Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -110,11 +124,43 @@ public partial class ConfirmHelper : ContentPage
                 ticket.HelperId = helper.Id;
                 ticket.Status = "ASSIGNED";
 
+                string[]? notifSettings = null;
+                if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
+                Mother? mom = null;
+
+                HttpResponseMessage momResponse = await client.GetAsync($"{URL}/Mothers/{ticket.MomId}");
+                if (momResponse.IsSuccessStatusCode)
+                {
+                    string json2 = await momResponse.Content.ReadAsStringAsync();
+                    mom = JsonConvert.DeserializeObject<Mother>(json2);
+                }
+
                 try
                 {
                     HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{ticket.Id}", ticket);
 
-                    if (response3.IsSuccessStatusCode) confirmBtn.Text = "Success";
+                    if (response3.IsSuccessStatusCode)
+                    {
+                        EmailServices.SendNotifcation(helper.Email, $"{helper.FName} {helper.LName}", ticket.Status, ticket);
+
+                        if (mom != null)
+                        {
+                            EmailServices.SendNotifcation(mom.Email, $"{mom.FName} {mom.LName}", ticket.Status, ticket);
+                        }
+
+                        if (notifSettings != null && notifSettings.Length == 5)
+                        {
+                            bool shouldSendChild = bool.Parse(notifSettings[1].ToLower());
+
+                            if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", ticket.Status, ticket);
+                        }
+                        else //If there are no settings, assume "true"
+                        {
+                            EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", ticket.Status, ticket);
+                        }
+
+                        confirmBtn.Text = "Success";
+                    }
                     else confirmBtn.Text = "Error";
                 }
                 catch (Exception ex)

@@ -4,42 +4,54 @@
              x:Class="momUI.TicketProgress"
              xmlns:models="clr-namespace:momUI.models"
              Title="Ticket Progress">
-    <VerticalStackLayout>
-        <Label x:Name = "TopText" 
-            Text="List of Tickets"
-            FontSize="40"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView Margin="5">
+        <VerticalStackLayout>
+            <Label x:Name = "TopText" 
+                Text="List of Tickets"
+                FontSize="5"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
 
-        <ListView x:Name="ticketList" HasUnevenRows="True" Margin="10,10,0,10">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:SearchTicket">
-                    <ViewCell>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding MomName}"
-                               LineBreakMode="WordWrap"
-                               TextColor="Black"
-                               FontSize="24"
-                            />
-                            <Label Text="{Binding HelperName}"
-                               LineBreakMode="WordWrap"
-                               TextColor="Black"
-                               FontSize="24"
-                            />
-                            <Label Text="{Binding Status}"
-                               TextColor="SlateGray"
-                               FontSize="18"
-                            />
-                            <Label Text="{Binding Details}"
-                               LineBreakMode="WordWrap"
-                               TextColor="DarkSlateGray"
-                               FontSize="18"
-                               MaxLines ="4"
-                            />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+            <Label x:Name = "reportText" 
+                Text="Select a ticket to report a helper"
+                FontSize="5"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <ListView x:Name="ticketList" ItemSelected="OnItemSelected" HasUnevenRows="True" Margin="5,20,0,10">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SearchTicket">
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label x:Name="momName"
+                                   Text="{Binding MomName}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="Black"
+                                   FontSize="{Binding headerFontOut}"
+                                />
+                                <Label x:Name="helperName"
+                                   Text="{Binding HelperName}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="Black"
+                                   FontSize="{Binding headerFontOut}"
+                                />
+                                <Label x:Name="statusText"
+                                   Text="{Binding Status}"
+                                   TextColor="SlateGray"
+                                   FontSize="{Binding TextSize}"
+                                />
+                                <Label x:Name="detailsText"
+                                   Text="{Binding Details}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="DarkSlateGray"
+                                   FontSize="{Binding TextSize}"
+                                   MaxLines ="4"
+                                />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
