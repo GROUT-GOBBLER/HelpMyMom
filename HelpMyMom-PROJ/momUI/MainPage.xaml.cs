@@ -92,9 +92,10 @@ namespace momUI
                         json = await response2.Content.ReadAsStringAsync();
                         Child child = JsonConvert.DeserializeObject<Child>(json);
 
-                       // LoginButton.Text = $" child {child.FName} {child.LName} ";
-                        await Navigation.PushAsync(new ChildMenu());
-                        LoginButton.IsEnabled = true;
+
+                        LoginButton.Text = $" child {child.FName} {child.LName} ";
+                        await Navigation.PushAsync(new ChildMenu(child));
+
                         return;
                     }
                     else if (account.HelperId != null)

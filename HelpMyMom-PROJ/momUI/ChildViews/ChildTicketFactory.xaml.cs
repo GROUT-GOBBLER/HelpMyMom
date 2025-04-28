@@ -9,12 +9,19 @@ namespace momUI;
 public partial class ChildTicketFactory : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-    List<Mother> moms = new List<Mother>();
+    List<Mother>? moms = new List<Mother>();
     List<string> momsString = new List<string>();
-    string details;
+    string details = "";
 
     Child account;
-	public ChildTicketFactory(Child acc)
+
+    int normalFont = 15;
+
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
+
+    public ChildTicketFactory(Child acc)
 	{
 		InitializeComponent();
         account = acc;
@@ -22,11 +29,17 @@ public partial class ChildTicketFactory : ContentPage
 
     protected override async void OnAppearing()
     {
+        factortTitle.FontSize = normalFont + titleFont;
+        explainText.FontSize = normalFont + headerFont;
+        DetailsEntry.FontSize = normalFont;
+
+        settingBtn.FontSize = normalFont + titleFont;
+
         using (HttpClient client = new HttpClient())
         {
             try
             {
-                List<Relationship> relationships = new List<Relationship>();
+                List<Relationship>? relationships = new List<Relationship>();
 
                 HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers");
                 HttpResponseMessage relationResponse = await client.GetAsync(URL + "/Relationships");
@@ -90,7 +103,10 @@ public partial class ChildTicketFactory : ContentPage
     private async void createClicked(object sender, EventArgs e)
     {
         Ticket newTicket = new Ticket();
-        List<Ticket> tickets = new List<Ticket>();
+        List<Ticket>? tickets = new List<Ticket>();
+
+        string[]? notifSettings = null;
+        if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
 
         using (HttpClient client = new HttpClient())
         {
@@ -153,18 +169,28 @@ public partial class ChildTicketFactory : ContentPage
 
                             mom.Tokens = Math.Round(newToken, 2);
 
-                            Console.WriteLine("-----------------------------------------------------------------------------------");
-                            Console.WriteLine(JsonConvert.SerializeObject(mom));
-                            Console.WriteLine("-----------------------------------------------------------------------------------");
-
                             HttpResponseMessage response4 = await client.PutAsJsonAsync($"{URL}/Mothers/{mom.Id}", mom);
                             if (response4.IsSuccessStatusCode)
                             {
                                 settingBtn.Text = "good";
+
+                                EmailServices.SendNotifcation(mom.Email, $"{mom.FName} {mom.LName}", "NEW", newTicket);
+
+                                if (notifSettings != null && notifSettings.Length == 5)
+                                {
+                                    bool shouldSendChild = bool.Parse(notifSettings[0].ToLower());
+
+                                    if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", "NEW", newTicket);
+                                }
+                                else //If there are no settings, assume "true"
+                                {
+                                    EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", "NEW", newTicket);
+                                }
                             }
                             else settingBtn.Text = "bad money request";
                         }
                         else settingBtn.Text = "bad request";
+
                     }
 
                     await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
@@ -172,7 +198,7 @@ public partial class ChildTicketFactory : ContentPage
             }
             catch (Exception ex)
             {
-                settingBtn.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n\n");
                 Console.WriteLine(ex.ToString());

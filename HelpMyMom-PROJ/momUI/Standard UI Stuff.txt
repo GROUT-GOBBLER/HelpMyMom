@@ -1,0 +1,49 @@
+﻿======================
+Default Outer Margins
+======================
+10-15 on either side.
+scroll views: add at least 20 on the bottom to allow users to see items properly on the bottom of the screen.
+
+===================
+Default text sizes
+===================
+Title: 35 (+20)
+Header: 25 (+10)
+Normal: 15
+Buttons:
+	Small: 20 (+5)
+	Med: 30 (+15)
+	Large: 35 (+20)
+
+============
+Text Colors (refer to TicketProgress for example use)
+============
+Default: Black
+Medium grey: SlateGray
+Dark grey: DarkSlateGray
+
+==============
+Button Colors
+==============
+Confirm:
+	Text: LightGreen
+	Background: DarkGreen
+
+Deny/Cancel/Report:
+	Text: Pink
+	Background: DarkRed
+
+Other/Edit:
+	Text: LightBlue
+	Background: #3033aa
+
+Settings:
+	Text: White
+	Background: Gray
+
+=======
+Border 
+=======
+For large info sections (like a description) or Editor
+Stroke size: 2
+Stroke color: black

@@ -6,12 +6,18 @@ using System.Net.Http.Json;
 
 public partial class UnassignedTickets : ContentPage
 {
-    List<Ticket> tickets = new List<Ticket>();
+    List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
     Child account;
 	Helper helper;
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
+
+    int normalFont = 15;
+
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public UnassignedTickets(Child acc, Helper h)
 	{
@@ -23,7 +29,9 @@ public partial class UnassignedTickets : ContentPage
 
 	protected override async void OnAppearing()
 	{
-		using (HttpClient client = new HttpClient())
+        TopText.FontSize = normalFont + titleFont;
+
+        using (HttpClient client = new HttpClient())
 		{
             try
             {
@@ -54,7 +62,7 @@ public partial class UnassignedTickets : ContentPage
                                 if (momResponse.IsSuccessStatusCode)
                                 {
                                     string json2 = await momResponse.Content.ReadAsStringAsync();
-                                    Mother m = JsonConvert.DeserializeObject<Mother>(json2);
+                                    Mother? m = JsonConvert.DeserializeObject<Mother>(json2);
 
                                     if (m != null) st.MomName = $"{m.FName} {m.LName}";
                                     else st.MomName = "None";
@@ -67,7 +75,7 @@ public partial class UnassignedTickets : ContentPage
                                     if (momResponse.IsSuccessStatusCode)
                                     {
                                         string json3 = await helperResponse.Content.ReadAsStringAsync();
-                                        Helper h = JsonConvert.DeserializeObject<Helper>(json3);
+                                        Helper? h = JsonConvert.DeserializeObject<Helper>(json3);
 
                                         if (h != null) st.HelperName = $"{h.FName} {h.LName}";
                                         else st.HelperName = "None";
@@ -83,7 +91,7 @@ public partial class UnassignedTickets : ContentPage
                             SearchTicket t = new SearchTicket();
 
                             t.Id = -1;
-                            t.Details = "You have no tickets";
+                            t.Details = "You have no unassigned tickets";
                             t.MomName = "n/a";
                             t.HelperName = "n/a";
 
@@ -113,25 +121,64 @@ public partial class UnassignedTickets : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            Ticket selected = ticketList.SelectedItem as Ticket;
-            selected.HelperId = helper.Id;
-            selected.Status = "ASSIGNED";
+            SearchTicket? s = ticketList.SelectedItem as SearchTicket;
 
-            try
+            Ticket? selected = tickets.SingleOrDefault(t => t.Id == s.Id);
+
+            if (selected != null)
             {
-                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{selected.Id}", selected);
-                if (response3.IsSuccessStatusCode) TopText.Text = "Success";
-                else TopText.Text = "Error";
+                selected.HelperId = helper.Id;
+                selected.Status = "ASSIGNED";
 
-                Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
-            }
-            catch (Exception ex)
-            {
-                TopText.Text = ex.Message;
+                string[]? notifSettings = null;
+                if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
 
-                Console.WriteLine("\n-------------------------------------------------------------");
-                Console.WriteLine(ex.ToString());
-                Console.WriteLine("-------------------------------------------------------------\n");
+                try
+                {
+                    Mother? mom = null;
+
+                    HttpResponseMessage momResponse = await client.GetAsync($"{URL}/Mothers/{selected.MomId}");
+                    if (momResponse.IsSuccessStatusCode)
+                    {
+                        string json2 = await momResponse.Content.ReadAsStringAsync();
+                        mom = JsonConvert.DeserializeObject<Mother>(json2);
+                    }
+
+                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Tickets/{selected.Id}", selected);
+                    if (response3.IsSuccessStatusCode) 
+                    {
+                        EmailServices.SendNotifcation(helper.Email, $"{helper.FName} {helper.LName}", selected.Status, selected);
+
+                        if (mom != null)
+                        {
+                            EmailServices.SendNotifcation(mom.Email, $"{mom.FName} {mom.LName}", selected.Status, selected);
+                        }
+
+                        if (notifSettings != null && notifSettings.Length == 5)
+                        {
+                            bool shouldSendChild = bool.Parse(notifSettings[1].ToLower());
+
+                            if (shouldSendChild) EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", selected.Status, selected);
+                        }
+                        else //If there are no settings, assume "true"
+                        {
+                            EmailServices.SendNotifcation(account.Email, $"{account.FName} {account.LName}", selected.Status, selected);
+                        }
+
+                        TopText.Text = "Success"; 
+                    }
+                    else TopText.Text = "Error";
+
+                    if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
+                }
+                catch (Exception ex)
+                {
+                    TopText.Text = ex.Message;
+
+                    Console.WriteLine("\n-------------------------------------------------------------");
+                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine("-------------------------------------------------------------\n");
+                }
             }
         }
     }

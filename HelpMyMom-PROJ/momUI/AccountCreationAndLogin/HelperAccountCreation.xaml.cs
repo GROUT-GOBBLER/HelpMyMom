@@ -21,8 +21,10 @@ public partial class HelperAccountCreation : ContentPage
         Current = DateOnly.FromDateTime(DateTime.Now);
         
     }
+
     
     protected override async void OnAppearing()
+
     {
         /*
         Title: 35
@@ -54,7 +56,7 @@ public partial class HelperAccountCreation : ContentPage
         DescL.FontSize = a.fontsize;
         descriptionEditor.FontSize = a.fontsize;
 
-
+       }
 
 
 

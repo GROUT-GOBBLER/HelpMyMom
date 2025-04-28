@@ -34,11 +34,11 @@ public partial class QuickLogin : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Children"}/{1}");
+            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Children"}/{2}");
 
             string json = await response2.Content.ReadAsStringAsync();
             Child child = JsonConvert.DeserializeObject<Child>(json);
-            await Navigation.PushAsync(new ChildMenu());
+            await Navigation.PushAsync(new ChildMenu(child));
         }
 
     }

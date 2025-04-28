@@ -7,21 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using momUI.models;
 
-// EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", "completed", [Ticket]);
+// EmailServices.SendNotifcation("hmmprojectmom@hotmail.com", [user's acc], "completed", [Ticket]);
 
 namespace momUI
 {
     public static class EmailServices
     {
         // Valid statuses: new, assigned, in progress, completed, approved 
-        public static void SendNotifcation(String Target, String status, Ticket ticket)
+        public static void SendNotifcation(String Target, String Name, String status, Ticket ticket)
         {
             string fromEmail = "gingervip66@gmail.com";
             string password = "udyw uyyi lsne kjrt";
 
             string[] msgBody = new string[]
             {
-                "Hello [USER]!",
+                $"Hello {Name}!",
                 $"Your ticket (#{ticket.Id}) have now been updated to the {status} status, log into the app for additional details.",
                 "Thank you for your time, Help My Mom App"
             };
@@ -29,7 +29,7 @@ namespace momUI
             MailAddress from = new MailAddress(fromEmail);
             MailAddress to = new MailAddress(Target);
             MailMessage message = new MailMessage(from, to);
-            message.Subject = "Ticket #" + ticket.Id + "has been updated to " + status;
+            message.Subject = "Ticket #" + ticket.Id + " has been updated to " + status;
             message.Body = string.Join("\n", msgBody);
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
