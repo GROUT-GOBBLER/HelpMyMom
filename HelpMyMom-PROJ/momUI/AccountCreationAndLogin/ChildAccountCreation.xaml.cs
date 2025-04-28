@@ -14,6 +14,15 @@ public partial class ChildAccountCreation : ContentPage
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     protected override async void OnAppearing()
     {
+        /*
+         * Title: 35
+        Header: 25
+        Normal: 15
+        Buttons:
+        Small: 20
+        Med: 30
+        Large: 35
+        */
         Accessibility a = Accessibility.getAccessibilitySettings();
         UserL.FontSize = a.fontsize;
         UsernameEntry.FontSize = a.fontsize;
@@ -25,7 +34,7 @@ public partial class ChildAccountCreation : ContentPage
         EmailEntry.FontSize = a.fontsize;
         FirstNameEntry.FontSize = a.fontsize;
         LastNameEntry.FontSize = a.fontsize;
-        CreateAccountButton.FontSize = a.fontsize;
+        CreateAccountButton.FontSize = a.fontsize + 5;
         ErrorLabel.FontSize = a.fontsize;
 
 

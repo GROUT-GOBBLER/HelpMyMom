@@ -24,6 +24,15 @@ public partial class HelperAccountCreation : ContentPage
     
     protected override async void OnAppearing()
     {
+        /*
+        Title: 35
+        Header: 25
+        Normal: 15
+        Buttons:
+        Small: 20
+        Med: 30
+        Large: 35
+        */
         base.OnAppearing();
         //SearchResultList.IsRefreshing = true;
         Accessibility a = Accessibility.getAccessibilitySettings();
@@ -37,7 +46,7 @@ public partial class HelperAccountCreation : ContentPage
         EmailEntry.FontSize = a.fontsize;
         FirstNameEntry.FontSize = a.fontsize;
         LastNameEntry.FontSize = a.fontsize;
-        CreateAccountButton.FontSize = a.fontsize;
+        CreateAccountButton.FontSize = a.fontsize + 10;
         ErrorLabel.FontSize = a.fontsize;
         specailL.FontSize = a.fontsize;
         SelSpecailL.FontSize = a.fontsize;

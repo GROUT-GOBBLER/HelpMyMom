@@ -94,7 +94,7 @@
                     HasUnevenRows="True"
                     HorizontalOptions="Start"
                     RowHeight="90"
-                    Margin="5,10,5,10">
+                    Margin="5,0,5,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:Spec">
                             <ViewCell>
@@ -123,7 +123,7 @@
                 HasUnevenRows="True"
                 HorizontalOptions="Start"
                 RowHeight="90"
-                Margin="5,10,5,10">
+                Margin="5,0,5,0">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:Spec">
                         <ViewCell>
@@ -164,6 +164,8 @@
                 Clicked="CreateAccountButton_Clicked"
                 VerticalOptions="Center"
                 HorizontalOptions="Fill" 
+                TextColor="LightGreen"
+                BackgroundColor="DarkGreen"
             />
             <Label 
                 x:Name="ErrorLabel"

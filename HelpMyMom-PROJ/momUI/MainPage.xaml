@@ -10,6 +10,7 @@
         VerticalOptions="Start"
         HorizontalOptions="Fill">
         <HorizontalStackLayout
+            Margin="15,15"
              HorizontalOptions="Fill"
             Spacing="20">
             <Button
@@ -18,14 +19,18 @@
                 SemanticProperties.Hint="Get"
                 Clicked ="AccessibiltySettings_Clicked"
                 VerticalOptions="Center"
-                HorizontalOptions="Start" />
+                HorizontalOptions="Start" 
+                TextColor="White"
+                BackgroundColor="Gray"/>
 
             <Button
                 x:Name="QuickLogin"
                 Text="Quick Login" 
                 SemanticProperties.Hint="Get"
                 Clicked ="QuickLogin_Clicked"
-                VerticalOptions="Center" />
+                VerticalOptions="Center" 
+                TextColor="White"
+                BackgroundColor="Gray"/>
         </HorizontalStackLayout>
 
         <ScrollView>
@@ -66,7 +71,9 @@
                     SemanticProperties.Hint="Get"
                     Clicked="LoginButton_Clicked"
                     VerticalOptions="Center"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill"
+                    TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
 
                 <Button
                     x:Name="SigninButton"
@@ -74,7 +81,9 @@
                     SemanticProperties.Hint="Get"
                     Clicked="SigninButton_Clicked"
                     VerticalOptions="Center"
-                    HorizontalOptions="Fill" />
+                    HorizontalOptions="Fill" 
+                    TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
                
             </VerticalStackLayout>
         </ScrollView>

@@ -15,16 +15,36 @@ namespace momUI
             InitializeComponent();
         }
         protected override async void OnAppearing()
+
         {
+            /*
+            Title: 35
+            Header: 25
+            Normal: 15
+            Buttons:
+            Small: 20
+            Med: 30
+            Large: 35
+             
+             
+             
+             
+             */
             Accessibility a = Accessibility.getAccessibilitySettings();
-            AccessibiltySettings.FontSize = a.fontsize;
-            QuickLogin.FontSize = a.fontsize;
+            AccessibiltySettings.FontSize = a.fontsize + 10;
+            QuickLogin.FontSize = a.fontsize + 10;
             head.FontSize = a.fontsize + 20;
             subHead.FontSize = a.fontsize + 10;  
             UsernameEntry.FontSize = a.fontsize;
             PasswordEntry.FontSize = a.fontsize;
-            LoginButton.FontSize = a.fontsize;
-            SigninButton.FontSize = a.fontsize;
+            LoginButton.FontSize = a.fontsize + 10;
+            SigninButton.FontSize = a.fontsize + 10;
+            if (AccessibiltySettings.FontSize > 25)
+            {
+                AccessibiltySettings.FontSize = 25;
+                QuickLogin.FontSize =  25;
+
+            }
         }
 
 
@@ -85,7 +105,7 @@ namespace momUI
                         Helper helper = JsonConvert.DeserializeObject<Helper>(json);
                         if (helper.Banned == 1.0)
                         {
-                            LoginButton.Text = $"This account is banned";
+                            ErrorLabel.Text = $"This account is banned";
                             return;
                         }
                         
@@ -114,7 +134,7 @@ namespace momUI
                 }
                 catch (Exception ex)
                 {
-                    LoginButton.Text = $" {ex}";
+                   // LoginButton.Text = $" {ex}";
                 }
 
 

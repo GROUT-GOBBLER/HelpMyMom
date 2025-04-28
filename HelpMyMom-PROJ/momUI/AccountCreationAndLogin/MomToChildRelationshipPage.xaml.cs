@@ -18,6 +18,15 @@ public partial class MomToChildReltionshipPage : ContentPage
 	}
     protected override async void OnAppearing()
     {
+        /*
+        Title: 35
+        Header: 25
+        Normal: 15
+        Buttons:
+        Small: 20
+        Med: 30
+        Large: 35
+        */
         Accessibility a = Accessibility.getAccessibilitySettings();
         FNameLabel.FontSize = a.fontsize;
         LNameLabel.FontSize = a.fontsize;
@@ -25,7 +34,7 @@ public partial class MomToChildReltionshipPage : ContentPage
         FNameL.FontSize = a.fontsize;
         LNameL.FontSize = a.fontsize;
         Search.FontSize = a.fontsize;
-        RelationShipButton.FontSize = a.fontsize;
+        RelationShipButton.FontSize = a.fontsize + 5;
 
     }
 

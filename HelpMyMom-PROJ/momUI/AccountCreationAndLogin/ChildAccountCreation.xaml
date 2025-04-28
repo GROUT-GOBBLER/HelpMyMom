@@ -72,6 +72,9 @@
             Clicked="CreateAccountButton_Clicked"
             VerticalOptions="Center"
             HorizontalOptions="Fill" 
+            TextColor="LightGreen"
+            BackgroundColor="DarkGreen"
+            
         />
         <Label 
              x:Name="ErrorLabel"

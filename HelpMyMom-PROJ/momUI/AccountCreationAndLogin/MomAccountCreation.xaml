@@ -70,7 +70,9 @@
             SemanticProperties.Hint="Get"
             Clicked="CreateAccountButton_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill" 
+            TextColor="LightGreen"
+            BackgroundColor="DarkGreen"/>
         <Label 
             x:Name="ErrorLabel"
             Text=""
