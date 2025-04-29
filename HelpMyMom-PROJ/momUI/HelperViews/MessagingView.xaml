@@ -31,8 +31,9 @@
                 x:Name="ChatMessageListView"  
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
-                VerticalScrollBarVisibility="Never" 
-                HasUnevenRows="True" >
+                VerticalScrollBarVisibility="Always" 
+                HasUnevenRows="True"
+                MaximumHeightRequest="500">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
