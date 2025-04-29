@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace momUI.models;
+﻿namespace momUI.models;
 
 public partial class ChatLog
 {

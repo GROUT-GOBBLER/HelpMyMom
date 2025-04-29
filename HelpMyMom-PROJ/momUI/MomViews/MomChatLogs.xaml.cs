@@ -363,8 +363,6 @@ namespace momUI
                     newChatLog.Time = DateTime.Now;
                     newChatLog.IsMom = "true      "; // FOR HELPER. BOHAN, YOU NEED TO CHANGE THIS TO TRUE BECAUSE YOU'RE DOING THE MOM!
                     newChatLog.Text = messageToSend;
-
-
                     newChatLog.Ticket = null; // might NEED TO CHANGE THIS AT SOME POINT!
 
 

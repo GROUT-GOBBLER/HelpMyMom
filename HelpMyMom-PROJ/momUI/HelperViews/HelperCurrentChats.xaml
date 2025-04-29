@@ -3,12 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.HelperViews.HelperCurrentChats"
              Title="HelperCurrentChats">
-    <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25">
-        <Label 
-            Text="Current chats."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Margin="15">
+            <Label 
+                x:Name="CurrentChatsLabel"
+                Text="CURRENT CHATS."
+                FontSize="Header"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+                <ListView
+                    x:Name="CurrentChatsListView"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    VerticalScrollBarVisibility="Never" 
+                    HasUnevenRows="True" 
+                    ItemTapped="CurrentChatsListView_ItemTapped"
+                    Margin="0,0,0,20">
+                    <ListView.ItemTemplate>                    
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                    <Label 
+                                        Grid.Row="0"
+                                        FontSize="{Binding MomNameFontSize}"
+                                        Text="{Binding momName}"/>
+                                    <Label 
+                                        Grid.Row="1"
+                                        FontSize="{Binding LatestMessageTimeFontSize}"
+                                        Text="{Binding lastMessageTime}"/>
+                                    <Label 
+                                        Grid.Row="2"
+                                        FontSize="{Binding LatestMessageTextFontSize}"
+                                        Text="{Binding lastMessageSent}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

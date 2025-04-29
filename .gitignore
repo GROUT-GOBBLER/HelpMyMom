@@ -673,3 +673,5 @@ temp
 .packages
 /src/Templates/.tempTemplateOutput
 /basketballGAME/basketballAPI/obj
+HelpMyMom-PROJ/momUI/momUI.csproj
+HelpMyMom-PROJ/momUI/MainPage.xaml.cs
