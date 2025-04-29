@@ -52,7 +52,7 @@ public partial class MessagingView : ContentPage
     private class MessageView
     {
         public String? sender { get; set; }
-        public String? messageTextContent { get; set; }
+        public FormattedString? messageTextContent { get; set; }
         public DateTime? timeOfSent { get; set; }
         public double MessageSenderFontSize { get; set; }
         public double MessageOtherFontSize { get; set; }
@@ -117,9 +117,8 @@ public partial class MessagingView : ContentPage
                                     MessageView tempMessageView = new MessageView();
 
                                     tempMessageView.sender = motherName;
-                                    tempMessageView.messageTextContent = "\n" + cl.Text;
+                                    tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
-
                                     tempMessageView.MessageSenderFontSize = fontSizes.fontsize + 10;
                                     tempMessageView.MessageOtherFontSize = fontSizes.fontsize;
 
@@ -133,7 +132,7 @@ public partial class MessagingView : ContentPage
                                     MessageView tempMessageView = new MessageView();
 
                                     tempMessageView.sender = helperName;
-                                    tempMessageView.messageTextContent = "\n" + cl.Text;
+                                    tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
 
                                     tempMessageView.MessageSenderFontSize = fontSizes.fontsize + 10;
@@ -266,7 +265,78 @@ public partial class MessagingView : ContentPage
 
         MomNameTextBox.Text = motherName;
     }
-    
+
+    private FormattedString CreateFormattedMessage(String messageText)
+    {
+        var formattedString = new FormattedString();
+        var urlRegex = new System.Text.RegularExpressions.Regex(@"(https?://[^\s]+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+        var matches = urlRegex.Matches(messageText);
+        int lastIndex = 0;
+
+        foreach (System.Text.RegularExpressions.Match match in matches)
+        {
+            // text before the URL
+            if (match.Index > lastIndex)
+            {
+                var textSpan = new Span
+                {
+                    Text = messageText.Substring(lastIndex, match.Index - lastIndex)
+                };
+                formattedString.Spans.Add(textSpan);
+            }
+
+            // Make the URL clickable.
+            var urlSpan = new Span
+            {
+                Text = match.Value,
+                TextColor = Colors.Blue,
+                TextDecorations = TextDecorations.Underline
+            };
+
+            var tapGesture = new TapGestureRecognizer();
+            tapGesture.Tapped += async (s, e) => await OpenUrl(match.Value);
+            urlSpan.GestureRecognizers.Add(tapGesture);
+            formattedString.Spans.Add(urlSpan);
+
+            lastIndex = match.Index + match.Length;
+        }
+
+        // Add any remaining text after the last URL
+        if (lastIndex < messageText.Length)
+        {
+            var remainingSpan = new Span
+            {
+                Text = messageText.Substring(lastIndex)
+            };
+            formattedString.Spans.Add(remainingSpan);
+        }
+
+        // Not sure what this does
+        if (formattedString.Spans.Count == 0)
+        {
+            formattedString.Spans.Add(new Span { Text = messageText });
+        }
+
+        return formattedString;
+    }
+
+    private async Task OpenUrl(string url)
+    {
+        try
+        {
+            if (!url.StartsWith("http://") && !url.StartsWith("https://"))
+            {
+                url = "https://" + url;
+            }
+            // Opens the link when clicked. Not sure if we should make this open differently?
+            await Launcher.OpenAsync(new Uri(url));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("ERROR:", $"Failed to launch URL: {ex.Message}", "OK");
+        }
+    }
+
     // XAML ACTIONS.
     private void MessageTextEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -317,6 +387,8 @@ public partial class MessagingView : ContentPage
 
     async private void TicketApprovedButton_Clicked(object sender, EventArgs e)
     {
+        TicketApprovedButton.IsEnabled = false;
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -365,5 +437,6 @@ public partial class MessagingView : ContentPage
             }
         }
 
+        TicketApprovedButton.IsEnabled = true;
     }
 }

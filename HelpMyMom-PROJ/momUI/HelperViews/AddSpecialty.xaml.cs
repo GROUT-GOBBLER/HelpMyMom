@@ -38,7 +38,9 @@ public partial class AddSpecialty : ContentPage
 
     async private void SubmitNewSpecialtyButton_Clicked(object sender, EventArgs e)
     {
-        if(newSpecName == "") // ensure that user has entered a value.
+        SubmitNewSpecialtyButton.IsEnabled = false;
+
+        if (newSpecName == "") // ensure that user has entered a value.
         {
             await DisplayAlert("NoNameEntered", "Please enter a name for the new specialty.", "Ok.");
         }
@@ -104,6 +106,8 @@ public partial class AddSpecialty : ContentPage
             // Return to edit page.
             if(Navigation != null) { await Navigation.PopModalAsync(); }
             else { await DisplayAlert("NavigationError", "Error! Something happened when returning to the previous page.", "Ok."); }
-        } 
+        }
+
+        SubmitNewSpecialtyButton.IsEnabled = true;
     }
 }

@@ -37,8 +37,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid 
-                                Padding="10" >
+                            <Grid Padding="10" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -54,9 +53,9 @@
                                     FontSize="{Binding MessageOtherFontSize}"/>
                                 <Label 
                                     Grid.Row="2"
-                                    Text="{Binding messageTextContent}"    
+                                    FormattedText="{Binding messageTextContent}" 
                                     FontSize="{Binding MessageOtherFontSize}"
-                                    VerticalOptions="End" />
+                                    VerticalOptions="End"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
