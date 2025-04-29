@@ -14,6 +14,8 @@ public partial class ChildAccountSettings : ContentPage
     List<Relationship>? linkedR = new List<Relationship>();
     List<string> momsString = new List<string>();
 
+    Accessibility a;
+
     string newFirst = "";
     string newLast = "";
     string newMomUser = "";
@@ -30,7 +32,11 @@ public partial class ChildAccountSettings : ContentPage
     public ChildAccountSettings(Child acc)
 	{
 		InitializeComponent();
-		account = acc;
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
+
+        account = acc;
 	}
 
     protected override async void OnAppearing()

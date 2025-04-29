@@ -13,6 +13,8 @@ public partial class UnassignedTickets : ContentPage
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
+    Accessibility a;
+
     int normalFont = 15;
 
     int titleFont = 20;
@@ -23,7 +25,10 @@ public partial class UnassignedTickets : ContentPage
 	{
 		InitializeComponent();
 
-		account = acc;
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
+
+        account = acc;
 		helper = h;
 	}
 
@@ -57,6 +62,7 @@ public partial class UnassignedTickets : ContentPage
                                 st.Id = t.Id;
                                 st.Details = t.Description;
                                 st.Status = t.Status;
+                                st.TextSize = normalFont;
 
                                 HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers/" + t.MomId);
                                 if (momResponse.IsSuccessStatusCode)
