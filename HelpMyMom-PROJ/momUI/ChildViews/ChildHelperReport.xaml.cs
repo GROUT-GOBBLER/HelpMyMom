@@ -13,6 +13,8 @@ public partial class ChildHelperReport : ContentPage
     Helper? helper = null;
     Mother? mom = null;
 
+    Accessibility a;
+
     string subject = "";
     string body = "";
 
@@ -25,6 +27,9 @@ public partial class ChildHelperReport : ContentPage
     public ChildHelperReport(Child acc, Ticket t)
     {
         InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         account = acc;
         ticket = t;
@@ -84,6 +89,7 @@ public partial class ChildHelperReport : ContentPage
 
     private async void ReportHelperClicked(object sender, EventArgs e)
     {
+        ReportBtn.IsEnabled = false;
         using (HttpClient client = new HttpClient())
         {
             List<Report>? allReports;
@@ -137,6 +143,7 @@ public partial class ChildHelperReport : ContentPage
                     }
 
                 }
+                ReportBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {

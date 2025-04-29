@@ -61,7 +61,8 @@
                 
                 <Entry x:Name="PasswordEntry"
                     Placeholder="Enter Password"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center" 
+                       IsPassword="True"/>
                 <Label x:Name="ErrorLabel"
                        Text=""
                        />

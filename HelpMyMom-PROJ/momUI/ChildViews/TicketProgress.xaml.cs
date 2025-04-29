@@ -12,6 +12,8 @@ public partial class TicketProgress : ContentPage
     List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
 
+    Accessibility a;
+
     int normalFont = 15;
 
     int titleFont = 20;
@@ -21,6 +23,9 @@ public partial class TicketProgress : ContentPage
     public TicketProgress(Child acc)
 	{
 		InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         account = acc;
 	}
@@ -57,6 +62,7 @@ public partial class TicketProgress : ContentPage
                                 st.Id = t.Id;
                                 st.Details = t.Description;
                                 st.Status = t.Status;
+                                st.TextSize = normalFont;
 
                                 HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers/" + t.MomId);
                                 if (momResponse.IsSuccessStatusCode)

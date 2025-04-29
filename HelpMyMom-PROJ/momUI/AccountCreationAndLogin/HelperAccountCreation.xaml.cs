@@ -122,7 +122,8 @@ public partial class HelperAccountCreation : ContentPage
             helper.Id = (mList[mList.Count - 1].Id + 1);
             helper.FName = FirstNameEntry.Text;
             helper.LName = LastNameEntry.Text;
-            helper.Email = EmailEntry.Text;
+            String E = EmailEntry.Text.Split("\n")[0];
+            helper.Email = E;
             String specString = "";
             int i = 0;
             foreach (Spec item in SelectedSpecList)
@@ -181,6 +182,7 @@ public partial class HelperAccountCreation : ContentPage
             }
 
             helper.Description = descriptionEditor.Text;
+            helper.Tokens = 0;
             account.HelperId = helper.Id;
             account.Username = UsernameEntry.Text;
             account.Password = PasswordEntry.Text;
@@ -233,7 +235,7 @@ public partial class HelperAccountCreation : ContentPage
     {
         SelectedList.BeginRefresh();
         Spec s = e.SelectedItem as Spec;
-        ErrorLabel.Text = s.Name;
+      //  ErrorLabel.Text = s.Name;
         SelectedSpecList.Add(s);
  
 

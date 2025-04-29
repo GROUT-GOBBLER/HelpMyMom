@@ -6,6 +6,7 @@ public partial class ChildMenu : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     Child account;
+    Accessibility a;
 
     int normalFont = 15;
 
@@ -16,6 +17,9 @@ public partial class ChildMenu : ContentPage
     public ChildMenu(Child acc)
 	{
 		InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         if (acc != null)
         {
@@ -66,6 +70,13 @@ public partial class ChildMenu : ContentPage
     private void SignOutClicked(object sender, EventArgs e)
     {
         if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new MainPage());
+    }
+
+    private void testClicked(object sender, EventArgs e)
+    {
+        Ticket t = new Ticket();
+        t.Id = -1;
+        EmailServices.SendDenyMessage("hmmprojectchild@hotmail.com", "hmmprojectmom@hotmail.com", "Egg man", t);
     }
 
     private void NothingClicked(object sender, EventArgs e)

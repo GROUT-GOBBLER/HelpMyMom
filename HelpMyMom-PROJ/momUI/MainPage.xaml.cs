@@ -92,7 +92,7 @@ namespace momUI
 
                         LoginButton.Text = $" child {child.FName} {child.LName} ";
                         await Navigation.PushAsync(new ChildMenu(child));
-
+                        LoginButton.IsEnabled = true;
                         return;
                     }
                     else if (account.HelperId != null)
@@ -100,6 +100,7 @@ namespace momUI
                         if (Application.Current != null)
                         {
                             Application.Current.MainPage = new NavigationPage(new HelperView(account));
+                            LoginButton.IsEnabled = true;
                         }
                         
                         LoginButton.IsEnabled = true;
@@ -112,10 +113,10 @@ namespace momUI
 
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
 
+                        int id = (int)account.MomId;
+                        await Navigation.PushAsync(new MomMenu(account.Username, id));
 
-                        // await Navigation.PushAsync(new MomMenu("LocalMomInYourArea", 4));
-                        await Navigation.PushAsync(new MomMenu(account.Username, mother.Id));
-
+                        LoginButton.IsEnabled = true;
 
 
                         //  LoginButton.Text = $" mother {mother.FName} {mother.LName} ";

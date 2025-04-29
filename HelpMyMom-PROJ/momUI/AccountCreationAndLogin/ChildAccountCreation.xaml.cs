@@ -59,8 +59,9 @@ public partial class ChildAccountCreation : ContentPage
             child.Id = (mList[mList.Count - 1].Id + 1);
             child.FName = FirstNameEntry.Text;
             child.LName = LastNameEntry.Text;
-            child.Email = EmailEntry.Text;
-            
+            String E = EmailEntry.Text.Split("\n")[0];
+            child.Email = E;
+
 
             account.ChildId = child.Id;
             account.Username = UsernameEntry.Text;
