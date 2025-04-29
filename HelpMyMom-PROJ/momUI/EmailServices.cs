@@ -16,7 +16,7 @@ namespace momUI
             {
                 $"Hello {Name}!",
                 $"Your ticket (#{ticket.Id}) have now been updated to the {status} status, log into the app for additional details.",
-                "Thank you for your time, Help My Mom App"
+                $"Thank you for your time, Help My Mom App"
             };
 
             MailAddress from = new MailAddress(fromEmail);

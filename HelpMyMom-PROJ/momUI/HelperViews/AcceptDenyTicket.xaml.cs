@@ -80,7 +80,7 @@ public partial class AcceptDenyTicket : ContentPage
                     masterTicket.HelperId = null;
                     masterTicket.Helper = null;
                     HttpResponseMessage ticketPutResponse = await client.PutAsJsonAsync($"{URL}/Tickets/{masterTicket.Id}", masterTicket); // TICKET.
-
+                    SendEmailNotifications(masterTicket, false);
                     if (ticketPutResponse.IsSuccessStatusCode) { SendEmailNotifications(masterTicket, false); }
                     else { await DisplayAlert("EditStatus", "Error! Failed to edit the ticket status.", "Ok."); }
                 }
