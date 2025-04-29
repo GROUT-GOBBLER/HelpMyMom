@@ -11,11 +11,15 @@ public partial class MessagingView : ContentPage
     // VARIABLE CREATION.
     string URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     String messageToSend = "";
+    String motherName;
+    String helperName;
     int? ticketID;
-
-    ObservableCollection<MessageView> chatMessagesList;
+    
     Helper masterHelper;
     Account masterAccount;
+    Ticket masterTicket;
+
+    ObservableCollection<MessageView> chatMessagesList;
     Accessibility fontSizes;
 
     DateTime? latestMessageTime;
@@ -29,8 +33,13 @@ public partial class MessagingView : ContentPage
         GetLatestMessageTime();
 
         ticketID = t_id;
+        motherName = "";
+        helperName = h.FName + " " + h.LName;
+
         masterHelper = h;
         masterAccount = a;
+        masterTicket = new Ticket();
+
         fontSizes = Accessibility.getAccessibilitySettings();
 
         aTimer = new System.Timers.Timer(5000);
@@ -43,7 +52,7 @@ public partial class MessagingView : ContentPage
     private class MessageView
     {
         public String? sender { get; set; }
-        public String? messageTextContent { get; set; }
+        public FormattedString? messageTextContent { get; set; }
         public DateTime? timeOfSent { get; set; }
         public double MessageSenderFontSize { get; set; }
         public double MessageOtherFontSize { get; set; }
@@ -54,9 +63,10 @@ public partial class MessagingView : ContentPage
     {
         base.OnAppearing();
 
-        RefreshListView();
-        SetFontSizes();
         GetMomName();
+        SetFontSizes();
+        TicketApprovedButtonStateDetermination(masterTicket);
+        RefreshListView();
 
         ChatMessageListView.ItemsSource = chatMessagesList;
 
@@ -72,89 +82,24 @@ public partial class MessagingView : ContentPage
     // LOCAL METHODS.
     async private void RefreshListView()
     {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            TicketApprovedButtonStateDetermination(masterTicket);
+        });
+
         using (HttpClient client = new HttpClient())
         {
             try
             {
                 // Get entries from chat log table from DB.
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Chatlogs"}");
-                String json1 = await response1.Content.ReadAsStringAsync();
-                List<ChatLog>? chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json1);
-
-                // Get entries from Mother table in DB.
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Mothers"}");
-                String json2 = await response2.Content.ReadAsStringAsync();
-                List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-
-                // Get entries from Helper table in DB.
-                HttpResponseMessage response3 = await client.GetAsync($"{URL}/{"Helpers"}");
-                String json3 = await response3.Content.ReadAsStringAsync();
-                List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json3);
+                HttpResponseMessage chatlogResponse = await client.GetAsync($"{URL}/{"Chatlogs"}");
+                String chatlogJSON = await chatlogResponse.Content.ReadAsStringAsync();
+                List<ChatLog>? chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(chatlogJSON);
 
                 // Get entries from Ticket table in DB.
-                HttpResponseMessage response4 = await client.GetAsync($"{URL}/{"Tickets"}");
-                String json4 = await response4.Content.ReadAsStringAsync();
-                List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json4);
-
-                // Get Mom name and Helper name.
-                String momName = "", helperName = "";
-                int? momID = 0, helperID = 0;
-
-                Ticket tempTicket = new Ticket(); // Find ticket.
-                if (ticketsList != null)
-                {
-                    foreach (Ticket t in ticketsList)
-                    {
-                        if (t.Id == ticketID)
-                        {
-                            tempTicket = t;
-                            break;
-                        }
-                    }
-                }
-                else { await DisplayAlert("TicketsNotFound", "Failed to find any tickets.", "Ok."); }
-
-                if (tempTicket != null)
-                {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        TicketApprovedButtonStateDetermination(tempTicket);
-                        momID = tempTicket.MomId; // Get momID and helperID.
-                        helperID = tempTicket.HelperId;
-                    });
-                }
-
-                Mother tempMother = new Mother(); // get mom and helper instance.
-                Helper tempHelper = new Helper();
-
-                if (mothersList != null)
-                {
-                    foreach (Mother m in mothersList)
-                    {
-                        if (m.Id == momID)
-                        {
-                            tempMother = m;
-                            break;
-                        }
-                    }
-                }
-                else { await DisplayAlert("MothersNotFound", "Failed to find any Mothers.", "Ok."); }
-
-                if (helpersList != null)
-                {
-                    foreach (Helper h in helpersList)
-                    {
-                        if (h.Id == helperID)
-                        {
-                            tempHelper = h;
-                            break;
-                        }
-                    }
-                }
-                else { await DisplayAlert("HelpersNotFound", "Failed to find any Helpers.", "Ok."); }
-
-                momName = tempMother.FName + " " + tempMother.LName;
-                helperName = tempHelper.FName + " " + tempHelper.LName;
+                HttpResponseMessage ticketResponse = await client.GetAsync($"{URL}/{"Tickets"}");
+                String ticketJSON = await ticketResponse.Content.ReadAsStringAsync();
+                List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(ticketJSON);
 
                 // Ensure only chats from the current ticket.
                 if (chatLogList != null)
@@ -171,10 +116,9 @@ public partial class MessagingView : ContentPage
                                 {
                                     MessageView tempMessageView = new MessageView();
 
-                                    tempMessageView.sender = momName;
-                                    tempMessageView.messageTextContent = "\n" + cl.Text;
+                                    tempMessageView.sender = motherName;
+                                    tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
-
                                     tempMessageView.MessageSenderFontSize = fontSizes.fontsize + 10;
                                     tempMessageView.MessageOtherFontSize = fontSizes.fontsize;
 
@@ -188,7 +132,7 @@ public partial class MessagingView : ContentPage
                                     MessageView tempMessageView = new MessageView();
 
                                     tempMessageView.sender = helperName;
-                                    tempMessageView.messageTextContent = "\n" + cl.Text;
+                                    tempMessageView.messageTextContent = CreateFormattedMessage(cl.Text ?? "");
                                     tempMessageView.timeOfSent = cl.Time;
 
                                     tempMessageView.MessageSenderFontSize = fontSizes.fontsize + 10;
@@ -218,8 +162,8 @@ public partial class MessagingView : ContentPage
             {
                 // Get entries from chat log table from DB.
                 HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Chatlogs"}");
-                String json1 = await response1.Content.ReadAsStringAsync();
-                List<ChatLog>? chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json1);
+                    String json1 = await response1.Content.ReadAsStringAsync();
+                    List<ChatLog>? chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json1);
 
                 if (chatLogList != null)
                 {
@@ -263,8 +207,6 @@ public partial class MessagingView : ContentPage
 
     private async void GetMomName()
     {
-        String momName = "";
-
         using (HttpClient client = new HttpClient())
         {
             try
@@ -280,7 +222,6 @@ public partial class MessagingView : ContentPage
                     List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(motherJSON);
 
                 // Make some temporary variables.
-                Ticket tempTicket = new Ticket();
                 Mother tempMother = new Mother();
                 
                 if(ticketsList != null) // get Ticket object from ticket id.
@@ -289,12 +230,12 @@ public partial class MessagingView : ContentPage
                     {
                         if(t.Id == ticketID)
                         {
-                            tempTicket = t;
+                            masterTicket = t;
                             break;
                         }
                     }
 
-                    if(tempTicket.Id != ticketID) { await DisplayAlert("TicketNotFound", $"Error! Could not find ticket with ID {ticketID}.", "Ok."); }
+                    if(masterTicket.Id != ticketID) { await DisplayAlert("TicketNotFound", $"Error! Could not find ticket with ID {ticketID}.", "Ok."); }
                 }
                 else { await DisplayAlert("NoTicketsFound", "Error! Failed to find any tickets.", "Ok."); }
 
@@ -303,18 +244,18 @@ public partial class MessagingView : ContentPage
                 {
                     foreach(Mother m in mothersList)
                     {
-                        if(m.Id == tempTicket.MomId)
+                        if(m.Id == masterTicket.MomId)
                         {
                             tempMother = m;
                             break;
                         }
                     }
 
-                    if(tempMother.Id != tempTicket.MomId) { await DisplayAlert("MotherNotFound", $"Error! Could not find mother with ID {tempTicket.MomId}.", "Ok."); }
+                    if(tempMother.Id != masterTicket.MomId) { await DisplayAlert("MotherNotFound", $"Error! Could not find mother with ID {masterTicket.MomId}.", "Ok."); }
                 }
                 else { await DisplayAlert("NoMothersFound", "Error! Failed to find any mothers.", "Ok."); }
 
-                momName = tempMother.FName + " " + tempMother.LName;
+                motherName = tempMother.FName + " " + tempMother.LName;
             }
             catch (Exception e)
             {
@@ -322,9 +263,80 @@ public partial class MessagingView : ContentPage
             }
         }
 
-        MomNameTextBox.Text = momName;
+        MomNameTextBox.Text = motherName;
     }
-    
+
+    private FormattedString CreateFormattedMessage(String messageText)
+    {
+        var formattedString = new FormattedString();
+        var urlRegex = new System.Text.RegularExpressions.Regex(@"(https?://[^\s]+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+        var matches = urlRegex.Matches(messageText);
+        int lastIndex = 0;
+
+        foreach (System.Text.RegularExpressions.Match match in matches)
+        {
+            // text before the URL
+            if (match.Index > lastIndex)
+            {
+                var textSpan = new Span
+                {
+                    Text = messageText.Substring(lastIndex, match.Index - lastIndex)
+                };
+                formattedString.Spans.Add(textSpan);
+            }
+
+            // Make the URL clickable.
+            var urlSpan = new Span
+            {
+                Text = match.Value,
+                TextColor = Colors.Blue,
+                TextDecorations = TextDecorations.Underline
+            };
+
+            var tapGesture = new TapGestureRecognizer();
+            tapGesture.Tapped += async (s, e) => await OpenUrl(match.Value);
+            urlSpan.GestureRecognizers.Add(tapGesture);
+            formattedString.Spans.Add(urlSpan);
+
+            lastIndex = match.Index + match.Length;
+        }
+
+        // Add any remaining text after the last URL
+        if (lastIndex < messageText.Length)
+        {
+            var remainingSpan = new Span
+            {
+                Text = messageText.Substring(lastIndex)
+            };
+            formattedString.Spans.Add(remainingSpan);
+        }
+
+        // Not sure what this does
+        if (formattedString.Spans.Count == 0)
+        {
+            formattedString.Spans.Add(new Span { Text = messageText });
+        }
+
+        return formattedString;
+    }
+
+    private async Task OpenUrl(string url)
+    {
+        try
+        {
+            if (!url.StartsWith("http://") && !url.StartsWith("https://"))
+            {
+                url = "https://" + url;
+            }
+            // Opens the link when clicked. Not sure if we should make this open differently?
+            await Launcher.OpenAsync(new Uri(url));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("ERROR:", $"Failed to launch URL: {ex.Message}", "OK");
+        }
+    }
+
     // XAML ACTIONS.
     private void MessageTextEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -338,9 +350,9 @@ public partial class MessagingView : ContentPage
             try
             {
                 // Get entries from chat log table from DB.
-                HttpResponseMessage response = await client.GetAsync($"{URL}/{"Chatlogs"}");
-                String json = await response.Content.ReadAsStringAsync();
-                List<ChatLog>? chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(json);
+                HttpResponseMessage chatlogResponse = await client.GetAsync($"{URL}/{"Chatlogs"}");
+                String chatlogJSON = await chatlogResponse.Content.ReadAsStringAsync();
+                List<ChatLog>? chatLogList = JsonConvert.DeserializeObject<List<ChatLog>>(chatlogJSON);
 
                 ChatLog newChatLog = new ChatLog();
 
@@ -375,6 +387,8 @@ public partial class MessagingView : ContentPage
 
     async private void TicketApprovedButton_Clicked(object sender, EventArgs e)
     {
+        TicketApprovedButton.IsEnabled = false;
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -423,5 +437,6 @@ public partial class MessagingView : ContentPage
             }
         }
 
+        TicketApprovedButton.IsEnabled = true;
     }
 }
