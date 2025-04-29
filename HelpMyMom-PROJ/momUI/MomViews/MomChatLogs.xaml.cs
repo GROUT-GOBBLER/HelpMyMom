@@ -249,6 +249,10 @@ namespace momUI
                         // Goto the review page.
                         await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
                     }
+                    else
+                    {
+                        return;
+                    }
 
                 }
                 catch (Exception ex)
@@ -264,6 +268,8 @@ namespace momUI
             RefreshListView();
 
             CheckIfReviewApproved();
+
+            UpdateTicketButtonStatus();
 
         }
 
@@ -431,12 +437,6 @@ namespace momUI
                                     tempMessageView.SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     chatMessagesList.Add(tempMessageView);
-                                    /*
-                                    if (chatMessagesList.Any()) // Scrolling to the Bottom every time list is refreshed
-                                    {
-                                        ChatMessageListView.ScrollTo(chatMessagesList.Last(), ScrollToPosition.End, true);
-                                    }
-                                    */
                                 });
                                 
                             }
@@ -451,12 +451,6 @@ namespace momUI
                                     tempMessageView.SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     chatMessagesList.Add(tempMessageView);
-                                    /*
-                                    if (chatMessagesList.Any()) // Scrolling to the Bottom
-                                    {
-                                        ChatMessageListView.ScrollTo(chatMessagesList.Last(), ScrollToPosition.End, true);
-                                    }
-                                    */
                                 });
                             }
                         }
@@ -611,6 +605,7 @@ namespace momUI
                     else if (tempTicket.Status == "COMPLETED")
                     {
                         await DisplayAlert("UNAVAILABLE", "Ticket has not been approved by Helper, cannot access review!", "OK");
+                        return;
                     }
                     else
                     {
