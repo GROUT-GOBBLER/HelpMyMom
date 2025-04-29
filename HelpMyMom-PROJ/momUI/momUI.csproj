@@ -88,6 +88,9 @@
 	  <MauiXaml Update="Accessibility Settings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\AcceptDenyTicket.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="HelperViews\AddSpecialty.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
