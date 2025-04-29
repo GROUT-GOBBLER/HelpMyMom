@@ -185,7 +185,6 @@ public partial class HelperAvailableTickets : ContentPage
         // Determining child account setup.
         string[]? notifSettings = null;
         if (tempChild.Notifs != null) { notifSettings = tempChild.Notifs.Split(","); }
-        else { await DisplayAlert("NoNotificationsSettings", "Error! Could not find the child's notifications settings.", "Ok."); }
 
         using (HttpClient client = new HttpClient())
         {

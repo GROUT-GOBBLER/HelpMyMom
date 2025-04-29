@@ -11,6 +11,8 @@ namespace momUI
 		String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 		String MASTERusername = "UncleBensBiggestFan";
 
+		Helper masterHelper; // Yarrick-added code.
+
         ObservableCollection<SpecialtyItem> helperSPECIALTIES;
 
 
@@ -40,7 +42,7 @@ namespace momUI
             _helperAccountID = helperID;
             _ticketID = ticketID;
 
-
+			masterHelper = new Helper();
 
         }
 
@@ -124,6 +126,7 @@ namespace momUI
 						if (h.Id == tempAccount.HelperId)
 						{
 							tempHelper = h;
+							masterHelper = tempHelper;
 							found = true;
 						}
 					}
@@ -209,7 +212,7 @@ namespace momUI
 
         async private void ShowReviewsButton_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new ViewReviews());
+			await Navigation.PushAsync(new ViewReviews(masterHelper));
 		}
 
 
