@@ -72,6 +72,13 @@ public partial class ChildMenu : ContentPage
         if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new MainPage());
     }
 
+    private void testClicked(object sender, EventArgs e)
+    {
+        Ticket t = new Ticket();
+        t.Id = -1;
+        EmailServices.SendDenyMessage("hmmprojectchild@hotmail.com", "hmmprojectmom@hotmail.com", "Egg man", t);
+    }
+
     private void NothingClicked(object sender, EventArgs e)
     {
 
