@@ -78,7 +78,7 @@
    
             <Label 
                   x:Name="specailL"
-                Text="specialties"
+                Text="Specialties"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
             />
