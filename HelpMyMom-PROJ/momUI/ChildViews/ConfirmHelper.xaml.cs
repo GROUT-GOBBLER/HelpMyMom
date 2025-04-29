@@ -12,6 +12,8 @@ public partial class ConfirmHelper : ContentPage
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
+    Accessibility a;
+
     int normalFont = 15;
 
     int titleFont = 20;
@@ -21,6 +23,9 @@ public partial class ConfirmHelper : ContentPage
     public ConfirmHelper(Child acc, Helper h, Ticket? t = null)
 	{
 		InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         account = acc;
         helper = h;
