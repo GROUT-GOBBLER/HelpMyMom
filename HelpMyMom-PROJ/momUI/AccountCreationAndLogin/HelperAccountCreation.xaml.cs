@@ -181,6 +181,7 @@ public partial class HelperAccountCreation : ContentPage
             }
 
             helper.Description = descriptionEditor.Text;
+            helper.Tokens = 0;
             account.HelperId = helper.Id;
             account.Username = UsernameEntry.Text;
             account.Password = PasswordEntry.Text;
