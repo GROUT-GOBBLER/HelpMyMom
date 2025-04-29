@@ -171,7 +171,18 @@ namespace momUI
                     if (createReviewResponse.IsSuccessStatusCode)
                     {
                         await DisplayAlert("Success", "Your review has been successfully sent!", "OK");
-                        await Navigation.PopAsync();
+                        
+
+                        String accountUserName = "";
+                        foreach (Account index in accountList)
+                        {
+                            if (index.MomId == _momAccountID)
+                            {
+                                accountUserName = index.Username;
+                                break;
+                            }
+                        }
+                        await Navigation.PushAsync(new MomMenu(accountUserName, _momAccountID));
                     }
                     else
                     {
