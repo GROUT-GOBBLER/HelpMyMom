@@ -10,9 +10,9 @@ public partial class AcceptDenyTicket : ContentPage
     // GLOBAL VARIABLES.
     string URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     String ticketDescription;
-    String motherName;
-    String helperName;
-    String childName;
+    Child? c;
+    Mother? m;
+    Helper? h;
 
     Ticket masterTicket;
     Accessibility fontSizes;
@@ -29,9 +29,7 @@ public partial class AcceptDenyTicket : ContentPage
         if(t.Description != null) { ticketDescription = t.Description; }
         else { ticketDescription = "Could not find ticket description."; }
 
-        motherName = "";
-        helperName = "";
-        childName = "";
+        getRelatedPpl();
         
         TicketDescriptionLabel.Text = ticketDescription;
         MomNameLabel.Text = motherFullName;
@@ -41,6 +39,36 @@ public partial class AcceptDenyTicket : ContentPage
         TicketDescriptionLabel.FontSize = fontSizes.fontsize;
         AcceptTicketButton.FontSize = fontSizes.fontsize + 5;
         DeclineTicketButton.FontSize = fontSizes.fontsize + 5;
+    }
+
+    // get child + mom
+    async private void getRelatedPpl()
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers/" + masterTicket.MomId);
+                HttpResponseMessage childResponse = await client.GetAsync(URL + "/Child/" + masterTicket.ChildId);
+                HttpResponseMessage helperResponse = await client.GetAsync(URL + "/Helper/" + masterTicket.HelperId);
+
+                if (momResponse.IsSuccessStatusCode && childResponse.IsSuccessStatusCode)
+                {
+                    string json1 = await momResponse.Content.ReadAsStringAsync();
+                    m = JsonConvert.DeserializeObject<Mother>(json1);
+
+                    string json2 = await momResponse.Content.ReadAsStringAsync();
+                    c = JsonConvert.DeserializeObject<Child>(json2);
+
+                    string json3 = await momResponse.Content.ReadAsStringAsync();
+                    h = JsonConvert.DeserializeObject<Helper>(json3);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 
     // BUTTON PRESSES.
@@ -107,6 +135,35 @@ public partial class AcceptDenyTicket : ContentPage
     // METHODS.
     async private void SendEmailNotifications(Ticket t, bool isSubmitButton)
     {
-        // code here.
+        if (isSubmitButton) {
+            Console.WriteLine("\n========================================================");
+            Console.WriteLine("yes");
+            Console.WriteLine("========================================================\n");
+
+            string[]? notifSettings = null;
+            if (c.Notifs != null) notifSettings = c.Notifs.Split(",");
+
+            EmailServices.SendNotifcation(h.Email, $"{h.FName} {h.LName}", "INPROGRESS", masterTicket);
+            EmailServices.SendNotifcation(m.Email, $"{m.FName} {m.LName}", "INPROGRESS", masterTicket);
+
+            if (notifSettings != null && notifSettings.Length == 5)
+            {
+                bool shouldSendChild = bool.Parse(notifSettings[0].ToLower());
+
+                if (shouldSendChild) EmailServices.SendNotifcation(c.Email, $"{c.FName} {c.LName}", "INPROGRESS", masterTicket);
+            }
+            else //If there are no settings, assume "true"
+            {
+                EmailServices.SendNotifcation(c.Email, $"{c.FName} {c.LName}", "INPROGRESS", masterTicket);
+            }
+        }
+        else
+        {
+            Console.WriteLine("\n========================================================");
+            Console.WriteLine("no");
+            Console.WriteLine("========================================================/n");
+
+            EmailServices.SendDenyMessage(c.Email, m.Email, $"{c.FName} {c.LName}", masterTicket);
+        }
     }
 }
