@@ -1,7 +1,6 @@
 using momUI.models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 
 namespace momUI.HelperViews;
 
@@ -134,7 +133,9 @@ public partial class HelperEditProfile : ContentPage
 
     async private void UsernameEditButton_Clicked(object sender, EventArgs e)
     {
-        using(HttpClient client = new HttpClient())
+        UsernameEditButton.IsEnabled = false;
+
+        using (HttpClient client = new HttpClient())
         {
             try
             {
@@ -191,6 +192,8 @@ public partial class HelperEditProfile : ContentPage
 
         newUsername = "";
         UsernameEntry.Text = "";
+
+        UsernameEditButton.IsEnabled = true;
     }
 
     // NAME.
@@ -206,6 +209,8 @@ public partial class HelperEditProfile : ContentPage
 
     async private void ChangeNameButton_Clicked(object sender, EventArgs e)
     {
+        ChangeNameButton.IsEnabled = false;
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -246,12 +251,16 @@ public partial class HelperEditProfile : ContentPage
         newLastName = "";
         FirstNameEntry.Text = "";
         LastNameEntry.Text = "";
+
+        ChangeNameButton.IsEnabled = true;
     }
 
     // DATE OF BIRTH.
     async private void DateOfBirthButton_Clicked(object sender, EventArgs e)
     {
-        using(HttpClient client = new HttpClient())
+        DateOfBirthButton.IsEnabled = false;
+
+        using (HttpClient client = new HttpClient())
         {
             try
             {
@@ -270,6 +279,8 @@ public partial class HelperEditProfile : ContentPage
 
         DateOfBirthDatePicker.MaximumDate = DateTime.Today;
         DateOfBirthDatePicker.Date = fullDateOfBirth.ToDateTime(TimeOnly.Parse("10:00 PM"));
+
+        DateOfBirthButton.IsEnabled = true;
     }
 
     private void DateOfBirthDatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -280,6 +291,8 @@ public partial class HelperEditProfile : ContentPage
     // SPECS.
     async private void SpecsButton_Clicked(object sender, EventArgs e)
     {
+        SpecsButton.IsEnabled = false; 
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -309,6 +322,7 @@ public partial class HelperEditProfile : ContentPage
         }
         
         newSpecsList = "";
+        SpecsButton.IsEnabled = true;
     }
 
     private void SpecsCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -336,6 +350,8 @@ public partial class HelperEditProfile : ContentPage
 
     async private void DescriptionButton_Clicked(object sender, EventArgs e)
     {
+        DescriptionButton.IsEnabled = false;
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -355,5 +371,7 @@ public partial class HelperEditProfile : ContentPage
 
         newDescription = "";
         DescriptionEditor.Text = "";
+
+        DescriptionButton.IsEnabled = true;
     }
 }

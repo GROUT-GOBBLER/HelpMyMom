@@ -16,7 +16,7 @@ namespace momUI
             {
                 $"Hello {Name}!",
                 $"Your ticket (#{ticket.Id}) have now been updated to the {status} status, log into the app for additional details.",
-                "Thank you for your time, Help My Mom App"
+                $"Thank you for your time, Help My Mom App"
             };
 
             MailAddress from = new MailAddress(fromEmail);
@@ -52,7 +52,7 @@ namespace momUI
                 $"Hello {Name}!",
                 $"The Helper you selected for ticket #{ticket.Id} has denied the ticket.",
                 $"Please select another Helper in the app.",
-                $"Thank you for your time, Help My Mom App"
+                $"Thank you for your time, Help My Mom App."
             };
 
             MailAddress from = new MailAddress(fromEmail);
