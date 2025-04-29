@@ -6,6 +6,7 @@ public partial class ChildMenu : ContentPage
 {
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     Child account;
+    Accessibility a;
 
     int normalFont = 15;
 
@@ -16,6 +17,9 @@ public partial class ChildMenu : ContentPage
     public ChildMenu(Child acc)
 	{
 		InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         if (acc != null)
         {

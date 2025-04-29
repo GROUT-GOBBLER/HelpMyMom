@@ -33,7 +33,7 @@
                 CancelButtonColor="DarkRed"
                 Margin="0,0,10,0"/>
 
-            <ListView x:Name="helperList" ItemSelected="OnItemSelected" RowHeight="140" Margin="5,10,5,10">
+            <ListView x:Name="helperList" ItemSelected="OnItemSelected" HasUnevenRows="True" Margin="5,10,5,10">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:SearchHelper">
                         <ViewCell>
@@ -48,7 +48,7 @@
                                    LineBreakMode="WordWrap"
                                    TextColor="DarkSlateGray"
                                    FontSize="{Binding TextSize}"
-                                   MaxLines ="2"
+                                   MaxLines ="4"
                                    />
                             </StackLayout>
                         </ViewCell>

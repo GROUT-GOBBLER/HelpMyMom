@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Logging.Abstractions;
 using momUI.models;
 using Newtonsoft.Json;
-using System.Linq.Expressions;
 using System.Net.Http.Json;
 
 namespace momUI;
@@ -15,6 +13,8 @@ public partial class ChildTicketFactory : ContentPage
 
     Child account;
 
+    Accessibility a;
+
     int normalFont = 15;
 
     int titleFont = 20;
@@ -23,7 +23,10 @@ public partial class ChildTicketFactory : ContentPage
 
     public ChildTicketFactory(Child acc)
 	{
-		InitializeComponent();
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
+
+        InitializeComponent();
         account = acc;
 	}
 
