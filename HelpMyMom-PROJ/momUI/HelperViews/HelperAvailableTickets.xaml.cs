@@ -194,12 +194,20 @@ public partial class HelperAvailableTickets : ContentPage
 
                 if (shouldSendChild)
                 {
-                    EmailServices.SendNotifcation("hmmprojectchild@hotmail.com", childName, "INPROGRESS", t);
+                    if(tempChild.Email != null)
+                    {
+                        EmailServices.SendNotifcation(tempChild.Email, childName, "INPROGRESS", t);
+                    }
+                    else { await DisplayAlert("NoChildEmail", "Error! Could not find child email!", "Ok."); }
                 }
             }
             else //If there are no settings, assume "true"
             {
-                EmailServices.SendNotifcation("hmmprojectchild@hotmail.com", childName, "INPROGRESS", t);
+                if (tempChild.Email != null)
+                {
+                    EmailServices.SendNotifcation(tempChild.Email, childName, "INPROGRESS", t);
+                }
+                else { await DisplayAlert("NoChildEmail", "Error! Could not find child email!", "Ok."); }
             }
         }  
     }
