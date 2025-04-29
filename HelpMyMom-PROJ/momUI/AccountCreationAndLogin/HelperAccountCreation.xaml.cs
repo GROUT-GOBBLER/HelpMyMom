@@ -224,7 +224,7 @@ public partial class HelperAccountCreation : ContentPage
 
             }
             ErrorLabel.Text = "Success";
-
+            await Navigation.PopToRootAsync();
         }
 
     }
