@@ -49,18 +49,18 @@ public partial class AcceptDenyTicket : ContentPage
             try
             {
                 HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers/" + masterTicket.MomId);
-                HttpResponseMessage childResponse = await client.GetAsync(URL + "/Child/" + masterTicket.ChildId);
-                HttpResponseMessage helperResponse = await client.GetAsync(URL + "/Helper/" + masterTicket.HelperId);
+                HttpResponseMessage childResponse = await client.GetAsync(URL + "/Children/" + masterTicket.ChildId);
+                HttpResponseMessage helperResponse = await client.GetAsync(URL + "/Helpers/" + masterTicket.HelperId);
 
                 if (momResponse.IsSuccessStatusCode && childResponse.IsSuccessStatusCode)
                 {
                     string json1 = await momResponse.Content.ReadAsStringAsync();
                     m = JsonConvert.DeserializeObject<Mother>(json1);
 
-                    string json2 = await momResponse.Content.ReadAsStringAsync();
+                    string json2 = await childResponse.Content.ReadAsStringAsync();
                     c = JsonConvert.DeserializeObject<Child>(json2);
 
-                    string json3 = await momResponse.Content.ReadAsStringAsync();
+                    string json3 = await helperResponse.Content.ReadAsStringAsync();
                     h = JsonConvert.DeserializeObject<Helper>(json3);
                 }
             }
@@ -141,14 +141,14 @@ public partial class AcceptDenyTicket : ContentPage
             Console.WriteLine("========================================================\n");
 
             string[]? notifSettings = null;
-            if (c.Notifs != null) notifSettings = c.Notifs.Split(",");
+            if (c != null && c.Notifs != null) notifSettings = c.Notifs.Split(",");
 
             EmailServices.SendNotifcation(h.Email, $"{h.FName} {h.LName}", "INPROGRESS", masterTicket);
             EmailServices.SendNotifcation(m.Email, $"{m.FName} {m.LName}", "INPROGRESS", masterTicket);
 
             if (notifSettings != null && notifSettings.Length == 5)
             {
-                bool shouldSendChild = bool.Parse(notifSettings[0].ToLower());
+                bool shouldSendChild = bool.Parse(notifSettings[1].ToLower());
 
                 if (shouldSendChild) EmailServices.SendNotifcation(c.Email, $"{c.FName} {c.LName}", "INPROGRESS", masterTicket);
             }
