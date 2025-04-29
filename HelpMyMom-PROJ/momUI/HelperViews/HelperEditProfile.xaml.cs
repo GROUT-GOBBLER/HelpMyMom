@@ -138,40 +138,59 @@ public partial class HelperEditProfile : ContentPage
         {
             try
             {
-                String oldUsername = masterAccount.Username;
-                masterAccount.Username = newUsername; // Update username.
-                
-                HttpResponseMessage response3 = await client.PostAsJsonAsync($"{URL}/Accounts", masterAccount); // add new account.
-                HttpResponseMessage response4 = await client.DeleteAsync($"{URL}/Accounts/{oldUsername}"); // Delete old account.
+                // Ensure that the entered account username does not already exist in the database.
+                HttpResponseMessage accountResponse = await client.GetAsync($"{URL}/{"Accounts"}");
+                    String accountJSON = await accountResponse.Content.ReadAsStringAsync();
+                    List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(accountJSON); // accountsList.
 
-                if (response3.IsSuccessStatusCode && response4.IsSuccessStatusCode)
+                    // Temporary variable creation.
+                    String oldUsername = masterAccount.Username;
+                    bool alreadyExists;
+
+                if (accountResponse.IsSuccessStatusCode)
                 {
-                    UsernameEditButton.Text = "Post and Delete - Success.";
+                    alreadyExists = false;
+
+                    if (accountsList != null) // check if account with same username exists.
+                    {
+                        foreach (Account a in accountsList) 
+                        {
+                            if (a.Username == newUsername)
+                            {
+                                alreadyExists = true;
+                                break;
+                            }
+                        }   
+                    }
+                    else { await DisplayAlert("AccountsNotFound", "Error! Failed to find any accounts.", "Ok."); }
+
+                    if (!alreadyExists)
+                    {
+                        
+                        masterAccount.Username = newUsername; // Update username.
+
+                        HttpResponseMessage response3 = await client.PostAsJsonAsync($"{URL}/Accounts", masterAccount); // add new account.
+                        HttpResponseMessage response4 = await client.DeleteAsync($"{URL}/Accounts/{oldUsername}"); // Delete old account.
+
+                        if (response3.IsSuccessStatusCode && response4.IsSuccessStatusCode)
+                        {
+                            UsernameEditButton.Text = "Success.";
+                        }
+                        else { await DisplayAlert("Failed.", "Error! Failed to change username.", "Ok."); }
+                    }
+                    else if (newUsername == "") { await DisplayAlert("Username cannot be empty!", "Please create a username with at least one character.", "Ok."); }
+                    else { await DisplayAlert("Username must be unique!", "This username is already in use.", "Ok."); }
                 }
-                else
-                {
-                    if(response3.IsSuccessStatusCode && !response4.IsSuccessStatusCode)
-                    {
-                        UsernameEditButton.Text = "Post - Success, Delete - Fail.";
-                    }
-                    else if(!response3.IsSuccessStatusCode && response4.IsSuccessStatusCode)
-                    {
-                        UsernameEditButton.Text = "Post - Fail, Delete - Success.";
-                    }
-                    else
-                    {
-                        UsernameEditButton.Text = "Post and Delete - Fail.";
-                    }
-                }
+                else { await DisplayAlert("DBConnectionFailure", "Error! Could not connect to the database.", "Ok."); }
             }
             catch (Exception except)
             {
-                UsernameEditButton.Text = $"Exception Occured: {except}";
+                await DisplayAlert("Exception", $"Exception occurred ... {except}", "Ok.");
             }
         }
 
         newUsername = "";
-        UsernameEntry.Placeholder = "...";
+        UsernameEntry.Text = "";
     }
 
     // NAME.
@@ -196,8 +215,8 @@ public partial class HelperEditProfile : ContentPage
                     masterHelper.FName = newFirstName;
                     HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
 
-                    if (response3.IsSuccessStatusCode) { ChangeNameButton.Text = "Success!"; }
-                    else { ChangeNameButton.Text = "Failure 1."; }
+                    if (response3.IsSuccessStatusCode) { ChangeNameButton.Text = "Success!"; } 
+                    else { ChangeNameButton.Text = "Failure."; }
                 }
             }
             catch (Exception except)
@@ -225,8 +244,8 @@ public partial class HelperEditProfile : ContentPage
 
         newFirstName = "";
         newLastName = "";
-        FirstNameEntry.Placeholder = "First name";
-        LastNameEntry.Placeholder = "Last name";
+        FirstNameEntry.Text = "";
+        LastNameEntry.Text = "";
     }
 
     // DATE OF BIRTH.

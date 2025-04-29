@@ -58,14 +58,11 @@ namespace momUI
                     }
                     else if (account.HelperId != null)
                     {
-                        response2 = await client.GetAsync($"{URL}/{"Helpers"}/{account.HelperId}");
-                        json = await response2.Content.ReadAsStringAsync();
-
-                        Helper helper = JsonConvert.DeserializeObject<Helper>(json);
                         if (Application.Current != null)
                         {
                             Application.Current.MainPage = new NavigationPage(new HelperView(account));
                         }
+                        
                         return;
                     }
                     else if (account.MomId != null)

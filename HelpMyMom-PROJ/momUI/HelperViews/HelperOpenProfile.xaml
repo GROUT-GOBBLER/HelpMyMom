@@ -20,9 +20,9 @@
                 <Image
                     x:Name="ProfilePictureImage"
                     Aspect="AspectFit"
-                    Source="pfp1.jpg"
-                    Scale="1.2"
-                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                    Source="pfp.png"
+                    Scale="1.5"
+                    SemanticProperties.Description="Blank profile picture."
                     HeightRequest="200"
                     WidthRequest="200"
                     VerticalOptions="Center"
@@ -32,7 +32,8 @@
             <!-- REVIEWS. -->
             <VerticalStackLayout
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                Spacing="5">
                 <HorizontalStackLayout>
                     <Label
                         x:Name="RatingTextLabel"

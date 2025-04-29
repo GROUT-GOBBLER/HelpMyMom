@@ -14,6 +14,10 @@ public partial class HelperWriteReport : ContentPage
     Helper masterHelper;
     Account masterAccount;
 
+    String helperName;
+    String motherName;
+    String childName;
+
 	public HelperWriteReport(int? t_id, Helper h, Account a)
 	{
 		InitializeComponent();
@@ -22,6 +26,10 @@ public partial class HelperWriteReport : ContentPage
         fontSizes = Accessibility.getAccessibilitySettings();
         masterHelper = h;
         masterAccount = a;
+
+        helperName = masterHelper.FName + " " + masterHelper.LName;
+        motherName = "";
+        childName = "";
     }
 
     protected override void OnAppearing()
@@ -93,6 +101,8 @@ public partial class HelperWriteReport : ContentPage
                     { await DisplayAlert("PutFailure", $"Error! EditTicketStatus: {editTicket.StatusCode}.\nEditHelperStatus: {editHelper.StatusCode}.", "Ok."); }
                 }
                 else { await DisplayAlert("DBAccessFailure", "Error! Could not connect to the database.", "Ok."); }
+
+                SendEmailNotification(tempTicket);
             }
             catch(Exception except)
             {
@@ -101,6 +111,105 @@ public partial class HelperWriteReport : ContentPage
         }
 
         ticketSummaryText = "";
+    }
+
+    async private void SendEmailNotification(Ticket t)
+    {
+        // Temporary user objects.
+        Child tempChild = new Child();
+        Mother tempMother = new Mother();
+
+        // Get mom and child.
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                // Get data from database.
+                HttpResponseMessage childResponse = await client.GetAsync($"{URL}/{"Children"}");
+                String childJSON = await childResponse.Content.ReadAsStringAsync();
+                List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(childJSON); // childrenList.
+                HttpResponseMessage motherResponse = await client.GetAsync($"{URL}/{"Mothers"}");
+                String motherJSON = await motherResponse.Content.ReadAsStringAsync();
+                List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(motherJSON); // mothersList.
+
+                // Get child.
+                if (childResponse.IsSuccessStatusCode)
+                {
+                    if (childrenList != null)
+                    {
+                        foreach (Child c in childrenList)
+                        {
+                            if (c.Id == t.ChildId)
+                            {
+                                tempChild = c;
+                                childName = tempChild.FName + " " + tempChild.LName;
+                                break;
+                            }
+                        }
+
+                        if (childName == "") { await DisplayAlert("ChildNotFound", $"Error! Child with ID {t.ChildId} could not be found.", "Ok."); }
+                    }
+                    else { await DisplayAlert("ChildrenNotFound", "Error! Failed to find any children.", "Ok."); }
+                }
+                else { await DisplayAlert("DatabaseConnectionFailure", "Error! Could not connect to the database.", "Ok."); }
+
+                // Get mom.
+                if (motherResponse.IsSuccessStatusCode)
+                {
+                    if (mothersList != null)
+                    {
+                        foreach (Mother m in mothersList)
+                        {
+                            if (m.Id == t.MomId)
+                            {
+                                tempMother = m;
+                                motherName = tempMother.FName + " " + tempMother.LName;
+                                break;
+                            }
+                        }
+
+                        if (motherName == "") { await DisplayAlert("MotherNotFound", $"Error! Mother with ID {t.MomId} could not be found.", "Ok."); }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Exception", $"Exception occurred ... {e}", "Ok.");
+            }
+        }
+
+        if (tempMother.Email != null)
+        {
+            EmailServices.SendNotifcation(tempMother.Email, motherName, "APPROVED", t);
+        }
+        else { await DisplayAlert("NoMotherEmail", "Error! Could not find Mother's email.", "Ok."); }
+
+        if (masterHelper.Email != null)
+        {
+            EmailServices.SendNotifcation(masterHelper.Email, helperName, "APPROVED", t);
+        }
+        else { await DisplayAlert("NoHelperEmail", "Error! Could not find Helper's email.", "Ok."); }
+
+        // Determining child account setup.
+        string[]? notifSettings = null;
+        if (tempChild.Notifs != null) { notifSettings = tempChild.Notifs.Split(","); }
+
+        using (HttpClient client = new HttpClient())
+        {
+            if (notifSettings != null && notifSettings.Length == 5)
+            {
+                bool shouldSendChild = bool.Parse(notifSettings[3].ToLower());
+
+                if (shouldSendChild)
+                {
+                    EmailServices.SendNotifcation("hmmprojectchild@hotmail.com", childName, "APPROVED", t);
+                }
+            }
+            else //If there are no settings, assume "true"
+            {
+                EmailServices.SendNotifcation("hmmprojectchild@hotmail.com", childName, "APPROVED", t);
+            }
+        }
     }
 
     private void HelperTicketSummaryEditor_TextChanged(object sender, TextChangedEventArgs e)

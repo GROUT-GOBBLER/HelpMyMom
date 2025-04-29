@@ -62,7 +62,7 @@ public partial class MessagingView : ContentPage
 
         aTimer.Enabled = true;
     }
-    
+
     protected override void OnDisappearing() // determines what the page does when it closes.
     {
         base.OnDisappearing();

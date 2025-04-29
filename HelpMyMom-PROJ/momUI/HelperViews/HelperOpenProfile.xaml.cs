@@ -1,4 +1,4 @@
-using momUI.models;
+﻿using momUI.models;
 using Newtonsoft.Json;
 
 namespace momUI.HelperViews;
@@ -57,7 +57,7 @@ public partial class HelperOpenProfile : ContentPage
                 String specs = "";
                 String[] specsAsNumbers;
                 String textForRatingsLabel = "";
-                int reviewAverageValue = 0;
+                double reviewAverageValue = 0;
                 int numberOfApplicableReviews = 0;
 
                 if (masterHelper.Specs != null)
@@ -109,9 +109,15 @@ public partial class HelperOpenProfile : ContentPage
 
                         if (numberOfApplicableReviews > 0)
                         {
-                            reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
-                            reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
-                            textForRatingsLabel = reviewAverageValue + " stars.";
+                            reviewAverageValue = Math.Ceiling(reviewAverageValue / numberOfApplicableReviews);
+                            reviewAverageValue = reviewAverageValue / 2;
+
+                            // Create star count.
+                            for (int x = 0; x < reviewAverageValue; x++)
+                            {
+                                if((reviewAverageValue % 1) == 0.5 && (x + 1) > reviewAverageValue) { textForRatingsLabel += "½ "; }
+                                else { textForRatingsLabel += "☆ "; }
+                            }
                         }
                         else { textForRatingsLabel = "No reviews found."; }
                     }
