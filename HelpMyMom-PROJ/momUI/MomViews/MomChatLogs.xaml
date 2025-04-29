@@ -18,7 +18,6 @@
                   Text="BACK"
                   HorizontalOptions="Start"
                   WidthRequest="100"
-                  HeightRequest="50"
                   Clicked="OnBackClicked"
                   Margin="-20,0,0,0"/>
 
@@ -29,7 +28,6 @@
                         FontSize="15"
                         FontAttributes="Bold"
                         WidthRequest="250"
-                        HeightRequest="50"
                         CornerRadius="10" 
                         Clicked="OnStatusCompleteClickedMom"
                         LineBreakMode="WordWrap" 

@@ -132,18 +132,6 @@ namespace momUI
                     List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
                     List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json6);
 
-                    // Un-necessary Code?
-                    /*
-                    foreach (Helper index in helpersList)
-                    {
-                        // await DisplayAlert("Testing:", "Got here at least", "OK");
-                        if (index.Id == _helperAccountID)
-                        {
-                            MomReviewTemplateText.Text = $"How did {index.FName} {index.LName} do in assisting you?";
-                        }
-                    }
-                    */
-
                     int momIndexInList = 0;
                     foreach(Mother index in mothersList)
                     {
@@ -171,7 +159,18 @@ namespace momUI
                     if (createReviewResponse.IsSuccessStatusCode)
                     {
                         await DisplayAlert("Success", "Your review has been successfully sent!", "OK");
-                        await Navigation.PopAsync();
+
+                        String accountUserName = "";
+                        foreach (Account index in accountList)
+                        {
+                            if (index.MomId == _momAccountID)
+                            {
+                                accountUserName = index.Username;
+                                break;
+                            }
+                        }
+                        await Navigation.PushAsync(new MomMenu(accountUserName, _momAccountID));
+                      //  await Navigation.PopAsync();
                     }
                     else
                     {
