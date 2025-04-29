@@ -37,17 +37,8 @@
                     <x:Int16>28</x:Int16>
                     <x:Int16>29</x:Int16>
                     <x:Int16>30</x:Int16>
-
-
-
-
-
-
-
-
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-
     </VerticalStackLayout>
 </ContentPage>

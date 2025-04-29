@@ -64,17 +64,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Accessibility Settings.xaml.cs">
-	    <DependentUpon>Accessibility Settings.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="MomViews\MomLookAtHelperProfile.xaml.cs">
-	    <DependentUpon>MomLookAtHelperProfile.xaml</DependentUpon>
+	  <Compile Update="HelperViews\HelperWriteTicketSummary.xaml.cs">
+	    <DependentUpon>HelperWriteTicketSummary.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="MomViews\MomChatLogs.xaml.cs">
 	    <DependentUpon>MomChatLogs.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="MomViews\MomReportPage.xaml.cs">
-	    <DependentUpon>MomReportPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="MomViews\MomReviewPage.xaml.cs">
 	    <DependentUpon>MomReviewPage.xaml</DependentUpon>
@@ -91,25 +85,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-
-	  <MauiXaml Update="MomViews\MomLookAtHelperProfile.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-
-    
 	  <MauiXaml Update="Accessibility Settings.xaml">
-    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-    
-	  <MauiXaml Update="ChildViews\ChildHelperReport.xaml">
-     <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	 
-
-	  <MauiXaml Update="MomViews\MomChatLogs.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MomViews\MomReportPage.xaml">
+	  <MauiXaml Update="HelperViews\AddSpecialty.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\HelperWriteTicketSummary.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="HelperViews\MessagingView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MomViews\MomChatLogs.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MomViews\MomReviewPage.xaml">

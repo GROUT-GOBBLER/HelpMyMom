@@ -7,7 +7,6 @@ namespace momUI
 {
     public partial class MainPage : ContentPage
     {
-        //string URL = $"http://localhost:5124/api";
         string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 
         public MainPage()
@@ -56,9 +55,7 @@ namespace momUI
                 try
                 {
                     HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Accounts"}/{UsernameEntry.Text}");
-
                     string json = await response2.Content.ReadAsStringAsync();
-
                     Account account = JsonConvert.DeserializeObject<Account>(json);
 
 
@@ -99,18 +96,12 @@ namespace momUI
                         return;
                     }
                     else if (account.HelperId != null)
-                    {
-                        response2 = await client.GetAsync($"{URL}/{"Helpers"}/{account.HelperId}");
-                        json = await response2.Content.ReadAsStringAsync();
-
-                        Helper helper = JsonConvert.DeserializeObject<Helper>(json);
-                        if (helper.Banned == 1.0)
+                    { 
+                        if (Application.Current != null)
                         {
-                            ErrorLabel.Text = $"This account is banned";
-                            return;
+                            Application.Current.MainPage = new NavigationPage(new HelperView(account));
                         }
                         
-                        await Navigation.PushAsync(new HelperView());
                         LoginButton.IsEnabled = true;
                         return;
                     }
@@ -131,21 +122,12 @@ namespace momUI
                         return;
                     }
 
-
                     ErrorLabel.Text = $"Some sort of error happened with the account creation";
-
-
-
                 }
                 catch (Exception ex)
                 {
                    // LoginButton.Text = $" {ex}";
                 }
-
-
-
-
-
             }
             LoginButton.IsEnabled = true;
         }
@@ -156,7 +138,6 @@ namespace momUI
             await Navigation.PushAsync(new SignUpPage());
             SigninButton.IsEnabled = true;
         }
-
 
         async private void AccessibiltySettings_Clicked(object sender, EventArgs e)
 

@@ -1,6 +1,5 @@
 using momUI.models;
 using Newtonsoft.Json;
-using System;
 
 
 namespace momUI;
@@ -21,13 +20,71 @@ public partial class QuickLogin : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}/{1}");
+            try
+            {
+                HttpResponseMessage accountResponse = await client.GetAsync($"{URL}/{"Accounts"}");
+                String accountJSON = await accountResponse.Content.ReadAsStringAsync();
+                List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(accountJSON); // accountsList.
 
-            string json = await response2.Content.ReadAsStringAsync();
-            Helper helper = JsonConvert.DeserializeObject<Helper>(json);
-            await Navigation.PushAsync(new HelperView());
+                HttpResponseMessage helperResponse = await client.GetAsync($"{URL}/{"Helpers"}");
+                String helperJSON = await helperResponse.Content.ReadAsStringAsync();
+                List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(helperJSON); // helpersList.
+
+                if (accountResponse.IsSuccessStatusCode && helperResponse.IsSuccessStatusCode)
+                {
+                    Account tempAccount = new Account();
+                    Helper tempHelper = new Helper();
+
+                    if (accountsList != null) // find tempAccount.
+                    {
+                        bool found = false;
+                        foreach (Account a in accountsList)
+                        {
+                            if (a.HelperId != null)
+                            {
+                                tempAccount = a;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { await DisplayAlert("AccountNotFound", "Error! Account not found.", "Ok."); }
+                    }
+                    else { await DisplayAlert("AccountsNotFound", "Error! Failed to find any accounts.", "Ok."); }
+
+                    if (helpersList != null) // find tempHelper.
+                    {
+                        bool found = false;
+                        foreach (Helper h in helpersList)
+                        {
+                            if (h.Id == tempAccount.HelperId)
+                            {
+                                tempHelper = h;
+                                found = true;
+                                break;  
+                            }
+                        }
+                        if (!found) { await DisplayAlert("HelpersNotFound", "Error! Helper not found.", "Ok."); }
+                    }
+                    else { await DisplayAlert("HelpersNotFound", "Error! Failed to find any helpers.", "Ok."); }
+
+                    if (tempHelper != null && tempAccount != null)
+                    {
+                        if (Application.Current != null)
+                        {
+                            Application.Current.MainPage = new NavigationPage(new HelperView(tempAccount));
+                        }
+                        else { await DisplayAlert("NoCurrentMainpage", "Error! No current mainpage set.", "Ok."); }
+                    }
+                    else { await DisplayAlert("NoObjectsFound", "Error! tempHelper and tempAccount not populated.", "Ok."); }
+                }
+                else { await DisplayAlert("DatabaseConnectionFailure", "Error! Failed to access the database.", "Ok."); }
+            }
+            catch(Exception except)
+            {
+                await DisplayAlert("Exception", $"Exception occurred ... {except}", "Ok.");
+                return;
+            }
         }
-
     }
 
     async private void Child_Clicked(object sender, EventArgs e)
