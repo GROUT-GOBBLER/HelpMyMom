@@ -17,6 +17,7 @@
                 <Button x:Name="GoBack"
                   Text="BACK"
                   HorizontalOptions="Start"
+                  WidthRequest="100"
                   Clicked="OnBackClicked"
                   Margin="-20,0,0,0"/>
 
@@ -26,6 +27,7 @@
                         TextColor="Black"
                         FontSize="15"
                         FontAttributes="Bold"
+                        WidthRequest="250"
                         CornerRadius="10" 
                         Clicked="OnStatusCompleteClickedMom"
                         LineBreakMode="WordWrap" 
