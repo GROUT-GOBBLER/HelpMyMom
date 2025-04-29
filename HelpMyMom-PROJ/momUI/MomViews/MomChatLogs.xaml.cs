@@ -142,134 +142,126 @@ namespace momUI
 
         async private void CheckIfReviewApproved()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
+                using (HttpClient client = new HttpClient())
                 {
-                    // Get entries from Ticket table in DB.
-                    HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
-
-                    String json = await response.Content.ReadAsStringAsync();
-
-                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
-
-                    Ticket tempTicket = new Ticket(); // Find ticket.
-                    foreach (Ticket t in ticketsList)
+                    try
                     {
-                        if (t.Id == ticketID)
+                        // Get entries from Ticket table in DB.
+                        HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
+
+                        String json = await response.Content.ReadAsStringAsync();
+
+                        List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
+
+                        Ticket tempTicket = new Ticket(); // Find ticket.
+                        foreach (Ticket t in ticketsList)
                         {
-                            tempTicket = t;
-                            break;
-                        }
-                    }
-                    // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
-                    if (tempTicket.Status == "APPROVED")
-                    {
-                        HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
-                        HttpResponseMessage response3 = await client.GetAsync(URL + "/Helpers");
-                        HttpResponseMessage response4 = await client.GetAsync(URL + "/Children");
-                        HttpResponseMessage response5 = await client.GetAsync(URL + "/Accounts");
-
-                        String json2 = await response2.Content.ReadAsStringAsync();
-                        String json3 = await response3.Content.ReadAsStringAsync();
-                        String json4 = await response4.Content.ReadAsStringAsync();
-                        String json5 = await response5.Content.ReadAsStringAsync();
-
-
-                        List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-                        List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json3);
-                        List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
-                        List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json5);
-
-                        Account account = new Account();
-                        foreach (Account index in accountList)
-                        {
-                            if (index.MomId == tempTicket.MomId)
+                            if (t.Id == ticketID)
                             {
-                                account = index;
+                                tempTicket = t;
                                 break;
                             }
                         }
-
-                        // Send email to mom.
-                        foreach (Mother index in mothersList)
+                        // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
+                        if (tempTicket.Status == "APPROVED")
                         {
-                            if (index.Id == tempTicket.MomId)
-                            {
-                                EmailServices.SendNotifcation(index.Email,
-                                    $"{index.FName} {index.LName}",
-                                    $"{tempTicket.Status}",
-                                    tempTicket);
+                            HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
+                            HttpResponseMessage response3 = await client.GetAsync(URL + "/Helpers");
+                            HttpResponseMessage response4 = await client.GetAsync(URL + "/Children");
+                            HttpResponseMessage response5 = await client.GetAsync(URL + "/Accounts");
 
-                            }
-                        }
+                            String json2 = await response2.Content.ReadAsStringAsync();
+                            String json3 = await response3.Content.ReadAsStringAsync();
+                            String json4 = await response4.Content.ReadAsStringAsync();
+                            String json5 = await response5.Content.ReadAsStringAsync();
 
-                        // Only if they opt in.
-                        foreach (Child index in childrenList)
-                        {
-                            if (index.Id == tempTicket.ChildId)
+
+                            List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                            List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json3);
+                            List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
+                            List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json5);
+
+                            Account account = new Account();
+                            foreach (Account index in accountList)
                             {
-                                string[]? notifSettings = null;
-                                if (index.Notifs != null)
+                                if (index.MomId == tempTicket.MomId)
                                 {
-                                    notifSettings = index.Notifs.Split(",");
+                                    account = index;
+                                    break;
                                 }
+                            }
 
-                                if (notifSettings != null && notifSettings.Length == 5)
+                            // Send email to mom.
+                            foreach (Mother index in mothersList)
+                            {
+                                if (index.Id == tempTicket.MomId)
                                 {
-                                    bool shouldSendChild = bool.Parse(notifSettings[4].ToLower());
-                                    if (shouldSendChild)
+                                    EmailServices.SendNotifcation(index.Email,
+                                        $"{index.FName} {index.LName}",
+                                        $"{tempTicket.Status}",
+                                        tempTicket);
+                                }
+                            }
+
+                            // Only if they opt in.
+                            foreach (Child index in childrenList)
+                            {
+                                if (index.Id == tempTicket.ChildId)
+                                {
+                                    string[]? notifSettings = null;
+                                    if (index.Notifs != null)
+                                    {
+                                        notifSettings = index.Notifs.Split(",");
+                                    }
+
+                                    if (notifSettings != null && notifSettings.Length == 5)
+                                    {
+                                        bool shouldSendChild = bool.Parse(notifSettings[4].ToLower());
+                                        if (shouldSendChild)
+                                        {
+                                            EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
+                                        }
+                                    }
+                                    else //If there are no settings, assume "true"
                                     {
                                         EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
                                     }
-                                }
-                                else //If there are no settings, assume "true"
-                                {
-                                    EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
-                                }
 
+                                }
                             }
-                        }
-                        // For the helper
-                        foreach (Helper index in helpersList)
-                        {
-                            if (index.Id == tempTicket.HelperId)
+                            // For the helper
+                            foreach (Helper index in helpersList)
                             {
-                                EmailServices.SendNotifcation(index.Email,
-                                    $"{index.FName} {index.LName}",
-                                    $"{tempTicket.Status}",
-                                    tempTicket);
+                                if (index.Id == tempTicket.HelperId)
+                                {
+                                    EmailServices.SendNotifcation(index.Email,
+                                        $"{index.FName} {index.LName}",
+                                        $"{tempTicket.Status}",
+                                        tempTicket);
+                                }
                             }
+
+                            // int momID, int helperID, int ticketID
+                            int ticket_momID = (int)tempTicket.MomId;
+                            int ticket_helperID = (int)tempTicket.HelperId;
+
+                            // Goto the review page.
+                            await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
                         }
 
-                        // int momID, int helperID, int ticketID
-                        int ticket_momID = (int)tempTicket.MomId;
-                        int ticket_helperID = (int)tempTicket.HelperId;
-
-                        // Goto the review page.
-                        await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        return;
+                        await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
+
                     }
-
                 }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
-
-                }
-            }
         }
 
         async private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             RefreshListView();
 
-            CheckIfReviewApproved();
-
-            UpdateTicketButtonStatus();
 
         }
 
@@ -349,6 +341,13 @@ namespace momUI
 
         async private void RefreshListView()
         {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                CheckIfReviewApproved();
+
+                UpdateTicketButtonStatus();
+            });
+
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -461,6 +460,7 @@ namespace momUI
                     SendChatMessage.Text = $"EXCEPTION OCCURED {ex.Message}";
                 }
             }
+            
         }
 
         private void MessageTextEntry_TextChanged(object sender, TextChangedEventArgs e)
@@ -605,11 +605,13 @@ namespace momUI
                     else if (tempTicket.Status == "COMPLETED")
                     {
                         await DisplayAlert("UNAVAILABLE", "Ticket has not been approved by Helper, cannot access review!", "OK");
+                        UpdateTicketButtonStatus();
                         return;
                     }
                     else
                     {
                         await DisplayAlert("ERROR!", "Ticket is not in-progress, cannot be set to complete!", "OK");
+                        UpdateTicketButtonStatus();
                         return;
                     }
 
@@ -636,7 +638,6 @@ namespace momUI
                 catch (Exception ex)
                 {
                     await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
-                    UpdateTicketButtonStatus();
                     
                 }
             }
@@ -644,66 +645,56 @@ namespace momUI
         }
         async private void UpdateTicketButtonStatus()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
+                using (HttpClient client = new HttpClient())
                 {
-                    // Get entries from Ticket table in DB.
-                    HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
-                    String json = await response.Content.ReadAsStringAsync();
-                    List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
-
-                    Ticket tempTicket = new Ticket(); // Find ticket.
-                    foreach (Ticket t in ticketsList)
+                    try
                     {
-                        if (t.Id == ticketID)
+                        // Get entries from Ticket table in DB.
+                        HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
+                        String json = await response.Content.ReadAsStringAsync();
+                        List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
+
+                        Ticket tempTicket = new Ticket(); // Find ticket.
+                        foreach (Ticket t in ticketsList)
                         {
-                            tempTicket = t;
-                            break;
+                            if (t.Id == ticketID)
+                            {
+                                tempTicket = t;
+                                break;
+                            }
                         }
-                    }
-                 
-                    // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
-                    if (tempTicket.Status == "INPROGRESS")
-                    {
-                        TicketStatusButton.Text = "ONGOING";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("Red");
-                    }
-                    else if (tempTicket.Status == "COMPLETED")
-                    {
-                        TicketStatusButton.Text = "DONE 1/2";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("Yellow");
-                    }
-                    else if (tempTicket.Status == "APPROVED")
-                    {
-                        TicketStatusButton.Text = "DONE 2/2";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("Green");
-                    }
-                    else
-                    {
-                        TicketStatusButton.Text = "N/A";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("White");
-                    }
-                    return;
-                }
-                catch (Exception ex)
-                {
-                   await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
-                   return;
-                }
-            }
-        }
 
-        /*
-        public class ChatItem
-        {
-            public string? Name { get; set; }
-            public string? Time { get; set; }
-            public string? Text { get; set; }
-            public int? TicketId { get; set; }
-        }
+                        // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
+                        if (tempTicket.Status == "INPROGRESS")
+                        {
+                            TicketStatusButton.Text = "ONGOING";
+                            TicketStatusButton.BackgroundColor = Color.FromArgb("Red");
+                        }
+                        else if (tempTicket.Status == "COMPLETED")
+                        {
+                            TicketStatusButton.Text = "DONE 1/2";
+                            TicketStatusButton.BackgroundColor = Color.FromArgb("Yellow");
+                        }
+                        else if (tempTicket.Status == "APPROVED")
+                        {
+                            TicketStatusButton.Text = "DONE 2/2";
+                            TicketStatusButton.BackgroundColor = Color.FromArgb("Green");
+                        }
+                        else
+                        {
+                            TicketStatusButton.Text = "N/A";
+                            TicketStatusButton.BackgroundColor = Color.FromArgb("White");
+                        }
 
-        */
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
+
+                    }
+                }
+        }
+   
 
     }
 }
