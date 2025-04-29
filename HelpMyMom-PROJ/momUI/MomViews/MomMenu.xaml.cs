@@ -38,16 +38,38 @@ namespace momUI
 
         public string balanceAddText { get; set; }
 
-        public MomMenu()
+        public MomMenu(String account, int momID)
         {
             InitializeComponent();
             BindingContext = this; // Set the binding context to this page
+
+            _accountID = account;
+            _momID = momID;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             FetchImportantVariables();
+
+            Accessibility a = Accessibility.getAccessibilitySettings();
+
+            AccessibiltySettings.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            LogOutBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            MomNameHeader.FontSize = Math.Min(Math.Max(30, a.fontsize + 20), 50);
+            AddBalanceBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+
+            BalanceLabelAmountText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+
+            OpenChatBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            CreateTicketBtn.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+
+            AddBalanceLabelPromptText.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+            BalanceEntry.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+
+            GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+            SubmitBalanceAmount.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
+
         }
 
         private async void ModifyBalance()
@@ -67,9 +89,9 @@ namespace momUI
                     String json3 = await response3.Content.ReadAsStringAsync();
 
 
-                    List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
-                    List<Mother> mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-                    List<Relationship> relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
+                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json1);
+                    List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                    List<Relationship>? relationshipList = JsonConvert.DeserializeObject<List<Relationship>>(json3);
 
                     int momIndexInList = 0;
 
@@ -78,6 +100,7 @@ namespace momUI
                         if (index.Id == _momID)
                         {
                             momIndexInList = index.Id;
+                            break;
                         }
                     }
 
@@ -96,9 +119,10 @@ namespace momUI
 
                     if (changeTokenAmountInMomResponse.IsSuccessStatusCode)
                     {
-                        // Step 5: Show success pop-up and navigate back
-                        BalanceLabel = $"Current Balance: ${newBalance:F2}";
+                        // Shows success pop-up and navigate back
+                        BalanceLabel = $"Current Balance: \n ${newBalance:F2}";
                         await DisplayAlert("Success", "Your balance has been successfully updated!", "OK");
+
                         return;
                     }
                     else
@@ -110,24 +134,26 @@ namespace momUI
                 }
                 catch (Exception ex)
                 {
-                    // Handle errors (e.g., show a default value or error message)
-                    await DisplayAlert("Error", $"Failed to connect to add  to Balance: {ex.Message}", "OK");
+                    await DisplayAlert("Error", $"Failed to connect to add to Balance: {ex.Message}", "OK");
                 }
             }
         }
 
         private void OnAddBalanceClicked(object sender, EventArgs e)
         {
-            // Show the popup
             AddBalancePopup.IsVisible = true;
-            BalanceEntry.Text = string.Empty; // Clear the entry field
+            BalanceEntry.Text = string.Empty;
         }
 
         private void OnBackClicked(object sender, EventArgs e)
         {
-            // Show the popup
             AddBalancePopup.IsVisible = false;
-            BalanceEntry.Text = string.Empty; // Clear the entry field
+            BalanceEntry.Text = string.Empty;
+        }
+
+        private void SignOutClicked(object sender, EventArgs e)
+        {
+            if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new MainPage());
         }
 
         private async void OnSubmitBalanceClicked(object sender, EventArgs e)
@@ -136,15 +162,16 @@ namespace momUI
             {
                 if (amount < 0)
                 {
-                    // Treat negative numbers as 0
                     amount = 0;
-                } 
+                }
+                
                 // Round 2 decimal places
                 amount = Math.Round(amount, 2);
-                // Update balance
+                
                 _balance += (double)amount;
-                // Hide the popup
+                
                 AddBalancePopup.IsVisible = false;
+
                 ModifyBalance();
             }
             else
@@ -156,16 +183,12 @@ namespace momUI
 
         private async void FetchImportantVariables()
         {
-            /*
-            PLACEHOLDER, HARDCODED TO USE A SPECIFIC ACCOUNT RIGHT NOW
-            WILL CHANGE LATER BUT RIGHT NOW DONT HAVE LOG IN PAGE SO WE CANT ACCESS 
-            LIKE THAT, SO JUST USE THIS FOR NOW, WILL NEED TO CHANGE LATER
-            */
+            
             BalanceLabel = "Current Balance: N/A ()";
             using (HttpClient client = new HttpClient())
             {
-                _accountID = "LoveMyRan";
-                _momID = 0;
+              //  _accountID = "LoveMyRan";
+              //  _momID = 0;
 
                 try
                 {
@@ -173,13 +196,13 @@ namespace momUI
 
                     HttpResponseMessage response1 = await client.GetAsync(URL + "/Accounts");
                     string json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account> accountsList = JsonConvert.DeserializeObject<List<Account>>(json1);
+                    List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(json1);
 
                     HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
                     string json2 = await response2.Content.ReadAsStringAsync();
-                    List<Mother> motherList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                    List<Mother>? motherList = JsonConvert.DeserializeObject<List<Mother>>(json2);
 
-                    Boolean found = false;
+                  //  Boolean found = false;
 
                     foreach (Mother index in motherList)
                     {
@@ -189,59 +212,26 @@ namespace momUI
                             _balance = (double)index.Tokens;
                             MomNameHeader.Text = $"{index.FName} {index.LName}";
 
-                            // Update the BalanceText property with the fetched value
-                           BalanceLabel = $"Current Balance: ${_balance:F2}";
-                           found = true;
-                                
+                            BalanceLabel = $"Current Balance: ${_balance:F2}";
+                        //    found = true;
+                            break;
                             
                         }
                     }
+                    /*
                     if (found == false)
                     {
-                        // Handle errors (e.g., show a default value or error message)
                         BalanceLabel = $"Current Balance: N/A (Could Not Find An Account with that username)";
                     }
+                    */
                 }
                 catch (Exception ex)
                 {
-                    // Handle errors (e.g., show a default value or error message)
                     BalanceLabel = $"Current Balance: N/A ({ex.Message})";
                 }
 
             }
         }
-
-        /*
-        private async void FetchBalance()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    HttpResponseMessage response = await client.GetAsync(mothers_url);
-                    response.EnsureSuccessStatusCode(); // Throw if not successful
-
-                    string json = await response.Content.ReadAsStringAsync();
-                    // Assuming the API returns a JSON object like { "balance": 123.45 }
-                    var balanceData = JsonConvert.DeserializeObject<Mother>(json);
-                    
-                    if (balanceData != null)
-                    {
-                        _balance = balanceData.Tokens;
-                    }
-
-                    // Update the BalanceText property with the fetched value
-                    BalanceLabel = $"Current Balance: ${balanceData.Tokens:F2}";
-                  
-                }
-                catch (Exception ex)
-                {
-                    // Handle errors (e.g., show a default value or error message)
-                    BalanceLabel = $"Current Balance: N/A ({ex.Message})";
-                }
-            }
-        }
-        */
 
         async private void OnOpenChatsClicked(object sender, EventArgs e)
         {
@@ -250,8 +240,16 @@ namespace momUI
 
         async private void OnCreateTicketClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MomTicketPage(_balance, _momID));
+            await Navigation.PushAsync(new MomTicketPage(_balance, _momID, _accountID));
         }
+
+        async private void AccessibiltySettings_Clicked(object sender, EventArgs e)
+        {
+            AccessibiltySettings.IsEnabled = false;
+            await Navigation.PushAsync(new Accessibility_Settings());
+            AccessibiltySettings.IsEnabled = true;
+        }
+
 
         /*
         async private void OnCounterClicked(object sender, EventArgs e)

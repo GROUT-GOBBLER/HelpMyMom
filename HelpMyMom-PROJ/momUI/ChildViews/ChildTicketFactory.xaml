@@ -3,48 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.ChildTicketFactory"
              Title="Child Ticket Factory">
-    <VerticalStackLayout>
-        <Label 
-            Text="New Ticket"
-            FontSize="50"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView Margin="5">
+        <VerticalStackLayout Margin="5">
+            <Label 
+                x:Name="factortTitle"
+                Text="New Ticket"
+                FontSize="5"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
 
-        <Label 
-            Text="Please expain the issue"
-            Margin="5,20,0,0"
-            FontSize="35"
-            TextColor="SlateGrey"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
+            <Label 
+                x:Name="explainText"
+                Text="Please expain the issue"
+                Margin="5,20,0,0"
+                FontSize="5"
+                TextColor="SlateGrey"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
 
-        <Editor
-            x:Name="DetailsEntry"
-            Placeholder="Details"
-            FontSize="30"
-            IsSpellCheckEnabled="True"
-            TextChanged="DetailsEntry_TextChanged"
-            HeightRequest ="370"
-            VerticalOptions="Center"            
-            HorizontalOptions="Fill" />
+            <Border StrokeThickness="2" Stroke="Black" Margin="10">
+                <Editor
+                    x:Name="DetailsEntry"
+                    Placeholder="Details"
+                    FontSize="5"
+                    IsSpellCheckEnabled="True"
+                    TextChanged="DetailsEntry_TextChanged"
+                    HeightRequest ="370"
+                    VerticalOptions="Center"            
+                    HorizontalOptions="Fill" />
+            </Border>
+                
+            <Picker x:Name="momSelect" Title="Select a mom" Margin="0,20,0,0">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>No Moms</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
-        <Picker x:Name="momSelect" Title="Select a mom" Margin="0,20,0,0">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>No Moms</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
-
-        <Button
-            x:Name="settingBtn"
-            Text="Submit" 
-            FontSize="30"
-            LineBreakMode="WordWrap"
-            BackgroundColor="DarkOliveGreen"
-            Margin="10,50,10,0"
-            SemanticProperties.Hint="Get"
-            Clicked="createClicked"
-            HorizontalOptions="Fill" />
-    </VerticalStackLayout>
+            <Button
+                x:Name="settingBtn"
+                Text="Submit" 
+                FontSize="5"
+                LineBreakMode="WordWrap"
+                BackgroundColor="DarkGreen"
+                TextColor="LightGreen"
+                Margin="10,50,10,0"
+                Clicked="createClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

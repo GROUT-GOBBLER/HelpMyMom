@@ -15,7 +15,9 @@
            
             Clicked="Mom_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill"
+                                TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
         <Button
             x:Name="Child"
             Text="Child Login" 
@@ -23,7 +25,9 @@
             Padding="30,20"
             Clicked="Child_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill"
+                                TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
         <Button
             x:Name="Helper"
             Text="Helper Login" 
@@ -31,7 +35,9 @@
             Padding="30,20"
             Clicked="Helper_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill"
+                                TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
 
 
 

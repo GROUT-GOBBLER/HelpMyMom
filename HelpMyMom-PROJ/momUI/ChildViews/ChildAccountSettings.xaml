@@ -6,43 +6,44 @@
     <ScrollView Margin="5">
         <VerticalStackLayout>
             <Label 
+                x:Name="AccountTitle"
                 Text="Account Settings"
-                FontSize="40"
+                FontSize="5"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
 
             <Label x:Name="NameText"
                 Text="Change Name"
                 Margin="10,10,10,0"
-                FontSize="30"
+                FontSize="5"
                 VerticalOptions="Center" 
-                HorizontalOptions="Start" />
+                HorizontalOptions="Center" />
             
             <Entry
                 x:Name="fName"
                 Margin="10,0,10,0"
-                MaxLength="30"
+                MaxLength="5"
                 Placeholder="First name"
-                FontSize="20"
+                FontSize="5"
                 TextChanged="FirstEntry_TextChanged"
                 />
             
             <Entry
                 x:Name="lName"
                 Margin="10,0,10,0"
-                MaxLength="30"
+                MaxLength="5"
                 Placeholder="Last name"
-                FontSize="20"
+                FontSize="5"
                 TextChanged="LastEntry_TextChanged"
                 />
 
             <Button
                 x:Name="changeNameBtn"
                 Text="Confirm Name" 
-                FontSize="30"
+                FontSize="5"
                 LineBreakMode="WordWrap"
-                BackgroundColor="Gold"
-                TextColor="Black"
+                BackgroundColor="#3033aa"
+                TextColor="LightBlue"
                 Margin="10,20,10,0"
                 SemanticProperties.Hint="Get"
                 Clicked="ChangeNameClicked"
@@ -51,23 +52,23 @@
             <Label x:Name="AddMom"
                 Text="Add A Mom"
                 Margin="10,40,10,0"
-                FontSize="30"
+                FontSize="5"
                 VerticalOptions="Center" 
-                HorizontalOptions="Start" />
+                HorizontalOptions="Center" />
 
             <Entry
                 x:Name="MomUsername"
                 Margin="10,0,10,0"
                 MaxLength="30"
                 Placeholder="Mom's Username"
-                FontSize="20"
+                FontSize="5"
                 TextChanged="MomEntry_TextChanged"
                 />
 
             <Button
                 x:Name="AddMomBtn"
                 Text="Add Mom" 
-                FontSize="30"
+                FontSize="5"
                 LineBreakMode="WordWrap"
                 BackgroundColor="DarkGreen"
                 TextColor="LightGreen"
@@ -79,9 +80,9 @@
             <Label x:Name="RemoveMom"
                 Text="Remove A Mom"
                 Margin="10,40,10,0"
-                FontSize="30"
+                FontSize="5"
                 VerticalOptions="Center" 
-                HorizontalOptions="Start" />
+                HorizontalOptions="Center" />
 
             <Picker x:Name="momSelect" Title="Select a mom" Margin="5,10,5,0">
                 <Picker.ItemsSource>
@@ -94,13 +95,101 @@
             <Button
                 x:Name="RemovedMomBtn"
                 Text="Remove Mom" 
-                FontSize="30"
+                FontSize="5"
                 LineBreakMode="WordWrap"
                 BackgroundColor="DarkRed"
                 TextColor="Pink"
                 Margin="10,20,10,0"
                 SemanticProperties.Hint="Get"
                 Clicked="RemoveMomClicked"
+                HorizontalOptions="Fill" />
+
+            <Label x:Name="NotifText"
+                Text="Notifcation Settings"
+                Margin="10,40,10,0"
+                FontSize="5"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Grid Margin="20,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0"
+                   x:Name="setOneText"
+                   Text="New Ticket"
+                   FontSize="5"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center" />
+
+                <Switch Grid.Column="1" Grid.Row="0"
+                    x:Name="NewSwitch"
+                    IsToggled="True"/>
+
+                <Label Grid.Column="0" Grid.Row="1"
+                   x:Name="setTwoText"
+                   Text="Assigned Ticket"
+                   FontSize="5"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center" />
+
+                <Switch Grid.Column="1" Grid.Row="1"
+                    x:Name="AssignedSwitch"
+                    IsToggled="True"/>
+
+                <Label Grid.Column="0" Grid.Row="2"
+                   x:Name="setThreeText"
+                   Text="In Progress Ticket"
+                   FontSize="5"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center" />
+
+                <Switch Grid.Column="1" Grid.Row="2"
+                    x:Name="ProgressSwitch"
+                    IsToggled="True"/>
+
+                <Label Grid.Column="0" Grid.Row="3"
+                   x:Name="setFourText"
+                   Text="Compleated Ticket"
+                   FontSize="5"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center" />
+
+                <Switch Grid.Column="1" Grid.Row="3"
+                    x:Name="CompleatedSwitch"
+                    IsToggled="True"/>
+
+                <Label Grid.Column="0" Grid.Row="4"
+                   x:Name="setFiveText"
+                   Text="Approved Ticket"
+                   FontSize="5"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center" />
+
+                <Switch Grid.Column="1" Grid.Row="4"
+                    x:Name="ApprovedSwitch"
+                    IsToggled="True"/>
+            </Grid>
+
+            <Button
+                x:Name="SetNotifsBtn"
+                Text="Set Notifications" 
+                FontSize="5"
+                LineBreakMode="WordWrap"
+                BackgroundColor="#3033aa"
+                TextColor="LightBlue"
+                Margin="10,20,10,20"
+                SemanticProperties.Hint="Get"
+                Clicked="SetNotifsClicked"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>

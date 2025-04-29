@@ -1,4 +1,4 @@
-﻿namespace momUI.models;
+namespace momUI.models;
 
 public partial class Helper
 {

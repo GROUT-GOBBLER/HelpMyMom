@@ -13,7 +13,7 @@
                    SearchButtonPressed="SearchBar_SearchButtonPressed"/>
         <Label 
             Text="First Name:"
-            
+             x:Name="FNameL"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label 
@@ -23,7 +23,7 @@
             HorizontalOptions="Center" />
 
         <Label 
-           
+           x:Name="LNameL"
             Text="Last Name:"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
@@ -39,6 +39,8 @@
             Clicked="RelationShipButton_Clicked"
             VerticalOptions="Center"
             HorizontalOptions="Fill" 
+            TextColor="LightGreen"
+            BackgroundColor="DarkGreen"
         />
         <Label 
             x:Name="ErrorLabel"

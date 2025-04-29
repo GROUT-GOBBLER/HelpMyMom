@@ -14,7 +14,9 @@
            
             Clicked="Mom_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill"
+                                TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
         <Button
             x:Name="Child"
             Text="Child Account" 
@@ -22,7 +24,9 @@
             Padding="30,20"
             Clicked="Child_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill" 
+                                TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
         <Button
             x:Name="Helper"
             Text="Helper Account" 
@@ -30,6 +34,8 @@
             Padding="30,20"
             Clicked="Helper_Clicked"
             VerticalOptions="Center"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill" 
+                                TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"/>
     </VerticalStackLayout>
 </ContentPage>

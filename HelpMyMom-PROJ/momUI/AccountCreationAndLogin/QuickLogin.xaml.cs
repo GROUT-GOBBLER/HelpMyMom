@@ -11,6 +11,10 @@ public partial class QuickLogin : ContentPage
 	{
 		InitializeComponent();
 	}
+    protected override async void OnAppearing()
+    {
+        Accessibility a = Accessibility.getAccessibilitySettings();
+    }
 
     async private void Helper_Clicked(object sender, EventArgs e)
     {
@@ -87,11 +91,11 @@ public partial class QuickLogin : ContentPage
     {
         using (HttpClient client = new HttpClient())
         {
-            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Children"}/{1}");
+            HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Children"}/{2}");
 
             string json = await response2.Content.ReadAsStringAsync();
             Child child = JsonConvert.DeserializeObject<Child>(json);
-            await Navigation.PushAsync(new ChildMenu());
+            await Navigation.PushAsync(new ChildMenu(child));
         }
 
     }
@@ -104,7 +108,7 @@ public partial class QuickLogin : ContentPage
 
             string json = await response2.Content.ReadAsStringAsync();
             Mother mom = JsonConvert.DeserializeObject<Mother>(json);
-            await Navigation.PushAsync(new MomMenu());
+            await Navigation.PushAsync(new MomMenu("LoveMyRan", 0));
         }
 
     }

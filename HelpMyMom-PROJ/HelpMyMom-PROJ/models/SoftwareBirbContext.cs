@@ -63,9 +63,6 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.Image)
-                .HasColumnType("image")
-                .HasColumnName("image");
             entity.Property(e => e.IsMom)
                 .HasMaxLength(10)
                 .IsFixedLength()
@@ -97,6 +94,9 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.LName)
                 .HasMaxLength(35)
                 .HasColumnName("lName");
+            entity.Property(e => e.Notifs)
+                .HasMaxLength(50)
+                .HasColumnName("notifs");
         });
 
         modelBuilder.Entity<Helper>(entity =>
@@ -118,9 +118,6 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.LName)
                 .HasMaxLength(35)
                 .HasColumnName("lName");
-            entity.Property(e => e.Pfp)
-                .HasColumnType("image")
-                .HasColumnName("pfp");
             entity.Property(e => e.Specs)
                 .HasMaxLength(300)
                 .HasColumnName("specs");
@@ -152,13 +149,13 @@ public partial class SoftwareBirbContext : DbContext
             entity.Property(e => e.ChildId).HasColumnName("childId");
             entity.Property(e => e.MomId).HasColumnName("momId");
 
-            //entity.HasOne(d => d.Child).WithMany(p => p.Relationships)
-            //    .HasForeignKey(d => d.ChildId)
-            //    .HasConstraintName("children1");
+ /*           entity.HasOne(d => d.Child).WithMany(p => p.Relationships)
+                .HasForeignKey(d => d.ChildId)
+                .HasConstraintName("children1");
 
-            //entity.HasOne(d => d.Mom).WithMany(p => p.Relationships)
-            //    .HasForeignKey(d => d.MomId)
-            //    .HasConstraintName("Moms");
+            entity.HasOne(d => d.Mom).WithMany(p => p.Relationships)
+                .HasForeignKey(d => d.MomId)
+                .HasConstraintName("Moms");*/
         });
 
         modelBuilder.Entity<Report>(entity =>
