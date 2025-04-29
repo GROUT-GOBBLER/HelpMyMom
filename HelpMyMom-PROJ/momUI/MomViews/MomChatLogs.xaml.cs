@@ -190,7 +190,8 @@ namespace momUI
                                 break;
                             }
                         }
-                        /*
+
+                        
                         // Send email to mom.
                         foreach (Mother index in mothersList)
                         {
@@ -241,7 +242,7 @@ namespace momUI
                                     tempTicket);
                             }
                         }
-                        */
+                        
 
                         // int momID, int helperID, int ticketID
                         int ticket_momID = (int)tempTicket.MomId;
