@@ -190,7 +190,7 @@ namespace momUI
                                 break;
                             }
                         }
-
+                        /*
                         // Send email to mom.
                         foreach (Mother index in mothersList)
                         {
@@ -200,7 +200,6 @@ namespace momUI
                                     $"{index.FName} {index.LName}",
                                     $"{tempTicket.Status}",
                                     tempTicket);
-
                             }
                         }
 
@@ -230,6 +229,7 @@ namespace momUI
 
                             }
                         }
+                        
                         // For the helper
                         foreach (Helper index in helpersList)
                         {
@@ -241,6 +241,7 @@ namespace momUI
                                     tempTicket);
                             }
                         }
+                        */
 
                         // int momID, int helperID, int ticketID
                         int ticket_momID = (int)tempTicket.MomId;
@@ -248,10 +249,6 @@ namespace momUI
 
                         // Goto the review page.
                         await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
-                    }
-                    else
-                    {
-                        return;
                     }
 
                 }
@@ -266,11 +263,6 @@ namespace momUI
         async private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             RefreshListView();
-
-            CheckIfReviewApproved();
-
-            UpdateTicketButtonStatus();
-
         }
 
         private FormattedString CreateFormattedMessage(string messageText)
@@ -330,7 +322,6 @@ namespace momUI
 
 
         private async Task OpenUrl(string url)
-
         {
             try
             {
@@ -349,6 +340,12 @@ namespace momUI
 
         async private void RefreshListView()
         {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                CheckIfReviewApproved();
+                UpdateTicketButtonStatus();
+            });
+
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -613,7 +610,7 @@ namespace momUI
                         return;
                     }
 
-                    string buttonStatus = (string)tempTicket.Status;
+                    string buttonStatus = tempTicket.Status;
 
                     HttpResponseMessage updateTicketStatusResponse = await client.PutAsJsonAsync(
                            $"{URL}/{"Tickets"}/{tempTicket.Id}",
@@ -651,7 +648,7 @@ namespace momUI
                     // Get entries from Ticket table in DB.
                     HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
                     String json = await response.Content.ReadAsStringAsync();
-                    List<Ticket> ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
+                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
 
                     Ticket tempTicket = new Ticket(); // Find ticket.
                     foreach (Ticket t in ticketsList)
@@ -659,48 +656,48 @@ namespace momUI
                         if (t.Id == ticketID)
                         {
                             tempTicket = t;
+                         //   await DisplayAlert("NOTE:", "Got here3", "OK");
                             break;
                         }
                     }
-                 
+
+                   // await DisplayAlert("Ticket Status Is:", $"{tempTicket.Status}", "OK");
+
                     // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
                     if (tempTicket.Status == "INPROGRESS")
                     {
+                       // await DisplayAlert("We even Here?:", $"1", "OK");
                         TicketStatusButton.Text = "ONGOING";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("Red");
+                        TicketStatusButton.BackgroundColor = Color.FromArgb("#FF0000");
+
                     }
                     else if (tempTicket.Status == "COMPLETED")
                     {
                         TicketStatusButton.Text = "DONE 1/2";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("Yellow");
+                        TicketStatusButton.BackgroundColor = Color.FromArgb("#FFFF00");
+
                     }
                     else if (tempTicket.Status == "APPROVED")
                     {
+                       // await DisplayAlert("We even Here?:", $"3", "OK");
                         TicketStatusButton.Text = "DONE 2/2";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("Green");
+                        TicketStatusButton.BackgroundColor = Color.FromArgb("#008000");
+                        
                     }
                     else
                     {
+                      //  await DisplayAlert("We even Here?:", $"4", "OK");
                         TicketStatusButton.Text = "N/A";
-                        TicketStatusButton.BackgroundColor = Color.FromArgb("White");
+                        TicketStatusButton.BackgroundColor = Color.FromArgb("#FFFFFF");
+                        
                     }
-                    return;
                 }
                 catch (Exception ex)
                 {
-                   await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
-                   return;
+                    await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
+
                 }
             }
-        }
-
-        /*
-        public class ChatItem
-        {
-            public string? Name { get; set; }
-            public string? Time { get; set; }
-            public string? Text { get; set; }
-            public int? TicketId { get; set; }
         }
 
         */

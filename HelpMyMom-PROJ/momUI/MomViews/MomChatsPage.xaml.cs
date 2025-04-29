@@ -92,7 +92,8 @@ namespace momUI
                             && ticketIndex.HelperId != null 
                             && ticketIndex.Status != "APPROVED"
                             && ticketIndex.Status != null
-                            && ticketIndex.Status != "NEW") // Do not show tickets with a New status, wait till it is assigned?
+                            && ticketIndex.Status != "NEW"
+                            && ticketIndex.Status != "ASSIGNED") // Do not show tickets with a New status, wait till it is assigned?
                                                             // But helperID is already checked to make sure that it isnt null, 
                                                             // so why would it still show chats and
                                                             // mothers being able to chat with helpers b4 ticket has been accepted?
