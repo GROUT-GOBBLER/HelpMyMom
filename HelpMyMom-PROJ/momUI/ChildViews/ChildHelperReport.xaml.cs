@@ -89,6 +89,7 @@ public partial class ChildHelperReport : ContentPage
 
     private async void ReportHelperClicked(object sender, EventArgs e)
     {
+        ReportBtn.IsEnabled = false;
         using (HttpClient client = new HttpClient())
         {
             List<Report>? allReports;
@@ -142,6 +143,7 @@ public partial class ChildHelperReport : ContentPage
                     }
 
                 }
+                ReportBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {

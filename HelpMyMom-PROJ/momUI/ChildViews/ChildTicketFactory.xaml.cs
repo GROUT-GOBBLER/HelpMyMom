@@ -138,6 +138,7 @@ public partial class ChildTicketFactory : ContentPage
                     if (momSelect.SelectedItem == null) throw new Exception("No mom selected");
                     else
                     {
+                        settingBtn.IsEnabled = false;
                         string[] selectedMom = momSelect.SelectedItem.ToString().Split(" ");
 
                         Mother mom = moms.Single(m => m.Id == Int32.Parse(selectedMom[0]));
@@ -197,6 +198,8 @@ public partial class ChildTicketFactory : ContentPage
                     }
 
                     await Navigation.PushAsync(new AssignHelperPage(account, newTicket));
+
+                    settingBtn.IsEnabled = true;
                 }
             }
             catch (Exception ex)
