@@ -17,8 +17,6 @@
                 <Button x:Name="GoBack"
                   Text="BACK"
                   HorizontalOptions="Start"
-                  WidthRequest="100"
-                  HeightRequest="50"
                   Clicked="OnBackClicked"
                   Margin="-20,0,0,0"/>
 
@@ -28,8 +26,6 @@
                         TextColor="Black"
                         FontSize="15"
                         FontAttributes="Bold"
-                        WidthRequest="250"
-                        HeightRequest="50"
                         CornerRadius="10" 
                         Clicked="OnStatusCompleteClickedMom"
                         LineBreakMode="WordWrap" 
@@ -53,8 +49,9 @@
                 x:Name="ChatMessageListView"  
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
-                VerticalScrollBarVisibility="Never" 
-                HasUnevenRows="True" >
+                MaximumHeightRequest="450"
+                VerticalScrollBarVisibility="Always" 
+                HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
