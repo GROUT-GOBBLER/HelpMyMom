@@ -9,6 +9,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using System.Threading.Tasks;
 using System.Data;
 using System.Timers;
+using ScrollView = Microsoft.Maui.Controls.ScrollView;
 
 namespace momUI
 {
@@ -81,7 +82,6 @@ namespace momUI
             aTimer.Enabled = true;
 
 
-
             Accessibility a = Accessibility.getAccessibilitySettings();
 
             TicketStatusButton.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
@@ -89,6 +89,7 @@ namespace momUI
             HelperChatName.FontSize = Math.Min(Math.Max(20, a.fontsize + 10), 40);
 
             MessageTextEntry.FontSize = Math.Min(Math.Max(10, a.fontsize), 30);
+
             SendChatMessage.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
             GoBack.FontSize = Math.Min(Math.Max(15, a.fontsize + 5), 35);
 
@@ -139,22 +140,136 @@ namespace momUI
             aTimer.Enabled = false;
         }
 
+        async private void CheckIfReviewApproved()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    // Get entries from Ticket table in DB.
+                    HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
+
+                    String json = await response.Content.ReadAsStringAsync();
+
+                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
+
+                    Ticket tempTicket = new Ticket(); // Find ticket.
+                    foreach (Ticket t in ticketsList)
+                    {
+                        if (t.Id == ticketID)
+                        {
+                            tempTicket = t;
+                            break;
+                        }
+                    }
+                    // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
+                    if (tempTicket.Status == "APPROVED")
+                    {
+                        HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
+                        HttpResponseMessage response3 = await client.GetAsync(URL + "/Helpers");
+                        HttpResponseMessage response4 = await client.GetAsync(URL + "/Children");
+                        HttpResponseMessage response5 = await client.GetAsync(URL + "/Accounts");
+
+                        String json2 = await response2.Content.ReadAsStringAsync();
+                        String json3 = await response3.Content.ReadAsStringAsync();
+                        String json4 = await response4.Content.ReadAsStringAsync();
+                        String json5 = await response5.Content.ReadAsStringAsync();
+
+
+                        List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
+                        List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json3);
+                        List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
+                        List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json5);
+
+                        Account account = new Account();
+                        foreach (Account index in accountList)
+                        {
+                            if (index.MomId == tempTicket.MomId)
+                            {
+                                account = index;
+                                break;
+                            }
+                        }
+
+                        // Send email to mom.
+                        foreach (Mother index in mothersList)
+                        {
+                            if (index.Id == tempTicket.MomId)
+                            {
+                                EmailServices.SendNotifcation(index.Email,
+                                    $"{index.FName} {index.LName}",
+                                    $"{tempTicket.Status}",
+                                    tempTicket);
+
+                            }
+                        }
+
+                        // Only if they opt in.
+                        foreach (Child index in childrenList)
+                        {
+                            if (index.Id == tempTicket.ChildId)
+                            {
+                                string[]? notifSettings = null;
+                                if (index.Notifs != null)
+                                {
+                                    notifSettings = index.Notifs.Split(",");
+                                }
+
+                                if (notifSettings != null && notifSettings.Length == 5)
+                                {
+                                    bool shouldSendChild = bool.Parse(notifSettings[4].ToLower());
+                                    if (shouldSendChild)
+                                    {
+                                        EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
+                                    }
+                                }
+                                else //If there are no settings, assume "true"
+                                {
+                                    EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
+                                }
+
+                            }
+                        }
+                        // For the helper
+                        foreach (Helper index in helpersList)
+                        {
+                            if (index.Id == tempTicket.HelperId)
+                            {
+                                EmailServices.SendNotifcation(index.Email,
+                                    $"{index.FName} {index.LName}",
+                                    $"{tempTicket.Status}",
+                                    tempTicket);
+                            }
+                        }
+
+                        // int momID, int helperID, int ticketID
+                        int ticket_momID = (int)tempTicket.MomId;
+                        int ticket_helperID = (int)tempTicket.HelperId;
+
+                        // Goto the review page.
+                        await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
+
+                }
+            }
+        }
+
         async private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             RefreshListView();
+
+            CheckIfReviewApproved();
+
         }
 
         private FormattedString CreateFormattedMessage(string messageText)
         {
             var formattedString = new FormattedString();
-
-            /*
-            if (string.IsNullOrEmpty(messageText))
-            { 
-                formattedString.Spans.Add(new Span { Text = " " }); // Add a space to avoid empty display
-                return formattedString;
-            }
-            */
 
             var urlRegex = new System.Text.RegularExpressions.Regex(@"(https?://[^\s]+)", System.Text.RegularExpressions.RegexOptions.Compiled);
             var matches = urlRegex.Matches(messageText);
@@ -303,6 +418,8 @@ namespace momUI
                             latestMessageTime = cl.Time;
                             Accessibility a = Accessibility.getAccessibilitySettings();
 
+
+
                             if (cl.IsMom == "true      ") // mom's chat.
                             {
                                 MainThread.BeginInvokeOnMainThread(() =>
@@ -314,7 +431,14 @@ namespace momUI
                                     tempMessageView.SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     chatMessagesList.Add(tempMessageView);
+                                    /*
+                                    if (chatMessagesList.Any()) // Scrolling to the Bottom every time list is refreshed
+                                    {
+                                        ChatMessageListView.ScrollTo(chatMessagesList.Last(), ScrollToPosition.End, true);
+                                    }
+                                    */
                                 });
+                                
                             }
                             else if (cl.IsMom == "false     ")// helper's chat.
                             {
@@ -327,6 +451,12 @@ namespace momUI
                                     tempMessageView.SenderFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     tempMessageView.MessageFontSize = Math.Min(Math.Max(10, a.fontsize), 30);
                                     chatMessagesList.Add(tempMessageView);
+                                    /*
+                                    if (chatMessagesList.Any()) // Scrolling to the Bottom
+                                    {
+                                        ChatMessageListView.ScrollTo(chatMessagesList.Last(), ScrollToPosition.End, true);
+                                    }
+                                    */
                                 });
                             }
                         }
@@ -372,6 +502,14 @@ namespace momUI
                     {
                         RefreshListView();
                         SendChatMessage.Text = "Message added successfully.";
+                        
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            if (chatMessagesList.Any()) // Scrolls every time a chat is sent
+                            {
+                                ChatMessageListView.ScrollTo(chatMessagesList.Last(), ScrollToPosition.End, true);
+                            }
+                        });
                     }
                     else
                     {
@@ -390,6 +528,13 @@ namespace momUI
             messageToSend = null;
         }
 
+        /*
+        bool IsAtBottom() // Checks if the user is already near the bottom. If the user is scrolling up it doesnt do this.
+        {
+            var scrollView = ChatMessageListView.Parent as ScrollView;
+            return scrollView.ScrollY >= scrollView.ContentSize.Height - scrollView.Height - 50; // 50-pixel threshold
+        }
+        */
 
         private async void OnBackClicked(object sender, EventArgs e)
         {
@@ -435,51 +580,6 @@ namespace momUI
             }
         }
 
-        /*
-        private async void AccessibiltySettings_Clicked(object sender, EventArgs e)
-        {
-            AccessibiltySettings.IsEnabled = false;
-            await Navigation.PushAsync(new Accessibility_Settings());
-
-            AccessibiltySettings.IsEnabled = true;
-            /*
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-
-                    // Get entries from Ticket table in DB.
-                    HttpResponseMessage response = await client.GetAsync($"{URL}/{"Tickets"}");
-                    String json = await response.Content.ReadAsStringAsync();
-                    List<Ticket>? ticketsList = JsonConvert.DeserializeObject<List<Ticket>>(json);
-
-                    Ticket tempTicket = new Ticket(); // Find ticket.
-                    foreach (Ticket t in ticketsList)
-                    {
-                        if (t.Id == ticketID)
-                        {
-                            tempTicket = t;
-                            break;
-                        }
-                    }
-
-                    // int momID, int helperID, int ticketID
-                    int ticket_momID = (int)tempTicket.MomId;
-                    int ticket_helperID = (int)tempTicket.HelperId;
-
-                    // Goto the review page.
-                    await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
-
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("ERROR:", $"{ex.Message}", "OK");
-
-                }
-            }
-            *0/
-        }
-        */
 
         
         private async void OnStatusCompleteClickedMom(object sender, EventArgs e)
@@ -504,13 +604,17 @@ namespace momUI
                         }
                     }
                     // Valid statuses: NEW, ASSIGNED, INPROGRESS, COMPLETED, APPROVED
-                    if (tempTicket.Status == "COMPLETED")
+                    if (tempTicket.Status == "INPROGRESS")
                     {
-                        tempTicket.Status = "APPROVED";
+                        tempTicket.Status = "COMPLETED";
+                    }
+                    else if (tempTicket.Status == "COMPLETED")
+                    {
+                        await DisplayAlert("UNAVAILABLE", "Ticket has not been approved by Helper, cannot access review!", "OK");
                     }
                     else
                     {
-                        await DisplayAlert("ERROR!", "Ticket is not complete, cannot be approved!", "OK");
+                        await DisplayAlert("ERROR!", "Ticket is not in-progress, cannot be set to complete!", "OK");
                         return;
                     }
 
@@ -525,90 +629,8 @@ namespace momUI
                     {
                         UpdateTicketButtonStatus();
                         // await DisplayAlert("Ticket Completed!", "Wooo", "OK");
-
-                        HttpResponseMessage response2 = await client.GetAsync(URL + "/Mothers");
-                        HttpResponseMessage response3 = await client.GetAsync(URL + "/Helpers");
-                        HttpResponseMessage response4 = await client.GetAsync(URL + "/Children");
-                        HttpResponseMessage response5 = await client.GetAsync(URL + "/Accounts");
-
-                        String json2 = await response2.Content.ReadAsStringAsync();
-                        String json3 = await response3.Content.ReadAsStringAsync();
-                        String json4 = await response4.Content.ReadAsStringAsync();
-                        String json5 = await response5.Content.ReadAsStringAsync();
-
-
-                        List<Mother>? mothersList = JsonConvert.DeserializeObject<List<Mother>>(json2);
-                        List<Helper>? helpersList = JsonConvert.DeserializeObject<List<Helper>>(json3);
-                        List<Child>? childrenList = JsonConvert.DeserializeObject<List<Child>>(json4);
-                        List<Account>? accountList = JsonConvert.DeserializeObject<List<Account>>(json5);
-
-                        Account account = new Account();
-                        foreach (Account index in accountList)
-                        {
-                            if (index.MomId == tempTicket.MomId)
-                            {
-                                account = index;
-                                break;
-                            }
-                        }
-
-                        // Send email to mom.
-                        foreach (Mother index in mothersList)
-                        {
-                            if (index.Id == tempTicket.MomId)
-                            {
-                                EmailServices.SendNotifcation(index.Email,
-                                    $"{index.FName} {index.LName}", 
-                                    $"{tempTicket.Status}", 
-                                    tempTicket);
-
-                            }
-                        }
-
-                        // Only if they opt in.
-                        foreach (Child index in childrenList)
-                        {
-                            if (index.Id == tempTicket.ChildId)
-                            {
-                                string[]? notifSettings = null;
-                                if (index.Notifs != null)
-                                {
-                                    notifSettings = index.Notifs.Split(",");
-                                }
-
-                                if (notifSettings != null && notifSettings.Length == 5)
-                                {
-                                    bool shouldSendChild = bool.Parse(notifSettings[4].ToLower());
-                                    if (shouldSendChild)
-                                    {
-                                        EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
-                                    }
-                                }
-                                else //If there are no settings, assume "true"
-                                {
-                                    EmailServices.SendNotifcation(index.Email, $"{index.FName} {index.LName}", tempTicket.Status, tempTicket);
-                                }
-                               
-                            }
-                        }
-                        // For the helper
-                        foreach (Helper index in helpersList)
-                        {
-                            if (index.Id == tempTicket.HelperId)
-                            {
-                                EmailServices.SendNotifcation(index.Email,
-                                    $"{index.FName} {index.LName}",
-                                    $"{tempTicket.Status}",
-                                    tempTicket);
-                            }
-                        }
-
-                        // int momID, int helperID, int ticketID
-                        int ticket_momID = (int)tempTicket.MomId;
-                        int ticket_helperID = (int)tempTicket.HelperId;
-
-                        // Goto the review page.
-                        await Navigation.PushAsync(new MomReviewPage(ticket_momID, ticket_helperID, tempTicket.Id));
+                        return;
+                        
                     }
                     else
                     {
@@ -677,7 +699,7 @@ namespace momUI
             }
         }
 
-
+        /*
         public class ChatItem
         {
             public string? Name { get; set; }
@@ -686,6 +708,7 @@ namespace momUI
             public int? TicketId { get; set; }
         }
 
+        */
 
     }
 }

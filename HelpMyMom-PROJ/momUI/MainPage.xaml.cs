@@ -82,7 +82,7 @@ namespace momUI
                         response2 = await client.GetAsync($"{URL}/{"Children"}/{account.ChildId}");
                         if (!response2.IsSuccessStatusCode)
                         {
-                             ErrorLabel.Text = $" Something happed to the connection ";
+                            ErrorLabel.Text = $" Something happed to the connection ";
                             LoginButton.IsEnabled = true;
                             return;
                         }
@@ -113,8 +113,8 @@ namespace momUI
                         Mother mother = JsonConvert.DeserializeObject<Mother>(json);
 
 
-                        await Navigation.PushAsync(new MomMenu("LocalMomInYourArea", 4));
-
+                        // await Navigation.PushAsync(new MomMenu("LocalMomInYourArea", 4));
+                        await Navigation.PushAsync(new MomMenu(account.Username, mother.Id));
 
 
 
