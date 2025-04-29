@@ -109,7 +109,7 @@
              </ListView>
              <Label 
                    x:Name="SelSpecailL"
-                Text="selected specialties"
+                Text="Selected Specialties"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
              />
@@ -145,15 +145,18 @@
 
             <Label 
                 x:Name="DescL"
-                Text="description"
+                Text="Description"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
             />
+            <Border
+                StrokeThickness="2"
+                Stroke="Black"
+                Margin="10">
             <Editor x:Name="descriptionEditor"
                 Placeholder="Enter your response here"
-                HeightRequest="250"
-
-             />
+                HeightRequest="250" />
+            </Border>
             <Button
                 x:Name="CreateAccountButton"
                 Text="Create Account" 

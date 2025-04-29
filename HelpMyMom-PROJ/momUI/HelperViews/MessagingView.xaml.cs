@@ -62,10 +62,9 @@ public partial class MessagingView : ContentPage
     protected override void OnAppearing() // determines what the page does when it opens.
     {
         base.OnAppearing();
-
         GetMomName();
+        TicketApprovedButtonStateDetermination();
         SetFontSizes();
-        TicketApprovedButtonStateDetermination(masterTicket);
         RefreshListView();
 
         ChatMessageListView.ItemsSource = chatMessagesList;
@@ -82,11 +81,6 @@ public partial class MessagingView : ContentPage
     // LOCAL METHODS.
     async private void RefreshListView()
     {
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            TicketApprovedButtonStateDetermination(masterTicket);
-        });
-
         using (HttpClient client = new HttpClient())
         {
             try
@@ -179,22 +173,48 @@ public partial class MessagingView : ContentPage
 
     private void OnTimedEvent(Object? source, ElapsedEventArgs e) // what the timer does ever x seconds.
     {
+        TicketApprovedButtonStateDetermination();
         RefreshListView();
     }
 
-    private void TicketApprovedButtonStateDetermination(Ticket tick)
+    async private void TicketApprovedButtonStateDetermination()
     {
-        string? ticketStatus = tick.Status;
-        TicketApprovedButton.Text = $"{ticketStatus}";
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                HttpResponseMessage updateTicketStatus = await client.GetAsync($"{URL}/{"Tickets"}/{ticketID}");
+                String newTicketJSON = await updateTicketStatus.Content.ReadAsStringAsync();
+                Ticket? tempTicket = JsonConvert.DeserializeObject<Ticket>(newTicketJSON);
 
-        if (ticketStatus != null && ticketStatus.Equals("COMPLETED"))
-        {
-            TicketApprovedButton.IsEnabled = true;
+                if (tempTicket != null) 
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        masterTicket = tempTicket;
+                    });
+                }
+                else { await DisplayAlert("CouldntFindTicket", $"Couldn't find ticket with ID {ticketID}", "Ok."); }
+            }
+            catch (Exception except)
+            {
+                await DisplayAlert("Exception", $"Exception ocurred ... {except}", "Ok.");
+            }
         }
-        else
+
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            TicketApprovedButton.IsEnabled = false;
-        }
+            TicketApprovedButton.Text = $"{masterTicket.Status}";
+
+            if (masterTicket.Status != null && masterTicket.Status.Equals("COMPLETED"))
+            {
+                TicketApprovedButton.IsEnabled = true;
+            }
+            else
+            {
+                TicketApprovedButton.IsEnabled = false;
+            }
+        });
     }
 
     private void SetFontSizes()

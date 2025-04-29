@@ -1,4 +1,4 @@
-using momUI.HelperViews;
+﻿using momUI.HelperViews;
 using momUI.models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -100,7 +100,7 @@ namespace momUI
 					String specs = "";
 					String[] specsAsNumbers, specsAsStringsFull;
 					String textForRatingsLabel = "";
-					int reviewAverageValue = 0;
+					double reviewAverageValue = 0;
 					int numberOfApplicableReviews = 0;
 
 					// Find our account.
@@ -161,38 +161,46 @@ namespace momUI
 						}
 					}
 
-					// Find review score.
-					if (reviewsList.Count() != 0)
-					{
-						foreach (Review r in reviewsList)
-						{
-							if (r.HelperId == tempHelper.Id)
-							{
-								reviewAverageValue += (int)r.Stars;
-								numberOfApplicableReviews++;
-							}
-						}
+                    // Find review score.
+                    if (reviewsList != null)
+                    {
+                        if (reviewsList.Count != 0)
+                        {
+                            foreach (Review r in reviewsList)
+                            {
+                                if (r.HelperId == masterHelper.Id)
+                                {
+                                    if (r.Stars != null)
+                                    {
+                                        reviewAverageValue += (int)r.Stars;
+                                        numberOfApplicableReviews++;
+                                    }
+                                    else { await DisplayAlert("ReviewWithNoStars", $"ERROR! Found a review without a star-rating.", "OK"); }
+                                }
+                            }
 
-						if (numberOfApplicableReviews > 0)
-						{
-							reviewAverageValue = reviewAverageValue / numberOfApplicableReviews;
-							reviewAverageValue = (int)Math.Ceiling((double)reviewAverageValue / 2);
-							textForRatingsLabel = reviewAverageValue + " stars.";
-						}
-						else
-						{
-							textForRatingsLabel = "No reviews found.";
-						}
-					}
-					else
-					{
-						textForRatingsLabel = "No reviews found.";
-					}
+                            if (numberOfApplicableReviews > 0)
+                            {
+                                reviewAverageValue = Math.Ceiling(reviewAverageValue / numberOfApplicableReviews);
+                                reviewAverageValue = reviewAverageValue / 2;
+
+                                // Create star count.
+                                for (int x = 0; x < reviewAverageValue; x++)
+                                {
+                                    if ((reviewAverageValue % 1) == 0.5 && (x + 1) > reviewAverageValue) { textForRatingsLabel += "½ "; }
+                                    else { textForRatingsLabel += "☆ "; }
+                                }
+                            }
+                            else { textForRatingsLabel = "No reviews found."; }
+                        }
+                        else { textForRatingsLabel = "No reviews found."; }
+                    }
+                    else { await DisplayAlert("ReviewsNotFound", $"ERROR! Failed to find any reviews.", "OK"); }
 
 
 
-					// Set objects in the XAML file with the newfound values.
-					FirstNameLabel.Text = tempHelper.FName;
+                    // Set objects in the XAML file with the newfound values.
+                    FirstNameLabel.Text = tempHelper.FName;
 					LastNameLabel.Text = tempHelper.LName;
 					DescriptionLabel.Text = tempHelper.Description;
 
