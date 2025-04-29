@@ -61,8 +61,9 @@ public partial class MomAccountCreation : ContentPage
 			mother.Id = (mList[mList.Count - 1].Id + 1);
             mother.FName = FirstNameEntry.Text;
 			mother.LName = LastNameEntry.Text;
-			mother.Email = EmailEntry.Text;
-			mother.Tokens = 0;
+            String E = EmailEntry.Text.Split("\n")[0];
+            mother.Email = E;
+            mother.Tokens = 0;
 
 			account.MomId = mother.Id;
 			account.Username = UsernameEntry.Text;
