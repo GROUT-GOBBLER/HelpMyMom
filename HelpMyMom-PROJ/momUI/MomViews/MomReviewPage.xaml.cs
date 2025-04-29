@@ -170,7 +170,6 @@ namespace momUI
                             }
                         }
                         await Navigation.PushAsync(new MomMenu(accountUserName, _momAccountID));
-                      //  await Navigation.PopAsync();
                     }
                     else
                     {

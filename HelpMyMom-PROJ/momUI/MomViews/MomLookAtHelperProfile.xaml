@@ -10,7 +10,7 @@
             Margin="20,20,20,20"
             Spacing="10">
             <!-- Profile Picture. -->
-            <Frame x:Name="TestingShit"
+            <Frame x:Name="TestingFrame"
                 HeightRequest="200"
                 WidthRequest="200"
                 CornerRadius="100"
@@ -23,8 +23,8 @@
                 <Image
                     x:Name="ProfilePictureImage"
                     Aspect="AspectFit"
-                    Source="mr_worldwide.jpg"
-                    Scale="1.2"
+                    Source="pfp.png"
+                    Scale="1.5"
                     SemanticProperties.Description="Cute dot net bot waving hi to you!"
                     HeightRequest="200"
                     WidthRequest="200"
