@@ -91,7 +91,11 @@ namespace momUI
                         if (ticketIndex.MomId == _momAccountID 
                             && ticketIndex.HelperId != null 
                             && ticketIndex.Status != "APPROVED"
-                            && ticketIndex.Status != null)
+                            && ticketIndex.Status != null
+                            && ticketIndex.Status != "NEW") // Do not show tickets with a New status, wait till it is assigned?
+                                                            // But helperID is already checked to make sure that it isnt null, 
+                                                            // so why would it still show chats and
+                                                            // mothers being able to chat with helpers b4 ticket has been accepted?
                         {
                         
                             ticketId = ticketIndex.Id;
@@ -161,13 +165,10 @@ namespace momUI
                                 TimeFontSize = Math.Min(Math.Max(10, a.fontsize), 30) // Set message font size
                             };
 
-
-
                             // await DisplayAlert("Item:", $"Name: {newChatItem.Name}, Time: {newChatItem.Time}, Text: {newChatItem.Text}", "OK");
 
                             Chats.Add(newChatItem);
                             
-                            // Chats.Add(new ChatItem { Name = helperName, Time = displayTime.ToString(), Text = displayText});
                             //   await DisplayAlert("Added New Item:", $"Complete", "OK");
                         }
                     }

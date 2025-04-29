@@ -212,7 +212,7 @@ namespace momUI
                             _balance = (double)index.Tokens;
                             MomNameHeader.Text = $"{index.FName} {index.LName}";
 
-                            BalanceLabel = $"Current Balance: ${_balance:F2}";
+                            BalanceLabel = $"Current Balance: \n ${_balance:F2}";
                         //    found = true;
                             break;
                             
