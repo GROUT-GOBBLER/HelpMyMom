@@ -83,6 +83,7 @@ public partial class ChildToMomRelationshipPage : ContentPage
                 relationship.Id = ((rList[rList.Count - 1].Id) + 1);
                 response = await client.PostAsJsonAsync($"{URL}/{"Relationships"}", relationship);
                 ErrorLabel.Text = "Success";
+                await Navigation.PopToRootAsync();
                 return;
             }
         }
