@@ -1,7 +1,5 @@
 using momUI.models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace momUI;
 
@@ -16,6 +14,7 @@ public partial class AssignHelperPage : ContentPage
 
     Child account;
     Ticket? ticket = null;
+    Accessibility a;
 
     int normalFont = 15;
 
@@ -26,6 +25,9 @@ public partial class AssignHelperPage : ContentPage
     public AssignHelperPage(Child acc, Ticket? t = null)
 	{
 		InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         account = acc;
 
