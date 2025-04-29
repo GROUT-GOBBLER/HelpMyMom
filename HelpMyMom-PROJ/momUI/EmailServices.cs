@@ -50,8 +50,9 @@ namespace momUI
             string[] msgBody = new string[]
             {
                 $"Hello {Name}!",
-                $"The Helper you selected for ticket #<ticket number> has denied the ticket.",
-                $"Please select another Helper in the app."
+                $"The Helper you selected for ticket #{ticket.Id} has denied the ticket.",
+                $"Please select another Helper in the app.",
+                $"Thank you for your time, Help My Mom App"
             };
 
             MailAddress from = new MailAddress(fromEmail);
