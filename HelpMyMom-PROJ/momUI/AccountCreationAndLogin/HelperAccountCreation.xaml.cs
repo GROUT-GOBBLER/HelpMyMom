@@ -233,7 +233,7 @@ public partial class HelperAccountCreation : ContentPage
     {
         SelectedList.BeginRefresh();
         Spec s = e.SelectedItem as Spec;
-        ErrorLabel.Text = s.Name;
+      //  ErrorLabel.Text = s.Name;
         SelectedSpecList.Add(s);
  
 
