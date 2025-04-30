@@ -16,8 +16,29 @@ public partial class MomToChildReltionshipPage : ContentPage
 		InitializeComponent();
         mother = m;
 	}
+    protected override async void OnAppearing()
+    {
+        /*
+        Title: 35
+        Header: 25
+        Normal: 15
+        Buttons:
+        Small: 20
+        Med: 30
+        Large: 35
+        */
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        FNameLabel.FontSize = a.fontsize;
+        LNameLabel.FontSize = a.fontsize;
+        ErrorLabel.FontSize = a.fontsize;
+        FNameL.FontSize = a.fontsize;
+        LNameL.FontSize = a.fontsize;
+        Search.FontSize = a.fontsize;
+        RelationShipButton.FontSize = a.fontsize + 5;
 
-   async private void RelationShipButton_Clicked(object sender, EventArgs e)
+    }
+
+    async private void RelationShipButton_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
         {
@@ -33,6 +54,7 @@ public partial class MomToChildReltionshipPage : ContentPage
                 relationship.Id = ((rList[rList.Count - 1].Id) + 1);
                 response = await client.PostAsJsonAsync($"{URL}/{"Relationships"}", relationship);
                 ErrorLabel.Text = "Success";
+                await Navigation.PopToRootAsync();
                 return;
             }
         }

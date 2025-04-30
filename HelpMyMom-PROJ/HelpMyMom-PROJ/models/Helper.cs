@@ -23,8 +23,6 @@ public partial class Helper
 
     public short? Banned { get; set; }
 
-    public byte[]? Pfp { get; set; }
-
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();

@@ -1,20 +1,129 @@
 using momUI.models;
 using Newtonsoft.Json;
-using System.Linq;
 using System.Net.Http.Json;
 
 namespace momUI.HelperViews;
 
 public partial class HelperEditProfile : ContentPage
-{
+{   
     String URL = "https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-    String MASTERusername = "UncleBensBiggestFan";
-    String newUsername = null, newFirstName = null, newLastName = null, newDescription = null, newSpecsList = null, newDay, newMonth, newYear;
+    String newUsername = "", newFirstName = "", newLastName = "", newDescription = "", newSpecsList = "";
 
-	public HelperEditProfile()
-	{
-		InitializeComponent();
-	}
+    List<SpecialtiesView> specsListFull;
+    IList<object> selectedSpecs = []; // used for default selection.
+    DateOnly fullDateOfBirth;
+
+    Accessibility fontSizes;
+    Account masterAccount;
+    Helper masterHelper;
+
+    public HelperEditProfile(Account a, Helper h)
+    {
+        InitializeComponent();
+
+        masterAccount = a;
+        masterHelper = h;
+        fontSizes = Accessibility.getAccessibilitySettings();
+        specsListFull = new List<SpecialtiesView>();
+
+        DateOfBirthDatePicker.MaximumDate = DateTime.Today;
+
+        DateOnly tempDateOnly;
+        if (masterHelper.Dob != null) 
+        { 
+            tempDateOnly = (DateOnly) masterHelper.Dob;
+            DateOfBirthDatePicker.Date = tempDateOnly.ToDateTime(TimeOnly.Parse("10:00 PM"));
+        }
+        else { DateOfBirthDatePicker.Date = DateTime.MinValue; }
+    }
+    
+    public class SpecialtiesView
+    {
+        public short IdValue { get; set; }
+        public String? Name { get; set; }
+        public double SpecialtyFontSize { get; set; }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        specsListFull = new List<SpecialtiesView>();
+        selectedSpecs = [];
+        
+        SetSpecsList();
+        SetFontSizes();
+    }
+
+    private async void SetSpecsList()
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                HttpResponseMessage specsResponse = await client.GetAsync($"{URL}/{"Specs"}");
+                String specsJSON = await specsResponse.Content.ReadAsStringAsync();
+                List<Spec>? specsList = JsonConvert.DeserializeObject<List<Spec>>(specsJSON); // specsList.
+
+                // Get previously selected specialties.
+                String helperSpecs;
+                if (masterHelper.Specs != null)
+                {
+                    helperSpecs = masterHelper.Specs;
+                }
+                else { helperSpecs = ""; }
+
+                // Populate specsListFull.
+                if (specsList != null)
+                {
+                    foreach (Spec s in specsList)
+                    {
+                        SpecialtiesView tempSpecialtiesView = new SpecialtiesView();
+                        tempSpecialtiesView.IdValue = s.Id;
+                        tempSpecialtiesView.Name = s.Name;
+                        tempSpecialtiesView.SpecialtyFontSize = fontSizes.fontsize;
+
+                        specsListFull.Add(tempSpecialtiesView);
+
+                        if(helperSpecs.Contains(tempSpecialtiesView.IdValue + ""))
+                        {
+                            selectedSpecs.Add(tempSpecialtiesView);
+                        }
+                    }
+                }
+                else { await DisplayAlert("NoSpecsFound", "Error! Failed to find any specs.", "Ok."); }
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Exception", $"An exception occurred in SetSpecList() ... {e}", "Ok.");
+                return;
+            }
+        }
+
+        SpecsCollectionView.ItemsSource = specsListFull;
+         SpecsCollectionView.SelectedItems = selectedSpecs;
+    }
+
+    private void SetFontSizes()
+    {
+        ProfileSettingsLabel.FontSize = fontSizes.fontsize + 20;
+        UsernameLabel.FontSize = fontSizes.fontsize;
+        UsernameEntry.FontSize = fontSizes.fontsize;
+        UsernameEditButton.FontSize = fontSizes.fontsize + 5;
+        FirstNameLabel.FontSize = fontSizes.fontsize;
+        FirstNameEntry.FontSize = fontSizes.fontsize;
+        LastNameEntry.FontSize = fontSizes.fontsize;
+        ChangeNameButton.FontSize = fontSizes.fontsize + 5;
+        DateOfBirthLabel.FontSize = fontSizes.fontsize;
+        DateOfBirthDatePicker.FontSize = fontSizes.fontsize;
+        DateOfBirthButton.FontSize = fontSizes.fontsize + 5;
+        DescriptionLabel.FontSize = fontSizes.fontsize;
+        DescriptionEditor.FontSize = fontSizes.fontsize;
+        DescriptionButton.FontSize = fontSizes.fontsize + 5;
+        SpecialtiesLabel.FontSize = fontSizes.fontsize;
+        AddNewSpecButton.FontSize = fontSizes.fontsize;
+        SpecsButton.FontSize = fontSizes.fontsize;
+    }   
 
     // USERNAME.
     private void UsernameEntry_TextChanged(object sender, TextChangedEventArgs e)
@@ -24,324 +133,143 @@ public partial class HelperEditProfile : ContentPage
 
     async private void UsernameEditButton_Clicked(object sender, EventArgs e)
     {
-        using(HttpClient client = new HttpClient())
+        UsernameEditButton.IsEnabled = false;
+
+        using (HttpClient client = new HttpClient())
         {
             try
             {
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
-                    String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
+                // Ensure that the entered account username does not already exist in the database.
+                HttpResponseMessage accountResponse = await client.GetAsync($"{URL}/{"Accounts"}");
+                    String accountJSON = await accountResponse.Content.ReadAsStringAsync();
+                    List<Account>? accountsList = JsonConvert.DeserializeObject<List<Account>>(accountJSON); // accountsList.
 
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Accounts"}"); // HELPER.
-                    String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
+                    // Temporary variable creation.
+                    String oldUsername = masterAccount.Username;
+                    bool alreadyExists;
 
-                if(response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                if (accountResponse.IsSuccessStatusCode)
                 {
-                    String accountUsername = MASTERusername;
-                    int? helperID = -1;
-                    Account tempAccount = new Account();
+                    alreadyExists = false;
 
-                    foreach (Account a in listAccounts)
+                    if (accountsList != null) // check if account with same username exists.
                     {
-                        if(a.Username == accountUsername)
+                        foreach (Account a in accountsList) 
                         {
-                            helperID = a.HelperId;
-                            tempAccount = a;
-                        }
+                            if (a.Username == newUsername)
+                            {
+                                alreadyExists = true;
+                                break;
+                            }
+                        }   
                     }
+                    else { await DisplayAlert("AccountsNotFound", "Error! Failed to find any accounts.", "Ok."); }
 
-                    if(helperID == -1)
+                    if (!alreadyExists)
                     {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-                        return;
-                    }
-                    
-                    tempAccount.Username = newUsername; // Update username.
+                        
+                        masterAccount.Username = newUsername; // Update username.
 
-                    HttpResponseMessage response3 = await client.PostAsJsonAsync($"{URL}/Accounts", tempAccount); // add new account.
-                    HttpResponseMessage response4 = await client.DeleteAsync($"{URL}/Accounts/{accountUsername}"); // Delete old account.
+                        HttpResponseMessage response3 = await client.PostAsJsonAsync($"{URL}/Accounts", masterAccount); // add new account.
+                        HttpResponseMessage response4 = await client.DeleteAsync($"{URL}/Accounts/{oldUsername}"); // Delete old account.
 
-                    if (response3.IsSuccessStatusCode && response4.IsSuccessStatusCode)
-                    {
-                        UsernameEditButton.Text = "Post and Delete - Success.";
+                        if (response3.IsSuccessStatusCode && response4.IsSuccessStatusCode)
+                        {
+                            UsernameEditButton.Text = "Success.";
+                        }
+                        else { await DisplayAlert("Failed.", "Error! Failed to change username.", "Ok."); }
                     }
-                    else
-                    {
-                        if(response3.IsSuccessStatusCode && !response4.IsSuccessStatusCode)
-                        {
-                            UsernameEditButton.Text = "Post - Success, Delete - Fail.";
-                        }
-                        else if(!response3.IsSuccessStatusCode && response4.IsSuccessStatusCode)
-                        {
-                            UsernameEditButton.Text = "Post - Fail, Delete - Success.";
-                        }
-                        else
-                        {
-                            UsernameEditButton.Text = "Post and Delete - Fail.";
-                        }
-                    }
+                    else if (newUsername == "") { await DisplayAlert("Username cannot be empty!", "Please create a username with at least one character.", "Ok."); }
+                    else { await DisplayAlert("Username must be unique!", "This username is already in use.", "Ok."); }
                 }
+                else { await DisplayAlert("DBConnectionFailure", "Error! Could not connect to the database.", "Ok."); }
             }
             catch (Exception except)
             {
-                UsernameEditButton.Text = $"Exception Occured: {except}";
+                await DisplayAlert("Exception", $"Exception occurred ... {except}", "Ok.");
             }
         }
 
-        newUsername = null;
+        newUsername = "";
+        UsernameEntry.Text = "";
+
+        UsernameEditButton.IsEnabled = true;
     }
 
-    // FIRST NAME.
+    // NAME.
     private void FirstNameEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         newFirstName = e.NewTextValue;
     }
 
-    async private void FirstNameButton_Clicked(object sender, EventArgs e)
-    {
-        using(HttpClient client = new HttpClient())
-        {
-            try
-            {
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}"); // ACCOUNT.
-                    String json2 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
-                    String json1 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
-
-                if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
-                {
-                    String accountUsername = MASTERusername;
-
-                    int? helperID = -1;
-                    foreach (Account a in listAccounts) // find account.
-                    {
-                        if(a.Username == accountUsername)
-                        {
-                            helperID = a.HelperId;
-                        }
-                    }
-                    
-                    if (helperID == -1)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-                        return;
-                    }
-
-                    bool found = false;
-                    Helper tempHelper = new Helper();
-                    foreach (Helper h in listHelpers) // find helper.
-                    {
-                        if(h.Id == helperID)
-                        {
-                            tempHelper = h;
-                            found = true;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Helper not found.", "OK");
-                        return;
-                    }
-
-                    tempHelper.FName = newFirstName;
-
-                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{helperID}", tempHelper); // add new account.
-
-                    if (response3.IsSuccessStatusCode)
-                    {
-                        FirstNameButton.Text = $"Success!";
-                    }
-                    else
-                    {
-                        FirstNameButton.Text = $"Failure.";
-                    }
-                }
-                else
-                {
-                    FirstNameButton.Text = $"Failed to access either Helpers or Accounts.";
-                }
-            }
-            catch(Exception except)
-            {
-                FirstNameButton.Text = $"Exception Occurred: {except}";
-            }
-        }
-
-        newFirstName = null;
-    }
-
-    // LAST NAME.
     private void LastNameEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         newLastName = e.NewTextValue;
     }
 
-    async private void LastNameButton_Clicked(object sender, EventArgs e)
+    async private void ChangeNameButton_Clicked(object sender, EventArgs e)
     {
+        ChangeNameButton.IsEnabled = false;
+
         using (HttpClient client = new HttpClient())
         {
             try
             {
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}"); // ACCOUNT.
-                String json2 = await response1.Content.ReadAsStringAsync();
-                List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
-                String json1 = await response2.Content.ReadAsStringAsync();
-                List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
-
-                if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                if(newFirstName != "")
                 {
-                    String accountUsername = MASTERusername;
+                    masterHelper.FName = newFirstName;
+                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
 
-                    int? helperID = -1;
-                    foreach (Account a in listAccounts) // find account.
-                    {
-                        if (a.Username == accountUsername)
-                        {
-                            helperID = a.HelperId;
-                        }
-                    }
-
-                    if (helperID == -1)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-                        return;
-                    }
-
-                    bool found = false;
-                    Helper tempHelper = new Helper();
-                    foreach (Helper h in listHelpers) // find helper.
-                    {
-                        if (h.Id == helperID)
-                        {
-                            tempHelper = h;
-                            found = true;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Helper not found.", "OK");
-                        return;
-                    }
-
-                    tempHelper.LName = newLastName;
-
-                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{helperID}", tempHelper); // add new account.
-
-                    if (response3.IsSuccessStatusCode)
-                    {
-                        LastNameButton.Text = $"Success!";
-                    }
-                    else
-                    {
-                        LastNameButton.Text = $"Failure.";
-                    }
-                }
-                else
-                {
-                    LastNameButton.Text = $"Failed to access either Helpers or Accounts.";
+                    if (response3.IsSuccessStatusCode) { ChangeNameButton.Text = "Success!"; } 
+                    else { ChangeNameButton.Text = "Failure."; }
                 }
             }
             catch (Exception except)
             {
-                LastNameButton.Text = $"Exception Occurred: {except}";
+                ChangeNameButton.Text = $"Exception Occurred: {except}";
+            }
+
+            try
+            {
+                if(newLastName != "")
+                {
+                    masterHelper.LName = newLastName;
+                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
+
+                    if (response3.IsSuccessStatusCode) { ChangeNameButton.Text = " Success."; }
+                    else { ChangeNameButton.Text = "Failure 2."; }
+                }
+                
+            }
+            catch (Exception except)
+            {
+                ChangeNameButton.Text = $"Exception Occurred: {except}";
             }
         }
 
-        newLastName = null;
+        newFirstName = "";
+        newLastName = "";
+        FirstNameEntry.Text = "";
+        LastNameEntry.Text = "";
+
+        ChangeNameButton.IsEnabled = true;
     }
-    
+
     // DATE OF BIRTH.
-    private void DateOfBirthMONTHEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        newMonth = e.NewTextValue;
-    }
-
-    private void DateOfBirthDAYEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        newDay = e.NewTextValue;
-    }
-
-    private void DateOfBirthYEAREntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        newYear = e.NewTextValue;
-    }
-
     async private void DateOfBirthButton_Clicked(object sender, EventArgs e)
     {
-        using(HttpClient client = new HttpClient())
+        DateOfBirthButton.IsEnabled = false;
+
+        using (HttpClient client = new HttpClient())
         {
             try
             {
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
-                    String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json1); // listAccounts.
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
-                    String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json2); // listHelpers.
+                masterHelper.Dob = fullDateOfBirth;
 
-                if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
-                {
-                    string accountUsername = MASTERusername;
-                    Helper tempHelper = new Helper();
-                    DateOnly fullDateOfBirth = new DateOnly();
-
-                    int? helperID = -1;
-                    foreach(Account a in listAccounts) // get helper ID from account.
-                    {
-                        if(a.Username == accountUsername)
-                        {
-                            helperID = a.HelperId;
-                            break;
-                        }
-                    }
-
-                    if(helperID == -1)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-                        return;
-                    }
-
-                    bool found = false;
-                    foreach(Helper h in listHelpers) // get helper object from helper ID.
-                    {
-                        if(h.Id == helperID)
-                        {
-                            tempHelper = h;
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        await DisplayAlert("HelperNotFoundError", "ERROR! Helper not found.", "OK");
-                        return;
-                    }
-
-                    fullDateOfBirth = new DateOnly(Int32.Parse(newYear), Int32.Parse(newMonth), Int32.Parse(newDay)); // Concatanate date of birth into one string.
-                    tempHelper.Dob = fullDateOfBirth;
-
-                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{helperID}", tempHelper); // replace helper.
-
-                    if (response3.IsSuccessStatusCode)
-                    {
-                        DateOfBirthButton.Text = "Success.";
-                    }
-                    else
-                    {
-                        DateOfBirthButton.Text = "Failure.";
-                    }
-                }
-                else
-                {
-                    DateOfBirthButton.Text = "Failed to access database.";
-                }
+                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
+                
+                if (response3.IsSuccessStatusCode) { DateOfBirthButton.Text = "Success."; }
+                else { DateOfBirthButton.Text = "Failure."; }
             }
             catch(Exception except)
             {
@@ -349,166 +277,91 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newDay = null;
-        newMonth = null;
-        newYear = null;
+        DateOfBirthDatePicker.MaximumDate = DateTime.Today;
+        DateOfBirthDatePicker.Date = fullDateOfBirth.ToDateTime(TimeOnly.Parse("10:00 PM"));
+
+        DateOfBirthButton.IsEnabled = true;
+    }
+
+    private void DateOfBirthDatePicker_DateSelected(object sender, DateChangedEventArgs e)
+    {
+        fullDateOfBirth = new DateOnly(e.NewDate.Year, e.NewDate.Month, e.NewDate.Day);
     }
 
     // SPECS.
-    private void SpecsEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        newSpecsList = e.NewTextValue;
-    }
-
     async private void SpecsButton_Clicked(object sender, EventArgs e)
     {
+        SpecsButton.IsEnabled = false; 
+
         using (HttpClient client = new HttpClient())
         {
             try
             {
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}");
-                    String json1 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json1); // listAccounts.
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}");
-                    String json2 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json2); // listHelpers.
-
-                if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                foreach(SpecialtiesView sv in specsListFull)
                 {
-                    String accountUsername = MASTERusername;
-                    Helper tempHelper = new Helper();
-
-                    int? helperID = -1;
-                    foreach (Account a in listAccounts) // find helper ID from Account.
+                    if(sv.IdValue != specsListFull.Last<SpecialtiesView>().IdValue) // not the last element in the list.
                     {
-                        if (a.Username == accountUsername)
-                        {
-                            helperID = a.HelperId;
-                            break;
-                        }
+                        newSpecsList += $"{sv.IdValue}, ";
                     }
-
-                    if (helperID == -1)
+                    else // last element in the list.
                     {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-                        return;
-                    }
-
-                    bool found = false;
-                    foreach (Helper h in listHelpers) // find Helper object from Helper ID.
-                    {
-                        if (h.Id == helperID)
-                        {
-                            found = true;
-                            tempHelper = h;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        await DisplayAlert("HelperNotFoundError", "ERROR! Helper not found.", "OK");
-                        return;
-                    }
-
-                    tempHelper.Specs = newSpecsList;
-                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{helperID}", tempHelper); // replace helper.
-
-                    if (response3.IsSuccessStatusCode)
-                    {
-                        SpecsButton.Text = "Success!";
-                    }
-                    else
-                    {
-                        SpecsButton.Text = "Failure!";
+                        newSpecsList += $"{sv.IdValue}";
                     }
                 }
-                else
-                {
-                    SpecsButton.Text = "Failed to access one of the database tables.";
-                }
+
+                masterHelper.Specs = newSpecsList;
+                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
+
+                if (response3.IsSuccessStatusCode) { SpecsButton.Text = "Success!"; }
+                else { SpecsButton.Text = "Failure!"; }
             }
             catch (Exception except)
             {
                 SpecsButton.Text = $"Exception occured ... {except}";
             }
         }
+        
+        newSpecsList = "";
+        SpecsButton.IsEnabled = true;
+    }
 
-        newSpecsList = null;
+    private void SpecsCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        IReadOnlyList<object> temp = e.CurrentSelection;
+
+        specsListFull = new List<SpecialtiesView>();
+
+        foreach(object o in temp)
+        {
+            SpecialtiesView tempSpec = (SpecialtiesView) o;
+            specsListFull.Add(tempSpec);
+        }
+    }
+    async private void AddNewSpecButton_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new AddSpecialty());
     }
 
     // DESCRIPTION.
-    private void DescriptionEntry_TextChanged(object sender, TextChangedEventArgs e)
+    private void DescriptionEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
         newDescription = e.NewTextValue;
     }
 
     async private void DescriptionButton_Clicked(object sender, EventArgs e)
     {
+        DescriptionButton.IsEnabled = false;
+
         using (HttpClient client = new HttpClient())
         {
             try
             {
-                HttpResponseMessage response1 = await client.GetAsync($"{URL}/{"Accounts"}"); // ACCOUNT.
-                    String json2 = await response1.Content.ReadAsStringAsync();
-                    List<Account> listAccounts = JsonConvert.DeserializeObject<List<Account>>(json2);
-                HttpResponseMessage response2 = await client.GetAsync($"{URL}/{"Helpers"}"); // HELPER.
-                    String json1 = await response2.Content.ReadAsStringAsync();
-                    List<Helper> listHelpers = JsonConvert.DeserializeObject<List<Helper>>(json1);
-
-                if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
-                {
-                    String accountUsername = MASTERusername;
-
-                    int? helperID = -1;
-                    foreach (Account a in listAccounts) // find account.
-                    {
-                        if (a.Username == accountUsername)
-                        {
-                            helperID = a.HelperId;
-                        }
-                    }
-
-                    if (helperID == -1)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Account not found.", "OK");
-                        return;
-                    }
-
-                    bool found = false;
-                    Helper tempHelper = new Helper();
-                    foreach (Helper h in listHelpers) // find helper.
-                    {
-                        if (h.Id == helperID)
-                        {
-                            tempHelper = h;
-                            found = true;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        await DisplayAlert("AccountNotFoundError", "ERROR! Helper not found.", "OK");
-                        return;
-                    }
-
-                    tempHelper.Description = newDescription;
-
-                    HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{helperID}", tempHelper); // add new account.
-
-                    if (response3.IsSuccessStatusCode)
-                    {
-                        DescriptionButton.Text = $"Success!";
-                    }
-                    else
-                    {
-                        DescriptionButton.Text = $"Failure.";
-                    }
-                }
-                else
-                {
-                    DescriptionButton.Text = $"Failed to access either Helpers or Accounts.";
-                }
+                masterHelper.Description = newDescription;
+                
+                HttpResponseMessage response3 = await client.PutAsJsonAsync($"{URL}/Helpers/{masterHelper.Id}", masterHelper);
+                
+                if (response3.IsSuccessStatusCode) { DescriptionButton.Text = $"Success!"; }
+                else { DescriptionButton.Text = $"Failure."; }
             }
             catch (Exception except)
             {
@@ -516,6 +369,9 @@ public partial class HelperEditProfile : ContentPage
             }
         }
 
-        newDescription = null;
+        newDescription = "";
+        DescriptionEditor.Text = "";
+
+        DescriptionButton.IsEnabled = true;
     }
 }

@@ -3,10 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="momUI.HelperViews.HelperAvailableTickets"
              Title="HelperAvailableTickets">
-    <VerticalStackLayout>
-        <Label 
-            Text="Available Tickets."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="15">
+            <Label 
+                x:Name="AvailableTicketsExceptionLabel"
+                Text="Available Tickets."
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <ListView
+                x:Name="AvailableTicketsListView"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                VerticalScrollBarVisibility="Never"
+                ItemSelected="AvailableTicketsListView_ItemSelected"
+                HasUnevenRows="True"
+                Margin="0,0,0,20">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label 
+                                    Grid.Row="0"
+                                    Text="{Binding momName}"
+                                    FontSize="{Binding MomNameFontSize}"
+                                    x:Name="AvailableTicketPersonName"/>
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{Binding ticketDescription}"
+                                    FontSize="{Binding TicketDescriptionFontSize}"
+                                    LineBreakMode="WordWrap"
+                                    x:Name="AvailableTicketTopic"/>                        
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

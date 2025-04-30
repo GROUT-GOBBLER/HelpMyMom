@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="momUI.HelperViews.MessagingView"
+             Title="MessagingView">
+    <ScrollView
+        VerticalScrollBarVisibility="Always"
+        Margin="15" >
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <VerticalStackLayout>
+                <Label
+                    x:Name="MomNameTextBox"
+                    LineBreakMode="WordWrap"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"/>
+
+                <Button 
+                    x:Name="TicketApprovedButton"
+                    Text=""
+                    TextColor="LightGreen"
+                    BackgroundColor="DarkGreen"
+                    Clicked="TicketApprovedButton_Clicked"
+                    SemanticProperties.Hint="Mark the ticket as APPROVED."
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"/>
+            </VerticalStackLayout>
+
+            <ListView 
+                x:Name="ChatMessageListView"  
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                VerticalScrollBarVisibility="Always" 
+                HasUnevenRows="True"
+                MaximumHeightRequest="500">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label 
+                                    Grid.Row="0"
+                                    Text="{Binding sender}"
+                                    FontSize="{Binding MessageSenderFontSize}"/>
+                                <Label 
+                                    Grid.Row="1"
+                                    Text="{Binding timeOfSent}"
+                                    FontSize="{Binding MessageOtherFontSize}"/>
+                                <Label 
+                                    Grid.Row="2"
+                                    FormattedText="{Binding messageTextContent}" 
+                                    FontSize="{Binding MessageOtherFontSize}"
+                                    VerticalOptions="End"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="10"
+                Margin="0,0,0,40">
+                <Editor 
+                    x:Name="MessageTextEntry"
+                    Placeholder="Enter your message."
+                    TextChanged="MessageTextEntry_TextChanged"
+                    IsSpellCheckEnabled="True"
+                    AutoSize="TextChanges"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Start"
+                    WidthRequest="260"
+                    MaxLength="2000"
+                    VerticalOptions="Fill"        
+                    HorizontalOptions="Fill" />
+
+                <Button
+                    x:Name="SendChatMessage"
+                    Text="➤"     
+                    BackgroundColor="#3033aa"
+                    TextColor="LightBlue"
+                    SemanticProperties.Hint="Send the typed message."
+                    Clicked="SendChatMessage_Clicked"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

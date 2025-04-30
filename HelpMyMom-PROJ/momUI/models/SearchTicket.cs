@@ -17,5 +17,10 @@ namespace momUI.models
         public string? Status { get; set; }
 
         public string? Details { get; set; }
+
+        public int TextSize { get; set; } = 15;
+
+        public int headerFontOut => TextSize + 10;
+        public int titleFontOut => TextSize + 20;
     }
 }

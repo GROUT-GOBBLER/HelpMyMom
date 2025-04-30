@@ -7,27 +7,61 @@ namespace momUI;
 public partial class ChildAccountSettings : ContentPage
 {
 	Child account;
-	List<Account> allAccounts;
-	List<Mother> allMoms;
-	List<Mother> linkedMoms;
-    List<Relationship> relationships = new List<Relationship>();
-    List<Relationship> linkedR = new List<Relationship>();
+	List<Account>? allAccounts;
+	List<Mother>? allMoms;
+	List<Mother>? linkedMoms;
+    List<Relationship>? relationships = new List<Relationship>();
+    List<Relationship>? linkedR = new List<Relationship>();
     List<string> momsString = new List<string>();
 
-    string newFirst;
-    string newLast;
-    string newMomUser;
+    Accessibility a;
+
+    string newFirst = "";
+    string newLast = "";
+    string newMomUser = "";
+
+    int normalFont = 15;
+
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
+
 
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
 	
     public ChildAccountSettings(Child acc)
 	{
 		InitializeComponent();
-		account = acc;
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
+
+        account = acc;
 	}
 
     protected override async void OnAppearing()
 	{
+        AccountTitle.FontSize = normalFont + titleFont;
+
+        NameText.FontSize = normalFont + headerFont;
+        AddMom.FontSize = normalFont + headerFont;
+        RemoveMom.FontSize = normalFont + headerFont;
+        NotifText.FontSize = normalFont + headerFont;
+        setOneText.FontSize = normalFont;
+        setTwoText.FontSize = normalFont;
+        setThreeText.FontSize = normalFont;
+        setFourText.FontSize = normalFont;
+        setFiveText.FontSize = normalFont;
+
+        fName.FontSize = normalFont;
+        lName.FontSize = normalFont;
+        MomUsername.FontSize = normalFont;
+
+        changeNameBtn.FontSize = normalFont + medBtnFont;
+        AddMomBtn.FontSize = normalFont + medBtnFont;
+        RemovedMomBtn.FontSize = normalFont + medBtnFont;
+        SetNotifsBtn.FontSize = normalFont + medBtnFont;
+
         using (HttpClient client = new HttpClient())
 		{
 			try
@@ -39,6 +73,18 @@ public partial class ChildAccountSettings : ContentPage
                 changeNameBtn.IsEnabled = false;
                 AddMomBtn.IsEnabled = false;
                 RemoveMom.IsEnabled = false;
+
+                string[]? notifSettings = null;
+                if (account.Notifs != null) notifSettings = account.Notifs.Split(",");
+
+                if (notifSettings != null && notifSettings.Length == 5) 
+                {
+                    NewSwitch.IsToggled = bool.Parse(notifSettings[0].ToLower());
+                    AssignedSwitch.IsToggled = bool.Parse(notifSettings[1].ToLower());
+                    ProgressSwitch.IsToggled = bool.Parse(notifSettings[2].ToLower());
+                    CompleatedSwitch.IsToggled = bool.Parse(notifSettings[3].ToLower());
+                    ApprovedSwitch.IsToggled = bool.Parse(notifSettings[4].ToLower());
+                }
 
                 if (accountResponse.IsSuccessStatusCode && momResponse.IsSuccessStatusCode && relationshipResponse.IsSuccessStatusCode)
 				{
@@ -54,35 +100,40 @@ public partial class ChildAccountSettings : ContentPage
 					{
 						allAccounts.RemoveAll(acc => acc.MomId == null);
 
-                        linkedR = relationships.ToList();
-                        linkedR.RemoveAll(r => r.ChildId != account.Id);
-
-                        var relatedMomIds = linkedR
-                            .Where(r => r.MomId.HasValue)
-                            .Select(r => r.MomId.Value)
-                            .ToHashSet();
-
-                        linkedMoms = allMoms.ToList();
-                        linkedMoms.RemoveAll(m => !relatedMomIds.Contains(m.Id));
-
-                        if (linkedMoms.Count < 1 || linkedMoms == null)
+                        if (relationships != null)
                         {
-                            throw new Exception("You have no mom :(");
-                        }
-                        else
-                        {
-                            foreach (Mother m in linkedMoms)
+                            linkedR = relationships.ToList();
+
+                            linkedR.RemoveAll(r => r.ChildId != account.Id);
+
+
+                            var relatedMomIds = linkedR
+                                .Where(r => r.MomId.HasValue)
+                                .Select(r => r.MomId.Value)
+                                .ToHashSet();
+
+                            linkedMoms = allMoms.ToList();
+                            linkedMoms.RemoveAll(m => !relatedMomIds.Contains(m.Id));
+
+                            if (linkedMoms.Count < 1 || linkedMoms == null)
                             {
-                                momsString.Add($"{m.Id} {m.FName} {m.LName}");
+                                throw new Exception("You have no mom :(");
                             }
+                            else
+                            {
+                                foreach (Mother m in linkedMoms)
+                                {
+                                    momsString.Add($"{m.Id} {m.FName} {m.LName}");
+                                }
 
-                            momSelect.ItemsSource = momsString;
+                                momSelect.ItemsSource = momsString;
 
-                            Thread.Sleep(100);
+                                Thread.Sleep(100);
 
-                            changeNameBtn.IsEnabled = true;
-                            AddMomBtn.IsEnabled = true;
-                            RemoveMom.IsEnabled = true;
+                                changeNameBtn.IsEnabled = true;
+                                AddMomBtn.IsEnabled = true;
+                                RemoveMom.IsEnabled = true;
+                            }
                         }
                     }
 					else
@@ -94,7 +145,7 @@ public partial class ChildAccountSettings : ContentPage
             }
 			catch (Exception ex)
 			{
-                NameText.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -140,7 +191,7 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                NameText.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -173,6 +224,7 @@ public partial class ChildAccountSettings : ContentPage
                             Relationship relationship = new Relationship();
 
                             int newID = 0;
+                      
                             foreach (Relationship r in relationships)
                             {
                                 if (r.Id > newID) newID = r.Id;
@@ -213,7 +265,7 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                AddMom.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());
@@ -246,7 +298,7 @@ public partial class ChildAccountSettings : ContentPage
                         RemovedMomBtn.Text = "Mom Removed";
                         Thread.Sleep(100);
 
-                        Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
+                        if (Application.Current != null) Application.Current.MainPage = new NavigationPage(new ChildMenu(account));
                     }
                     else
                     {
@@ -256,7 +308,47 @@ public partial class ChildAccountSettings : ContentPage
             }
             catch (Exception ex)
             {
-                RemoveMom.Text = ex.Message;
+                await DisplayAlert("Error", ex.Message, "ok");
+
+                Console.WriteLine("\n-------------------------------------------------------------");
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine("-------------------------------------------------------------\n");
+            }
+        }
+    }
+
+    private async void SetNotifsClicked(object sender, EventArgs e)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            List<string> newSettings = new List<string>();
+
+            try
+            {
+                newSettings.Add(NewSwitch.IsToggled.ToString());
+                newSettings.Add(AssignedSwitch.IsToggled.ToString());
+                newSettings.Add(ProgressSwitch.IsToggled.ToString());
+                newSettings.Add(CompleatedSwitch.IsToggled.ToString());
+                newSettings.Add(ApprovedSwitch.IsToggled.ToString());
+
+                string newSettingAll = string.Join(",", newSettings);
+
+                account.Notifs = newSettingAll;
+
+                HttpResponseMessage response1 = await client.PutAsJsonAsync($"{URL}/Children/{account.Id}", account);
+
+                if (response1.IsSuccessStatusCode)
+                {
+                    SetNotifsBtn.Text = "Notifcations Changed";
+                }
+                else
+                {
+                    SetNotifsBtn.Text = "Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "ok");
 
                 Console.WriteLine("\n-------------------------------------------------------------");
                 Console.WriteLine(ex.ToString());

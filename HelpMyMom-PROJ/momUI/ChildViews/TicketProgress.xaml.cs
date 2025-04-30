@@ -1,3 +1,4 @@
+using momUI.ChildViews;
 using momUI.models;
 using Newtonsoft.Json;
 
@@ -8,18 +9,32 @@ public partial class TicketProgress : ContentPage
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
     
     Child account;
-    List<Ticket> tickets = new List<Ticket>();
+    List<Ticket>? tickets = new List<Ticket>();
     List<SearchTicket> childTickets = new List<SearchTicket>();
+
+    Accessibility a;
+
+    int normalFont = 15;
+
+    int titleFont = 20;
+    int headerFont = 10;
+    int medBtnFont = 15;
 
     public TicketProgress(Child acc)
 	{
 		InitializeComponent();
+
+        a = Accessibility.getAccessibilitySettings();
+        normalFont = a.fontsize;
 
         account = acc;
 	}
 
     protected override async void OnAppearing()
     {
+        TopText.FontSize = normalFont + titleFont;
+        reportText.FontSize = normalFont;
+
         using (HttpClient client = new HttpClient())
         {
             try
@@ -36,6 +51,7 @@ public partial class TicketProgress : ContentPage
                     {
                         //tickets.RemoveAll(t => t.HelperId != null);
                         tickets.RemoveAll(t => t.ChildId != account.Id);
+                        tickets.RemoveAll(t => t.Status.ToUpper() == "APPROVED");
 
                         if (tickets.Count > 0)
                         {
@@ -46,12 +62,13 @@ public partial class TicketProgress : ContentPage
                                 st.Id = t.Id;
                                 st.Details = t.Description;
                                 st.Status = t.Status;
+                                st.TextSize = normalFont;
 
                                 HttpResponseMessage momResponse = await client.GetAsync(URL + "/Mothers/" + t.MomId);
                                 if (momResponse.IsSuccessStatusCode)
                                 {
                                     string json2 = await momResponse.Content.ReadAsStringAsync();
-                                    Mother m = JsonConvert.DeserializeObject<Mother>(json2);
+                                    Mother? m = JsonConvert.DeserializeObject<Mother>(json2);
 
                                     if (m != null) st.MomName = $"{m.FName} {m.LName}";
                                     else st.MomName = "None";
@@ -64,7 +81,7 @@ public partial class TicketProgress : ContentPage
                                     if (momResponse.IsSuccessStatusCode)
                                     {
                                         string json3 = await helperResponse.Content.ReadAsStringAsync();
-                                        Helper h = JsonConvert.DeserializeObject<Helper>(json3);
+                                        Helper? h = JsonConvert.DeserializeObject<Helper>(json3);
 
                                         if (h != null) st.HelperName = $"{h.FName} {h.LName}";
                                         else st.HelperName = "None";
@@ -103,6 +120,29 @@ public partial class TicketProgress : ContentPage
             {
                 ticketList.IsRefreshing = false;
             }
+        }
+    }
+
+    private async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+    {
+        try
+        {
+            SearchTicket? s = ticketList.SelectedItem as SearchTicket;
+
+            Ticket? selected = tickets.SingleOrDefault(t => t.Id == s.Id);
+
+            if (selected != null && selected.HelperId != null)
+            {
+                await Navigation.PushAsync(new ChildHelperReport(account, selected));
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "ok");
+
+            Console.WriteLine("\n-------------------------------------------------------------");
+            Console.WriteLine(ex.ToString());
+            Console.WriteLine("-------------------------------------------------------------\n");
         }
     }
 }

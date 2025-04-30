@@ -12,7 +12,34 @@ public partial class ChildAccountCreation : ContentPage
 		InitializeComponent();
 	}
     string URL = $"https://momapi20250409124316-bqevbcgrd7begjhy.canadacentral-01.azurewebsites.net/api";
-    async private void CreateAccountButton_Clicked(object sender, EventArgs e)
+    protected override async void OnAppearing()
+    {
+        /*
+         * Title: 35
+        Header: 25
+        Normal: 15
+        Buttons:
+        Small: 20
+        Med: 30
+        Large: 35
+        */
+        Accessibility a = Accessibility.getAccessibilitySettings();
+        UserL.FontSize = a.fontsize;
+        UsernameEntry.FontSize = a.fontsize;
+        LNAMEL.FontSize = a.fontsize;   
+        FNAMEL.FontSize = a.fontsize;
+        PasswordEntry.FontSize = a.fontsize;
+        PasswordL.FontSize = a.fontsize;
+        EmailL.FontSize = a.fontsize;
+        EmailEntry.FontSize = a.fontsize;
+        FirstNameEntry.FontSize = a.fontsize;
+        LastNameEntry.FontSize = a.fontsize;
+        CreateAccountButton.FontSize = a.fontsize + 5;
+        ErrorLabel.FontSize = a.fontsize;
+
+
+    }
+        async private void CreateAccountButton_Clicked(object sender, EventArgs e)
     {
         using (HttpClient client = new HttpClient())
         {
@@ -32,8 +59,9 @@ public partial class ChildAccountCreation : ContentPage
             child.Id = (mList[mList.Count - 1].Id + 1);
             child.FName = FirstNameEntry.Text;
             child.LName = LastNameEntry.Text;
-            child.Email = EmailEntry.Text;
-            
+            String E = EmailEntry.Text.Split("\n")[0];
+            child.Email = E;
+
 
             account.ChildId = child.Id;
             account.Username = UsernameEntry.Text;

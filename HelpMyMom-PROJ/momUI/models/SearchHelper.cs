@@ -22,5 +22,10 @@ namespace momUI.models
         public string FullDescription => $"Rating: {Rating.ToString() ?? ""}. {Description ?? ""}".Trim();
 
         public string? Specs { get; set; }
+
+        public int TextSize { get; set; } = 15;
+
+        public int headerFontOut => TextSize + 10;
+        public int titleFontOut => TextSize + 20;
     }
 }
