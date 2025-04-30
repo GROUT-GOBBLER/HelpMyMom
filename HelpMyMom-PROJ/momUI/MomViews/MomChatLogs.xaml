@@ -13,15 +13,14 @@
         
             <!-- Header with Back and Settings Buttons -->
             <HorizontalStackLayout Grid.Row="0" Margin="0,0,0,10">
+                <VerticalStackLayout>
+                    <Button x:Name="GoBack"
+                        Text="BACK"
+                        HorizontalOptions="Start"
+                        Clicked="OnBackClicked"
+                        Margin="0,0,0,10"/>
 
-                <Button x:Name="GoBack"
-                  Text="BACK"
-                  HorizontalOptions="Start"
-                  WidthRequest="100"
-                  Clicked="OnBackClicked"
-                  Margin="-20,0,0,0"/>
-
-                <Button x:Name="TicketStatusButton"
+                    <Button x:Name="TicketStatusButton"
                         Text="ONGOING"
                         BackgroundColor="Red"
                         TextColor="Black"
@@ -31,7 +30,8 @@
                         CornerRadius="10" 
                         Clicked="OnStatusCompleteClickedMom"
                         LineBreakMode="WordWrap" 
-                        Margin="15,0,0,0" />
+                        Margin="0,0,0,0" />
+                </VerticalStackLayout>
 
             </HorizontalStackLayout>
 
