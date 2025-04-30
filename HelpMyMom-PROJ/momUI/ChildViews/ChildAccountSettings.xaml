@@ -22,7 +22,7 @@
             <Entry
                 x:Name="fName"
                 Margin="10,0,10,0"
-                MaxLength="5"
+                MaxLength="25"
                 Placeholder="First name"
                 FontSize="5"
                 TextChanged="FirstEntry_TextChanged"
@@ -31,7 +31,7 @@
             <Entry
                 x:Name="lName"
                 Margin="10,0,10,0"
-                MaxLength="5"
+                MaxLength="25"
                 Placeholder="Last name"
                 FontSize="5"
                 TextChanged="LastEntry_TextChanged"

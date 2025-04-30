@@ -39,7 +39,7 @@ public partial class ChildMenu : ContentPage
     {
         loggedIn.Text = $"Logged in as {account.FName} {account.LName}";
 
-        loggedIn.FontSize = normalFont;
+        loggedIn.FontSize = normalFont + headerFont;
         LogOutBtn.FontSize = normalFont + medBtnFont;
         CreateBtn.FontSize = normalFont + titleFont;
         AssignBtn.FontSize = normalFont + titleFont;
