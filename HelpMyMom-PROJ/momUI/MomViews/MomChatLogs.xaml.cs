@@ -345,6 +345,8 @@ namespace momUI
             {
                 CheckIfReviewApproved();
                 UpdateTicketButtonStatus();
+
+                SendChatMessage.Text = "Send message.";
             });
 
             using (HttpClient client = new HttpClient())
